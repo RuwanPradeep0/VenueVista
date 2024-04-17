@@ -1,0 +1,146 @@
+@use "variables" as *;
+
+.Navbar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  //height: 10dvh;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  padding: 2em 8dvw;
+  font-family: $font-stack;
+  font-weight: 500;
+  align-items: center;
+  z-index: 90;
+  height: 0.4rem;
+  background-color: $primaryContainerColor;
+
+.NavLogo{
+    width: 50px;
+    height: 50px;
+}
+
+.NavLogoContainer{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    color: antiquewhite;
+
+    font-size: 14px;
+    line-height: 1.3rem;
+}
+
+
+
+  
+.NavLinks {
+    display: flex;
+    flex-direction: row;
+    gap: 2em;
+    margin-left: 3rem;
+    cursor: pointer;
+    
+    
+  }
+
+
+.NavLink {
+    position: relative;
+    list-style: none;
+    font-size: 15px;
+    // padding: 1em 1em;
+    border-radius: 1em;
+    color:$NavbarTextColor;
+    .active {
+      color: $NavbarTextColor;
+      font-size: 17px;
+      font-weight: 550;
+    }
+    &:hover,
+    &:focus {
+      //font-weight: 600;
+      transition: all ease-in-out 100ms;
+      color: $NavbarTextColor;
+    }
+
+    &::before {
+      display: block;
+      transition: 300ms;
+      height: 2px;
+      content: " ";
+      position: absolute;
+      background-color: $NavbarTextColor;
+      width: 0%;
+      top: 1.4em;
+    }
+
+    &:hover::before {
+      width: 100%;
+    }
+  }
+
+  .GeneralText{
+    color:$NavbarTextColor;
+    list-style: none;
+    font-size: 15px;
+
+  }
+
+  .btn {
+    padding: 0.5em 1.5em;
+    font-weight: 500;
+    border: 0;
+    border-radius: 2em;
+    background-color: rgb(35, 35, 35);
+    color: white;
+    cursor: pointer;
+  }
+
+  .Profile {
+    display: flex;
+    flex-direction: row;
+    gap: 1em;
+    align-items: center;
+  }
+
+  .ProfileIcon {
+    background-color: black;
+    width: 2em;
+    height: 2em;
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 600;
+    cursor: pointer;
+  }
+
+  .logoutBtn {
+    padding: 0.6em 0.6em;
+    transition: all 100ms ease-in-out;
+    position: relative;
+    cursor: pointer;
+
+    &::before {
+      display: block;
+      transition: 300ms;
+      height: 2px;
+      content: " ";
+      position: absolute;
+      background-color: $accentColor;
+      width: 0%;
+      top: 2em;
+    }
+    &:hover {
+      color: $accentColor;
+    }
+    &:hover::before {
+      width: 75%;
+    }
+  }
+}

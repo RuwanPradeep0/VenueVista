@@ -1,0 +1,19 @@
+
+$font-stack: "Raleway", sans-serif;
+$primary-yellow: rgb(235, 168, 1);
+$bgcolor: #ebedee;
+$NavbarTextColor :#ebedee;
+$disabledTextColor: rgb(175, 175, 175);
+$waitingColor: rgb(230, 174, 68);
+$confirmedColor: rgb(106, 187, 160);
+$accentColor: #28808e;
+$bodyTextColor: hsl(0, 0%, 10%);
+$primaryContainerColor : #1e293b;
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
