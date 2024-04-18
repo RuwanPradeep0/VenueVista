@@ -1,0 +1,70 @@
+@use 'variables' as *;
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: $bgcolor;
+}
+
+.formContainer {
+  width: 400px;
+  padding: 2rem;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+
+  h2 {
+    text-align: center;
+    margin-bottom: 1.5rem;
+  }
+
+  .inputGroup {
+    margin-bottom: 1rem;
+
+    label {
+      display: block;
+      font-weight: 500;
+      margin-bottom: 0.5rem;
+    }
+
+    input,
+    select {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 1rem;
+    }
+  }
+
+  .submitButton {
+    display: block;
+    width: 100%;
+    padding: 0.75rem 1rem;
+    background-color: $accentColor;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+
+    &:hover {
+      background-color: darken($accentColor, 10%);
+    }
+  }
+
+  .toggleLink {
+    margin-top: 1rem;
+    text-align: center;
+    font-size: 0.875rem;
+
+    span {
+      color: $accentColor;
+      cursor: pointer;
+      font-weight: 500;
+    }
+  }
+}

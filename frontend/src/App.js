@@ -1,14 +1,26 @@
 import React from 'react'
 import Navbar from './components/Navbar'
+import AppRouter from './components/AppRouter';
+import { Route, Routes } from 'react-router-dom';
+import Auth from './components/auth/Auth';
+import Home from './pages/Home';
 
 const App = () => {
 
-  const [user, setUser] = React.useState("Ruwan");
+  const [user, setUser] = React.useState("");
 
   return (
-    <div>
+    <>
+     {/* <div>
       <Navbar user={user}/>
-    </div>
+    </div> */}
+
+      <Routes>
+      <Route path='/' element={<Home/>}/>
+      <Route path='/signin' element={<Auth/>}/>
+      </Routes>
+    </>
+   
   )
 }
 
