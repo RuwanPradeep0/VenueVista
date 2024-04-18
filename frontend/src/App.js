@@ -1,6 +1,6 @@
 import React from 'react'
 import Navbar from './components/Navbar'
-
+import AppRouter from "./components/AppRouter";
 const App = () => {
 
   const [user, setUser] = React.useState("Ruwan");
@@ -8,6 +8,7 @@ const App = () => {
   return (
     <div>
       <Navbar user={user}/>
+      <AppRouter />
     </div>
   )
 }
