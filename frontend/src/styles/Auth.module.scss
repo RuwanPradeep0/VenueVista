@@ -6,13 +6,14 @@
   align-items: center;
   height: 100vh;
   background-color: $bgcolor;
+  margin-top: 50px;
 }
 
 .formContainer {
   width: 400px;
   padding: 2rem;
   background-color: #fff;
-  border-radius: 8px;
+  border-radius: 20px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 
   h2 {
@@ -34,7 +35,7 @@
       width: 100%;
       padding: 0.75rem 1rem;
       border: 1px solid #ccc;
-      border-radius: 4px;
+      border-radius: 8px;
       font-size: 1rem;
     }
   }
@@ -46,7 +47,7 @@
     background-color: $accentColor;
     color: #fff;
     border: none;
-    border-radius: 4px;
+    border-radius: 10px;
     font-size: 1rem;
     cursor: pointer;
     transition: background-color 0.3s ease;

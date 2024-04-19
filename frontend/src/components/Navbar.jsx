@@ -14,7 +14,6 @@ const Navbar = ({user}) => {
     if (storedUser) {
       const { username } = JSON.parse(storedUser);
       setUserName(username);
-      console.log(userName);
     }
 
   }, []);
@@ -49,7 +48,15 @@ const Navbar = ({user}) => {
               </NavLink>
             </li>
           )}
-       
+
+            <li className={styles.NavLink} title="Home">
+
+            <NavLink exact={true} to="/spaces" className={({ isActive }) => isActive && styles.active}>
+              Manage Spaces
+            </NavLink>
+            </li>
+
+          
             </ul>
 
             

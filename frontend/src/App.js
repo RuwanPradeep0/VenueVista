@@ -4,6 +4,7 @@ import AppRouter from './components/AppRouter';
 import { Route, Routes } from 'react-router-dom';
 import Auth from './components/auth/Auth';
 import Home from './pages/Home';
+import AddSpace from './components/AddSpace';
 
 const App = () => {
 
@@ -11,13 +12,14 @@ const App = () => {
 
   return (
     <>
-     {/* <div>
+   
       <Navbar user={user}/>
-    </div> */}
+   
 
       <Routes>
       <Route path='/' element={<Home/>}/>
       <Route path='/signin' element={<Auth/>}/>
+      <Route path='/spaces' element={<AddSpace/>}/>
       </Routes>
     </>
    
