@@ -1,8 +1,8 @@
 import React ,{useEffect , useState} from 'react'
 import { NavLink } from "react-router-dom";
 
-import logo from '../images/logo.png'
-import styles from '../styles/Navbar.module.scss';
+import logo from '../../images/logo.png'
+import styles from './Navbar.module.scss';
 
 
 const Navbar = ({user}) => {

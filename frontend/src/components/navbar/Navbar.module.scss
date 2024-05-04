@@ -1,5 +1,4 @@
-@use "variables" as *;
-
+@use '../../styles/variables' as *;
 .Navbar {
   position: absolute;
   top: 0;
@@ -22,7 +21,7 @@
     justify-content: space-between;
     align-items: center;
     gap: 10px;
-    color: antiquewhite;
+    color: rgb(255, 255, 255);
     font-size: 14px;
     line-height: 1.3rem;
 

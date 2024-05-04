@@ -1,10 +1,6 @@
 import React from 'react'
-import Navbar from './components/Navbar'
-import AppRouter from './components/AppRouter';
-import { Route, Routes } from 'react-router-dom';
-import Auth from './components/auth/Auth';
-import Home from './pages/Home';
-import AddSpace from './components/AddSpace';
+import Navbar from './components/navbar/Navbar'
+import AppRouter from './routes/AppRouter';
 
 const App = () => {
 
@@ -14,13 +10,8 @@ const App = () => {
     <>
    
       <Navbar user={user}/>
-   
-
-      <Routes>
-      <Route path='/' element={<Home/>}/>
-      <Route path='/signin' element={<Auth/>}/>
-      <Route path='/spaces' element={<AddSpace/>}/>
-      </Routes>
+      <AppRouter/>
+     
     </>
    
   )

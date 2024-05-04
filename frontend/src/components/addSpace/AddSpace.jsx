@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import styles from '../styles/AddSpace.module.scss';
+import styles from './AddSpace.module.scss';
 
 const AddSpace = () => {
     const [formData, setFormData] = useState({
