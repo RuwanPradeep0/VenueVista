@@ -129,7 +129,7 @@ const Auth = () => {
             {isRegister ? 'Register' : 'Login'}
           </button>
         </form>
-        <div className={styles.toggleLink}>
+        <div className={isRegister ? styles.toggleLink : undefined}>
           {isRegister
             ? 'Already have an account? '
             : "Don't have an account? "}

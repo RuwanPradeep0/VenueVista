@@ -1,0 +1,118 @@
+@use "variables" as *;
+.actionBar {
+  display: flex;
+  flex-wrap: nowrap;
+  margin-top: 2em;
+  background-color: white;
+  //background-image: linear-gradient(180deg, #ffffff 0%, #ebebee 100%);
+
+  border: 0.1em white solid;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+  border-radius: 5em;
+  overflow: hidden;
+  user-select: none;
+  box-shadow: 0px 18px 24px -16px rgba(13, 20, 97, 0.175);
+  //box-shadow: inset 0px 6px 16px 0px rgba(0, 0, 0, 0.1),
+  // 0px 10px 15px 0px rgba(0, 0, 0, 0.1);
+  position: relative;
+
+  .actionBtn {
+    color: hsl(0, 0%, 20%);
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.6em;
+    padding: 1em 2em;
+    transition: all 200ms ease-in-out;
+
+    &:first-child {
+      border-right: 1px solid hsl(0, 0%, 90%);
+    }
+
+    &:last-child {
+      border-left: 1px solid hsl(0, 0%, 90%);
+    }
+    &:hover,
+    &:focus {
+      background-color: $accentColor;
+
+      color: rgb(255, 255, 255);
+      box-shadow: 0px 200px 20px -9px rgba(13, 20, 97, 0.215);
+    }
+  }
+}
+
+.menu {
+  position: absolute;
+  top: 30%;
+  left: 50%;
+  padding: 2.4em 4em;
+  height: fit-content;
+  width: 40dvw;
+  border-radius: 1em;
+  z-index: 100;
+  border: 0.1em white solid;
+  background-color: hsl(0, 0%, 100%);
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 100ms ease-in-out,
+    transform 150ms cubic-bezier(0.47, 0, 0.74, 0.71);
+  transform: translate(-50%, 0) scaleY(0.1);
+  transform-origin: 50% 0;
+  box-shadow: 0px 0px 35px -7px rgba(0, 0, 0, 0.1);
+  user-select: none;
+  display: flex;
+  flex-direction: column;
+  gap: 2em;
+  &.active {
+    opacity: 1;
+    visibility: visible;
+    transform: translate(-50%, 0) scaleY(1);
+  }
+  hr {
+    color: hsl(0, 0%, 99%, 0.5);
+  }
+}
+
+.options {
+  display: grid;
+  grid-template-columns: 2fr 4fr;
+
+  .optionLabel {
+    color: hsl(0, 0%, 20%);
+    text-align: left;
+    font-weight: 600;
+  }
+
+  .optionContent {
+    &.checkboxes {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(8em, 1fr));
+      row-gap: 0.6em;
+      font-size: 0.95em;
+      .checkboxWrapper {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        justify-content: flex-start;
+        align-items: flex-start;
+        gap: 0.6em;
+      }
+      label {
+        display: inline-flex;
+        align-items: center;
+        cursor: pointer;
+      }
+
+      input[type="checkbox"] {
+        background-color: white;
+        border: 1px solid hsl(0, 0%, 20%);
+        border-radius: 1em;
+        margin-top: 0.15em;
+      }
+    }
+  }
+}

@@ -1,0 +1,29 @@
+@use "variables" as *;
+.Hero {
+  height: auto;
+  width: 100%;
+  background-color: $bgcolor;
+  text-align: center;
+  padding: 10em 2em 5em 2em;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  animation: fadeIn 500ms ease-in;
+  background-image: linear-gradient(180deg, #fdfbfb 0%, $bgcolor 100%);
+
+  h1 {
+    font-size: 2.4em;
+    margin-bottom: 0.2em;
+    color: rgb(39, 39, 39);
+  }
+
+  p {
+    font-size: 1.1em;
+    color: hsl(0, 0, 0, 0.7);
+  }
+  span {
+    color: $accentColor;
+  }
+}
