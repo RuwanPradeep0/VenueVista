@@ -82,7 +82,7 @@ const AddSpace = () => {
       id="capacity"
       name="capacity"
       min="0"
-      max="120"
+      max="250"
       value={formData.capacity}
       onChange={handleInputChange}
       className={styles.rangeInput}

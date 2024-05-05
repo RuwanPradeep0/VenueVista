@@ -1,4 +1,3 @@
-
 import Hero from '../components/Hero'
 import { FiMapPin } from "react-icons/fi";
 import { LuCalendarDays } from "react-icons/lu";
@@ -55,7 +54,7 @@ const Home = () => {
   const [endTime, setEndTime] = useState(17); // State for endTime
 
   //SpaceSelector
-  const [capacity, setCapacity] = useState([0, 120]);
+  const [capacity, setCapacity] = useState([0, 250]);
   const [selectedFacilities, setSelectedFacilities] = useState([]);
 
   return (
@@ -111,6 +110,7 @@ const Home = () => {
 
       </div>
       </Hero>
+
       <div
         className={classNames(styles.menu, isMenuOpen && styles.active)}
         ref={menuRef}
