@@ -6,14 +6,14 @@ import classNames from "classnames";
 import Slider from "@mui/material/Slider";
 import { useRef, useState, useEffect } from "react";
 import styles from '../styles/Home.module.scss'
+import TimeSelector from '../components/timeSelector/TimeSelector';
+import Calender from '../components/calender/Calender';
 
 const facilitiesOptions = [
   "AC",
-  "Smart Board",
   "Computers",
   "Projector",
   "Electronic Equipment",
-  "Robotics",
 ];
 
 
@@ -132,8 +132,18 @@ const Home = () => {
           />
         )}
 
+        {isTimeSelector && (
+          <TimeSelector
+            startTime={startTime}
+            setStartTime={setStartTime}
+            endTime={endTime}
+            setEndTime={setEndTime}
+          />
+        )}
+
 
       </div>
+      <Calender/>
     
     </div>
   )
@@ -208,8 +218,8 @@ const SpaceSelector = ({
       label: 0,
     },
     {
-      value: 120,
-      label: 120,
+      value: 200,
+      label: 200,
     },
   ];
 
@@ -224,7 +234,7 @@ const SpaceSelector = ({
             valueLabelDisplay="auto"
             marks={marks}
             min={0}
-            max={120}
+            max={200}
           />
         </div>
       </div>

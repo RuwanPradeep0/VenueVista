@@ -11,5 +11,21 @@ export const checkUser = (token)=>{
 
       localStorage.setItem('user', JSON.stringify(user));
    
-
 }
+
+
+
+export const getTimeString = (time) => {
+  const hour = Math.floor(time / 100);
+  const minutes = time % 100;
+  return new Intl.DateTimeFormat("en-US", {
+    hour: "numeric",
+    minute: "numeric",
+  }).format(
+    new Date(
+      `2000-01-01T${hour.toString().padStart(2, "0")}:${minutes
+        .toString()
+        .padStart(2, "0")}`
+    )
+  );
+};
