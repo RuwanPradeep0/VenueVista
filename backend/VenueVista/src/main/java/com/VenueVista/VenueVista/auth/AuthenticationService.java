@@ -1,9 +1,11 @@
 package com.VenueVista.VenueVista.auth;
 
+import com.VenueVista.VenueVista.auth.RequestResponse.AuthenticationRequest;
+import com.VenueVista.VenueVista.auth.RequestResponse.AuthenticationResponse;
+import com.VenueVista.VenueVista.auth.RequestResponse.RegisterRequest;
 import com.VenueVista.VenueVista.models.User;
 import com.VenueVista.VenueVista.repository.UserRepository;
 import com.VenueVista.VenueVista.security.JwtService;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

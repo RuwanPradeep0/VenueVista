@@ -1,12 +1,11 @@
 package com.VenueVista.VenueVista.controller;
 
-import com.VenueVista.VenueVista.auth.AuthenticationRequest;
-import com.VenueVista.VenueVista.auth.AuthenticationResponse;
+import com.VenueVista.VenueVista.auth.RequestResponse.AuthenticationRequest;
+import com.VenueVista.VenueVista.auth.RequestResponse.AuthenticationResponse;
 import com.VenueVista.VenueVista.auth.AuthenticationService;
-import com.VenueVista.VenueVista.auth.RegisterRequest;
+import com.VenueVista.VenueVista.auth.RequestResponse.RegisterRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 @RestController

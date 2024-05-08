@@ -1,4 +1,4 @@
-package com.VenueVista.VenueVista.auth;
+package com.VenueVista.VenueVista.auth.RequestResponse;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,10 +9,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class RegisterRequest {
-
-    public  String firstName;
-    public  String lastName;
+public class AuthenticationRequest {
     public  String email;
-    public  String password;
+    public String password;
 }
