@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import{createSpaces} from '../../services/AddSpaceService'
+
 import styles from './AddSpace.module.scss';
 
 const AddSpace = () => {
@@ -33,12 +35,38 @@ const AddSpace = () => {
           });
         }
       };
+
     
-      const handleSubmit = (e) => {
+      const handleSubmit = async (e) => {
+
         e.preventDefault();
-        // Submit form data to the backend
-        console.log(formData);
+      
+      const formDataToSubmit = new FormData();
+      formDataToSubmit.append('name', formData.name);
+      formDataToSubmit.append('location', formData.location);
+      formDataToSubmit.append('capacity', formData.capacity);
+      formDataToSubmit.append('description', formData.description);
+      formDataToSubmit.append('image', formData.image);
+      formDataToSubmit.append('facilities', formData.facilities);
+            
+        try {
+        
+          const response = await createSpaces(formDataToSubmit);
+
+          console.log('Hall details submitted successfully:', response);
+
+          const formDataObj = Object.fromEntries(formDataToSubmit.entries());
+
+          console.log(formDataObj);
+
+        } catch (error) {
+          console.error('Error submitting hall details:', error);
+         
+        }
       };
+
+
+
     
       return (
         <div className={styles.container}>

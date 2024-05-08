@@ -29,3 +29,11 @@ export const getTimeString = (time) => {
     )
   );
 };
+
+export const generateColorCode = () =>{
+
+}
+
+export const getDateInYearFormat = () =>{
+  
+}

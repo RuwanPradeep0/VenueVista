@@ -7,7 +7,6 @@ import Slider from "@mui/material/Slider";
 import { useRef, useState, useEffect } from "react";
 import styles from '../styles/Home.module.scss'
 import TimeSelector from '../components/timeSelector/TimeSelector';
-import Calender from '../components/calender/Calender';
 
 const facilitiesOptions = [
   "AC",
@@ -143,7 +142,7 @@ const Home = () => {
 
 
       </div>
-      <Calender/>
+      
     
     </div>
   )
