@@ -46,4 +46,8 @@ public Space saveSpace(SpaceRequest spaceRequest){
     return spaceRepository.save(space);
 }
 
+public List<Space> getAllSpaces(){
+    return spaceRepository.findAll();
+}
+
 }

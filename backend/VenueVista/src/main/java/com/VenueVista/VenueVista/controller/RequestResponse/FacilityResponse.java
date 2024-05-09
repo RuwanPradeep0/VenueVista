@@ -8,7 +8,7 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 public class FacilityResponse {
-    private Long id;
+    private Integer id;
     private String name;
 
 

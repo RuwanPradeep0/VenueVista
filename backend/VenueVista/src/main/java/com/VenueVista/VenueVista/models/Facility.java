@@ -18,7 +18,7 @@ import lombok.NoArgsConstructor;
 public class Facility {
     @Id
     @GeneratedValue
-    private Long id;
+    private Integer id;
     private String name;
 
     @ManyToMany(mappedBy = "facilities")

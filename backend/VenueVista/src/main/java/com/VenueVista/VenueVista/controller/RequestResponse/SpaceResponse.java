@@ -16,14 +16,19 @@ import java.util.stream.Collectors;
 
 public class SpaceResponse {
 
-    private Long id;
+    private Integer id;
     private String name;
     private String location;
     private int capacity;
     private String description;
     private List<FacilityResponse> facilities;
 
-    public SpaceResponse(Space space){
+    public SpaceResponse(Space space) {
+        this.id = space.getId();// Convert Integer to Long
+        this.name = space.getName();
+        this.location = space.getLocation();
+        this.capacity = space.getCapacity();
+        this.description = space.getDescription();
         this.facilities = space.getFacilities().stream()
                 .map(FacilityResponse::new)
                 .collect(Collectors.toList());
