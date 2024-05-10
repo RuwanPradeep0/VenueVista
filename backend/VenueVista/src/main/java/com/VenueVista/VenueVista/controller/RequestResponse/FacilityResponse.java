@@ -8,12 +8,11 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 public class FacilityResponse {
-    private Integer id;
+
     private String name;
 
 
     public FacilityResponse(Facility facility) {
-        this.id = facility.getId();
         this.name = facility.getName();
     }
 }

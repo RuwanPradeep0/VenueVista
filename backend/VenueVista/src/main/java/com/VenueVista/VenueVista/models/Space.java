@@ -32,9 +32,9 @@ public class Space {
 
     private String description;
 
-    private byte[] image;
+//    private byte[] image;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "space_facility",
             joinColumns = @JoinColumn(name = "space_id"),

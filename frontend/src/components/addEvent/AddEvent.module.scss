@@ -1,0 +1,207 @@
+@use '../../styles/variables' as *;
+
+$confirmBtnColor: hsl(166, 25%, 50%);
+
+.addEvent {
+  height: fit-content;
+  padding: 2.5em 2em;
+  position: relative;
+
+  input {
+    border: 0;
+    background-color: inherit;
+    &:focus {
+      outline: none;
+    }
+  }
+  .inputTitle {
+    font-size: 1.4em;
+    font-weight: 600;
+    width: 100%;
+    background-color: inherit;
+    border-bottom: 2px solid rgb(135, 135, 135);
+    padding-bottom: 0.3em;
+    transition: all 150ms ease-in-out;
+    color: hsl(0, 0, 10%);
+    &:focus {
+      border-bottom-color: $accentColor;
+    }
+
+    &::placeholder {
+      color: hsl(0, 0, 20%);
+    }
+  }
+
+  .info {
+    margin: 2em 0em;
+    font-size: 0.9em;
+    color: grey;
+
+    .infoItem {
+      margin-top: 0.4em;
+      display: flex;
+      align-items: center;
+      gap: 0.4em;
+
+      .time {
+        max-width: 4.6em;
+        border-bottom: 1px solid rgb(135, 135, 135);
+        cursor: pointer;
+        padding: 0em 0.2em;
+
+        &:hover {
+          border-bottom: 1px solid black;
+        }
+
+        &.invalid {
+          color: rgb(169, 45, 64);
+          border-bottom-color: rgb(169, 45, 64);
+        }
+      }
+    }
+  }
+
+  .submitBtn {
+    width: 100%;
+    color: white;
+
+    padding: 0.6em 0;
+    border-radius: 0.6em;
+    font-size: 0.9em;
+    font-weight: 600;
+    margin-top: 2em;
+    cursor: pointer;
+    box-shadow: none;
+    transition: box-shadow ease-in-out 100ms, transform ease-in-out 100ms;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4em;
+
+    &:hover,
+    &:focus {
+      transform: scale(1.05);
+    }
+
+    &:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+      pointer-events: all;
+
+      &:hover,
+      &:focus {
+        transform: none;
+        box-shadow: none;
+        outline: none;
+      }
+    }
+  }
+
+  .confirmBtn {
+    background-color: $confirmBtnColor;
+    .checkIcon {
+      transform: scale(1.2);
+    }
+    &:hover,
+    &:focus {
+      box-shadow: 0px 12px 12px -12px hsl(190, 40%, 30%);
+      outline: 1px lighten($color: hsl(166, 25%, 50%), $amount: 50%) solid;
+    }
+  }
+
+  .addWaitingListBtn {
+    background-color: $waitingColor;
+
+    &:hover,
+    &:focus {
+      box-shadow: 0px 12px 12px -12px hsl(37, 88%, 27%);
+      outline: 1px lighten($color: $waitingColor, $amount: 50%) solid;
+    }
+  }
+  .pResPerson {
+    font-size: 0.8em;
+    font-weight: 600;
+  }
+  //react-select
+  .selectControl {
+    margin-top: 0.5em;
+    font-size: 0.9em;
+    background-color: inherit;
+    border: 0;
+    outline: 0;
+    border-bottom: 1px solid rgb(154, 154, 154);
+    border-radius: 0;
+    transition: all 100ms eas;
+  }
+
+  .selectControlFocused {
+    box-shadow: none;
+    border-bottom: 1px solid black;
+  }
+
+  .selectControl:hover {
+    border-bottom: 1px solid black;
+  }
+
+  // .selectPlaceholder {
+  //   transform: translateX(-5%);
+  // }
+  .selectOption {
+    font-size: 0.9em;
+  }
+
+  // .selectInput {
+  //   transform: translateX(-5%);
+  // }
+
+  .selectMenu {
+    border-radius: 0.5em;
+    overflow: hidden;
+    transform: scaleX(1.05);
+  }
+
+  .selectValueContainer {
+    transform: translateX(-5%);
+  }
+  .feedbackContainer {
+    visibility: hidden;
+    position: absolute;
+    border-radius: 1.6em;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    padding: 2em 1em;
+    text-align: center;
+    background-color: lighten($color: $bgcolor, $amount: 5);
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    font-size: 1.2em;
+    font-weight: 600;
+    color: hsl(165, 65%, 41%);
+    transform: scaleX(0);
+    transform-origin: right;
+    opacity: 0;
+    transition: all 150ms ease-in;
+
+    .feedbackIcon {
+      height: 100px;
+      scale: 4;
+    }
+
+    &.show {
+      visibility: visible;
+      transform: scaleX(1);
+      opacity: 1;
+    }
+    &.feedbackWaiting {
+      color: $waitingColor;
+    }
+    &.feedbackError {
+      color: rgb(169, 45, 64);
+    }
+  }
+}

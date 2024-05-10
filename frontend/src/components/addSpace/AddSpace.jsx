@@ -38,33 +38,39 @@ const AddSpace = () => {
 
     
       const handleSubmit = async (e) => {
-
         e.preventDefault();
       
-      const formDataToSubmit = new FormData();
-      formDataToSubmit.append('name', formData.name);
-      formDataToSubmit.append('location', formData.location);
-      formDataToSubmit.append('capacity', formData.capacity);
-      formDataToSubmit.append('description', formData.description);
-      formDataToSubmit.append('image', formData.image);
-      formDataToSubmit.append('facilities', formData.facilities);
-            
+        // Create the request body object
+        const requestBody = {
+          name: formData.name,
+          location: formData.location,
+          capacity: parseInt(formData.capacity), // Convert capacity to integer
+          description: formData.description,
+          image: '', // Add a placeholder for the image field
+          facilities: Array.isArray(formData.facilities)
+             ? formData.facilities
+             : formData.facilities.split(','), // Split the facilities string into an array
+        };
+      
+        console.log('Request body:', requestBody);
+      
         try {
-        
-          const response = await createSpaces(formDataToSubmit);
-
-          console.log('Hall details submitted successfully:', response);
-
-          const formDataObj = Object.fromEntries(formDataToSubmit.entries());
-
-          console.log(formDataObj);
-
+          createSpaces(requestBody);
+          console.log('Hall details submitted successfully:');
         } catch (error) {
-          console.error('Error submitting hall details:', error);
-         
+          if (error.response) {
+            // The request was made and the server responded with a status code
+            // that falls out of the range of 2xx
+            console.error('Server responded with error:', error.response.data.message || 'Unknown error');
+          } else if (error.request) {
+            // The request was made but no response was received
+            console.error('No response received from the server');
+          } else {
+            // Something happened in setting up the request that triggered an Error
+            console.error('Error in request setup:', error.message);
+          }
         }
       };
-
 
 
     

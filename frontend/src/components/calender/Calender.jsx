@@ -1,6 +1,9 @@
 import React, { useEffect, useRef, useState } from "react";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import {getDateInYearFormat , generateColorCode} from '../../utills'
+import Modal from "../modal/Modal";
+import AddEvent from "../addEvent/AddEvent";
+import ReservationInfo from "../reservationInfo/ReservationInfo";
 import styles from './Calender.module.scss'
 
 
@@ -150,7 +153,7 @@ const Calender = ({selectSpace,spaceReservations,selectSpaceName,startTime,endTi
             isToday={date.setHours(0, 0, 0, 0) === today}
             hourIntervals={hourIntervals}
 
-            dayReservations={spaceReservations.filter(
+            dayReservations={spaceReservations?.filter(
               (reservation) => reservation.date === getDateInYearFormat(date)
             )}
 
@@ -163,7 +166,7 @@ const Calender = ({selectSpace,spaceReservations,selectSpaceName,startTime,endTi
         <TimeColumn hours={hourIntervals} />
       </div>
 
-      {/* <Modal
+      <Modal
         modalRef={modalRef}
         setIsOpen={setIsModalOpen}
         isOpen={isModalOpen}
@@ -185,7 +188,7 @@ const Calender = ({selectSpace,spaceReservations,selectSpaceName,startTime,endTi
             onClick={handleAddWaitingClick}
           />
         )}
-      </Modal> */}
+      </Modal>
       
     </div>
   )
@@ -221,12 +224,14 @@ const Day = ({
   
     //check if there are reservations which started before the first interval, but continues after that.
     //todo: APPROACH: Pass this to the first slot set the height to match the time from the first interval to the endTime
-    const prevReservations = dayReservations.filter(
+    const prevReservations = dayReservations?.filter(
       (reservation) =>
         reservation.startTime < hourIntervals[0] * 100 &&
         reservation.endTime > hourIntervals[0] * 100
+       
     );
     const Time =() =>{
+      console.log(hourIntervals)
 
     }
 
@@ -290,6 +295,7 @@ const Day = ({
               onClick={(e) => handleResevationClick(e, reservation)}
             >
               {reservation.title}
+             
             </button>
           );
         })}
@@ -310,6 +316,7 @@ const Day = ({
         {hourStrings.map((hour) => (
           <div className={styles.hour} key={hour}>
             {hour}
+            
           </div>
         ))}
       </div>

@@ -78,6 +78,7 @@ $today-color: $accentColor;
       min-height: 3.8em;
       //background-color: red;
       outline: 1px solid $border-color;
+      background-color: aqua;
 
       // &:hover {
       //   outline: 2px solid $border-hover-color;
@@ -107,6 +108,7 @@ $today-color: $accentColor;
     display: flex;
     flex-direction: column;
     margin-top: 3.2em;
+    background-color: rgb(255, 81, 0);
 
     .controller {
       min-height: 3.2em;

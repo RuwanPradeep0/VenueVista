@@ -18,6 +18,7 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/api/v1/spaces")
 @RequiredArgsConstructor
+@CrossOrigin("*")
 public class SpaceController {
 
 
@@ -26,7 +27,6 @@ public class SpaceController {
     @PostMapping("/createspaces")
     public ResponseEntity<SpaceResponse> createSpace(@RequestBody SpaceRequest spaceRequest){
         Space savedSpace = spaceService.saveSpace(spaceRequest);
-
 
         SpaceResponse spaceResponse = new SpaceResponse(savedSpace);
         return ResponseEntity.status(HttpStatus.CREATED).body(spaceResponse);

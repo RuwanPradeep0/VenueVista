@@ -8,6 +8,7 @@ import com.VenueVista.VenueVista.repository.SpaceRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,7 +30,17 @@ public Space saveSpace(SpaceRequest spaceRequest){
     space.setLocation(spaceRequest.getLocation());
     space.setCapacity(spaceRequest.getCapacity());
     space.setDescription(spaceRequest.getDescription());
-    space.setImage(spaceRequest.getImage());
+
+
+//    if (spaceRequest.getImage() != null) {
+//        try {
+//            byte[] imageData = IOUtils.toByteArray(spaceRequest.getImage().getInputStream());
+//            space.setImage(imageData);
+//        } catch (IOException e) {
+//            // Handle the exception appropriately
+//            e.printStackTrace();
+//        }
+//    }
 
     List<Facility> facilities = new ArrayList<>();
     for (String facilityName : spaceRequest.getFacilities()) {

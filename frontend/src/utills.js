@@ -1,6 +1,6 @@
 import {jwtDecode} from 'jwt-decode';
 
-export const checkUser = (token)=>{
+export const setUser = (token)=>{
 
     const userDetails = jwtDecode(token);
   
@@ -11,6 +11,10 @@ export const checkUser = (token)=>{
 
       localStorage.setItem('user', JSON.stringify(user));
    
+}
+
+export function checkUser(setUser, setValid, handleLogout){
+  
 }
 
 
@@ -34,6 +38,72 @@ export const generateColorCode = () =>{
 
 }
 
-export const getDateInYearFormat = () =>{
-  
-}
+
+export const getDateInFormat = (date) => {
+  // Return Date in : "weekday, Month Day" format
+  const dateOptions = {
+    weekday: "long",
+    month: "long",
+    day: "numeric",
+  };
+
+  return new Intl.DateTimeFormat("en-US", dateOptions).format(date);
+};
+
+export const setTimeFormat = (time) => {
+  const date = new Date(`January 1,2022 ${time}`);
+
+  const hour = date.getHours();
+  const minutes = date.getMinutes();
+
+  return hour * 100 + minutes;
+};
+
+export const mapTimeStringToInteger = (timeString) => {
+  /*
+    >>> "9:00PM"
+    2100
+
+    >>> "9:30AM"
+    2130
+
+    >>> " 10:20 AM "
+    1020
+
+    >>> "12:30 PM"
+    1230
+ 
+ */
+  const timeRegex = /^\s*(\d{1,2}):(\d{2})\s*(am|pm)\s*$/i;
+
+  const match = timeString.match(timeRegex);
+
+  if (!match) {
+    return false;
+  }
+
+  let hour = parseInt(match[1], 10);
+  const minute = parseInt(match[2], 10);
+  const suffix = match[3].toLowerCase();
+
+  if (hour < 1 || hour > 12) {
+    return false;
+  }
+
+  if (minute < 0 || minute > 59) {
+    return false;
+  }
+
+  //if 12:30PM --> 1230 not 2430
+  if (suffix === "pm" && hour < 12) {
+    hour += 12;
+  }
+
+  // console.log(hour*100 + minute)
+  return hour * 100 + minute;
+};
+
+
+export const getDateInYearFormat = (date) => {
+  return date.toLocaleDateString("sv-SE", { timeZone: "Asia/Colombo" });
+};
