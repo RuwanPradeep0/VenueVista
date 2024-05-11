@@ -77,7 +77,7 @@ const AddEvent = ({
         setIsTimeInvalid(false);
       }, [startTimeProp, endTimeProp, spaceId, date]);
 
-
+//creating a proper object 
       function mapResponsible() {
         groupedOptions[0].options = responsible
           .filter((res) => res.type.toLowerCase() !== "instructor")
@@ -111,6 +111,7 @@ const AddEvent = ({
       };
 
       useEffect(() => {
+        //setTimeInvalid is a useState value
         setIsTimeInvalid(
           !mapTimeStringToInteger(startTime) ||
             !mapTimeStringToInteger(endTime) ||
@@ -127,6 +128,7 @@ const AddEvent = ({
         setTitle(event.target.value);
       };
 
+      //Validating the time
       const validateReservation = (startTimeFormatted, endTimeFormatted) => {
         console.log(startTimeFormatted, endTimeFormatted);
     
@@ -137,6 +139,7 @@ const AddEvent = ({
         }
       };
 
+      //check availability of the time slot
       const checkAvailablity = (startTimeFormatted, endTimeFormatted) => {
         var reservationDate = getDateInYearFormat(date || new Date());
         const dayReservations = spaceReservations?.filter(

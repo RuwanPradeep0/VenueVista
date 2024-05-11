@@ -76,11 +76,12 @@ export const mapTimeStringToInteger = (timeString) => {
  */
   const timeRegex = /^\s*(\d{1,2}):(\d{2})\s*(am|pm)\s*$/i;
 
-  const match = timeString.match(timeRegex);
-
+  const match = timeString.match(timeRegex); 
   if (!match) {
     return false;
   }
+
+  //in this regax there are 3 groups for 9 ,  00 ,PM/AM
 
   let hour = parseInt(match[1], 10);
   const minute = parseInt(match[2], 10);
