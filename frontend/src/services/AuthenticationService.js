@@ -38,4 +38,9 @@ const login = async (email, password) => {
   }
 };
 
-export { registerLecturer, login };
+
+const getAuthenticate = async() => {
+
+}
+
+export { registerLecturer, login ,getAuthenticate};

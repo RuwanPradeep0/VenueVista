@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { registerLecturer, login } from '../../services/AuthenticationService';
-import { checkUser } from '../../utills';
+import { setUser } from '../../utills';
 import styles from '../../styles/Auth.module.scss'
 
 
@@ -37,7 +37,7 @@ const Auth = () => {
         }
       } else {
         const token = await login(formData.email, formData.password);
-        checkUser(token)
+        setUser(token)
         navigate('/');
       }
     } catch (error) {
