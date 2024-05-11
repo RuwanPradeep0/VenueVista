@@ -7,8 +7,7 @@ import Slider from "@mui/material/Slider";
 import { useRef, useState, useEffect } from "react";
 import styles from '../styles/Home.module.scss'
 import TimeSelector from '../components/timeSelector/TimeSelector';
-import AddEvent from '../components/addEvent/AddEvent';
-import Calender from '../components/calender/Calender';
+import SheduleManager from '../components/sheduleManager/SheduleManager';
 
 const facilitiesOptions = [
   "AC",
@@ -145,8 +144,14 @@ const Home = () => {
 
       </div>
 
-      <Calender/>
       
+      <SheduleManager
+        selectedDays={selectedDays}
+        startTime={startTime}
+        endTime={endTime}
+        capacity={capacity}
+        selectedFacilities={selectedFacilities}
+      />
       
     
     </div>

@@ -7,12 +7,12 @@ import ReservationInfo from "../reservationInfo/ReservationInfo";
 import styles from './Calender.module.scss'
 
 
-const Calender = ({selectSpace,spaceReservations,selectSpaceName,startTime,endTime,updateReservations,}) => {
+const Calender = ({selectSpace,spaceReservations,selectedDays,selectSpaceName,startTime,endTime,updateReservations,}) => {
   
  //calculate the upcoming dates and pass it into the Day component
  const [firstDate, setFirstDate] = useState(new Date());
  let dateList = []; //list containing date objects
- const selectedDays = [1, 2, 3, 4, 5]; //The user will select days, initially it'll be of weekdays. (0 - Sunday, 1 - Monday...etc)
+//  const selectedDays = [1, 2, 3, 4, 5]; //The user will select days, initially it'll be of weekdays. (0 - Sunday, 1 - Monday...etc)
  const today = new Date().setHours(0, 0, 0, 0); //Date object representing current Date
 
  //get the date object of the monday of this week.
@@ -25,7 +25,7 @@ const Calender = ({selectSpace,spaceReservations,selectSpaceName,startTime,endTi
    const date = new Date(firstDate);
 
    //if the selectedDays is not weekdays, then don't start with a Monday.
-   if (selectedDays.length > 5) date.setDate(firstDate.getDate() + i);
+   if (selectedDays?.length > 5) date.setDate(firstDate.getDate() + i);
    //else if selectedDays are the weekdays or less, then start with a Monday
    else {
      const newDate = new Date(firstMonday);
@@ -36,7 +36,7 @@ const Calender = ({selectSpace,spaceReservations,selectSpaceName,startTime,endTi
    }
 
    //if the day is in the selected list --> add to dateList else continue
-   if (selectedDays.includes(date.getDay())) dateList.push(date);
+   if (selectedDays?.includes(date.getDay())) dateList.push(date);
  }
 
  const handleRightClick = () => {
@@ -47,7 +47,7 @@ const Calender = ({selectSpace,spaceReservations,selectSpaceName,startTime,endTi
    const newDate = new Date(firstDate);
 
    //if SelectedDays are not weekdays then add 5 to current first date dateList[0]
-   if (selectedDays.length > 5) newDate.setDate(newDate.getDate() + 5);
+   if (selectedDays?.length > 5) newDate.setDate(newDate.getDate() + 5);
    //if selectedDats are the weekdats then, increment by a week.
    else newDate.setDate(newDate.getDate() + 7);
 
@@ -195,9 +195,6 @@ const Calender = ({selectSpace,spaceReservations,selectSpaceName,startTime,endTi
 }
 
 export default Calender
-
-
-
 
 
 

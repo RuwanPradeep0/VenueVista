@@ -27,6 +27,10 @@ const createSpaces = async (requestBody) => {
     }
   };
 
+  const getAllSpaces = ()=>{
+
+  }
+
 
 //get all spaces
-export{createSpaces}
+export{createSpaces , getAllSpaces} 

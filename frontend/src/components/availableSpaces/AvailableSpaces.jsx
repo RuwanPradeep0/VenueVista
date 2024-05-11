@@ -1,5 +1,6 @@
 import React from 'react'
 import styles from './AvailableSpaces.module.scss'
+import { FaChevronCircleRight } from "react-icons/fa";
 
 
 

@@ -3,6 +3,7 @@ import { FiMapPin, FiCheck, FiCheckCircle } from "react-icons/fi";
 import { LuCalendarDays } from "react-icons/lu";
 import { FaRegClock, FaPlus } from "react-icons/fa";
 import { MdError, MdPlaylistAddCheckCircle } from "react-icons/md";
+
 import {
     getDateInFormat,
     getTimeString,
@@ -256,7 +257,7 @@ const AddEvent = ({
 
   useEffect(() => {
     setIsDisable(
-      !responsibleId ||
+      // !responsibleId ||
         title === "" ||
         !mapTimeStringToInteger(startTime) ||
         !mapTimeStringToInteger(endTime) ||

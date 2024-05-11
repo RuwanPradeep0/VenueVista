@@ -4,4 +4,7 @@ async function createReservation(){
 
 }
 
-export{createReservation};
+async function getAllReservation(){
+
+}
+export{createReservation , getAllReservation};
