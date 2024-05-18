@@ -9,7 +9,7 @@ const App = () => {
   return (
     <>
    
-      <Navbar user={user}/>
+      {/* <Navbar user={user}/> */}
       <AppRouter/>
      
     </>
