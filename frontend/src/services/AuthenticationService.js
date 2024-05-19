@@ -13,6 +13,7 @@ const isValidEmail = (email) => {
 
 //Register a lecturer
 const registerLecturer = async (formData) => {
+  console.log(formData)
   try {
     if (!isValidEmail(formData.email)) {
       throw new Error('Invalid email format');

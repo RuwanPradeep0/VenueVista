@@ -29,6 +29,8 @@ public class User implements UserDetails {
 
     private  String password;
 
+    private String userRole;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return null;
@@ -57,5 +59,9 @@ public class User implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    public String getResponsibleName(){
+        return firstName + " " + lastName;
     }
 }

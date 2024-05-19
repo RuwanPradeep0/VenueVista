@@ -1,7 +1,7 @@
 import React ,{ useEffect, useRef, useState } from 'react'
 import Calender from '../calender/Calender'
 import AvailableSpaces from '../availableSpaces/AvailableSpaces'
-import {getAllSpaces} from '../../services/AddSpaceService'
+import {getAllSpaces} from '../../services/SpaceService'
 import {getAllReservation} from '../../services/ReservationService'
 import { MdClose } from "react-icons/md";
 import classNames from "classnames";

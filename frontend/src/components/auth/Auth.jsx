@@ -13,7 +13,7 @@ const Auth = () => {
     lastName: '',
     email: '',
     password: '',
-    userType: 'lecturer',
+    userRole: 'lecturer',
   });
 
   
@@ -26,12 +26,15 @@ const Auth = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+   
     try {
+    
       if (isRegister) {
-        if (formData.userType === 'lecturer') {
+       
+        if (formData.userRole === 'lecturer' || formData.userRole === 'instructor') {
+          setIsRegister(!isRegister)
           const user = await registerLecturer(formData);
-          navigate('/');
+         
         } else {
           throw new Error('Student registration is not allowed.');
         }
@@ -112,16 +115,17 @@ const Auth = () => {
 
           {isRegister && (
             <div className={styles.inputGroup}>
-              <label htmlFor="userType">User Type:</label>
+              <label htmlFor="userRole">User Type:</label>
               <select
-                id="userType"
-                name="userType"
-                value={formData.userType}
+                id="userRole"
+                name="userRole"
+                value={formData.userRole}
                 onChange={handleInputChange}
                 required
               >
                 <option value="student">Student</option>
                 <option value="lecturer">Lecturer</option>
+                <option value="instructor">Instructor</option>
               </select>
             </div>
           )}
@@ -129,7 +133,7 @@ const Auth = () => {
             {isRegister ? 'Register' : 'Login'}
           </button>
         </form>
-        <div className={isRegister ? styles.toggleLink : undefined}>
+        <div className={ styles.toggleLink}>
           {isRegister
             ? 'Already have an account? '
             : "Don't have an account? "}

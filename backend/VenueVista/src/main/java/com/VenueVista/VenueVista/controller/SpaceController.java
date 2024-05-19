@@ -32,7 +32,7 @@ public class SpaceController {
         return ResponseEntity.status(HttpStatus.CREATED).body(spaceResponse);
     }
 
-    @GetMapping("getallspaces")
+    @GetMapping("/getallspaces")
     public ResponseEntity<List<SpaceResponse>> getAllSpaces() {
         List<Space> spaces = spaceService.getAllSpaces();
         List<SpaceResponse> spaceResponses = spaces.stream()

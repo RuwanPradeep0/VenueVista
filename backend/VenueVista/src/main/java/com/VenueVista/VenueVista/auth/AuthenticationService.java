@@ -26,6 +26,7 @@ public class AuthenticationService {
                 .firstName(request.getFirstName())
                 .lastName(request.getLastName())
                 .email(request.getEmail())
+                .userRole(request.getUserRole())
                 .password(passwordEncoder.encode(request.getPassword()))
                 .build();
         userRepository.save(user);
@@ -52,6 +53,8 @@ public class AuthenticationService {
         return AuthenticationResponse.builder()
                 .token(jwtToken)
                 .email(user.getEmail())
+                .userRole(user.getUserRole())
+                .responsibleName(user.getResponsibleName())
                 .build();
     }
 

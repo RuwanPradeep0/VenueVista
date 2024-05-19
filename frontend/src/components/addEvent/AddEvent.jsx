@@ -59,9 +59,9 @@ const AddEvent = ({
       }, []);
 
     
-      useEffect(() => {
-        if (responsible.length !== 0) mapResponsible();
-      }, [responsible]);
+      // useEffect(() => {
+      //   if (responsible.length !== 0) mapResponsible();
+      // }, [responsible]);
 
 
       useEffect(() => {
@@ -77,26 +77,26 @@ const AddEvent = ({
         setIsTimeInvalid(false);
       }, [startTimeProp, endTimeProp, spaceId, date]);
 
-//creating a proper object 
-      function mapResponsible() {
-        groupedOptions[0].options = responsible
-          .filter((res) => res.type.toLowerCase() !== "instructor")
-          .map((res) => {
-            const val = {};
-            val.value = res.id;
-            val.label = res.type + " " + res.fullName;
-            return val;
-          });
+// //creating a proper object 
+//       function mapResponsible() {
+//         groupedOptions[0].options = responsible
+//           .filter((res) => res.type.toLowerCase() !== "instructor")
+//           .map((res) => {
+//             const val = {};
+//             val.value = res.id;
+//             val.label = res.type + " " + res.fullName;
+//             return val;
+//           });
           
-        groupedOptions[1].options = responsible
-          .filter((res) => res.type.toLowerCase() === "instructor")
-          .map((res) => {
-            const val = {};
-            val.value = res.id;
-            val.label = res.fullName;
-            return val;
-          });
-      }
+//         groupedOptions[1].options = responsible
+//           .filter((res) => res.type.toLowerCase() === "instructor")
+//           .map((res) => {
+//             const val = {};
+//             val.value = res.id;
+//             val.label = res.fullName;
+//             return val;
+//           });
+//       }
 
       async function getResponsible() {
         await getAllResponsible(setResponsible);

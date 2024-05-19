@@ -40,7 +40,7 @@ const Space = ({ space, select, handleClick }) => {
               <FaChevronCircleRight className={styles.icon} />
             )}
           </h4>
-          <p>{space.description}</p>
+          <p>{space.location}</p>
         </div>
       </button>
     );

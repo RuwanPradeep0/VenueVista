@@ -33,9 +33,9 @@ public class JwtService {
     }
 
     //Generate Token Without extraClaim
-    public  String generateToken(UserDetails userDetails){
-
-        return  generateToken(new HashMap<>() , userDetails);
+    public String generateToken(UserDetails userDetails) {
+        Map<String, Object> extraClaims = new HashMap<>();
+        return generateToken(extraClaims, userDetails);
     }
 
 

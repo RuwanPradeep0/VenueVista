@@ -1,5 +1,5 @@
 import React ,{useEffect , useState} from 'react'
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 
 import logo from '../../images/logo.png'
 import styles from './Navbar.module.scss';
@@ -8,6 +8,7 @@ import styles from './Navbar.module.scss';
 const Navbar = ({user}) => {
 
   const [userName, setUserName] = useState('');
+   const location = useLocation();
 
   useEffect(() => {
     const storedUser = localStorage.getItem('user');
@@ -16,7 +17,7 @@ const Navbar = ({user}) => {
       setUserName(username);
     }
 
-  }, []);
+  }, [location]);
 
   return (
     <>
