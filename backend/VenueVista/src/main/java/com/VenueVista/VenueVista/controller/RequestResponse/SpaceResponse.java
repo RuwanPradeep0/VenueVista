@@ -1,6 +1,7 @@
 package com.VenueVista.VenueVista.controller.RequestResponse;
 
 import com.VenueVista.VenueVista.models.Space;
+import com.VenueVista.VenueVista.models.Facility;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -20,7 +21,7 @@ public class SpaceResponse {
     private String location;
     private int capacity;
     private String description;
-    private List<FacilityResponse> facilities;
+    private List<String> facilitiesList;
 
     // Constructor-based mapping
     public SpaceResponse(Space space) {
@@ -29,8 +30,9 @@ public class SpaceResponse {
         this.location = space.getLocation();
         this.capacity = space.getCapacity();
         this.description = space.getDescription();
-        this.facilities = space.getFacilities().stream()
-                .map(FacilityResponse::new)
+        this.facilitiesList = space.getFacilities().stream()
+                .map(Facility::getName)
                 .collect(Collectors.toList());
     }
+
 }
