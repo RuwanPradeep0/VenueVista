@@ -6,6 +6,7 @@ import com.VenueVista.VenueVista.auth.AuthenticationService;
 import com.VenueVista.VenueVista.auth.RequestResponse.RegisterRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController

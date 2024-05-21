@@ -12,7 +12,7 @@ const AvailableSpaces = ({ availableSpaces, handleClick, select }) => {
       {availableSpaces.map((space) => {
         return (
           <Space
-            key={space.id}
+            key={space?.id}
             space={space}
             select={select}
             handleClick={handleClick}
@@ -29,18 +29,18 @@ const AvailableSpaces = ({ availableSpaces, handleClick, select }) => {
 const Space = ({ space, select, handleClick }) => {
     return (
       <button
-        id={space.id}
-        className={select === space.id ? styles.SpaceSelected : styles.Space}
+        id={space?.id}
+        className={select === space?.id ? styles.SpaceSelected : styles.Space}
         onClick={() => handleClick(space.id)}
       >
         <div className={styles.name}>
           <h4>
-            {space.name}{" "}
-            {select === space.id && (
+            {space?.name}{" "}
+            {select === space?.id && (
               <FaChevronCircleRight className={styles.icon} />
             )}
           </h4>
-          <p>{space.location}</p>
+          <p>{space?.location}</p>
         </div>
       </button>
     );

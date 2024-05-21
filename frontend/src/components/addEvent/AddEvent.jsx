@@ -54,9 +54,9 @@ const AddEvent = ({
     const [responsibleId, setResponsibleId] = useState(0);
     const [isTimeInvalid, setIsTimeInvalid] = useState(false);
 
-    useEffect(() => {
-        getResponsible();
-      }, []);
+    // useEffect(() => {
+    //     getResponsible();
+    //   }, []);
 
     
       // useEffect(() => {
@@ -98,9 +98,9 @@ const AddEvent = ({
 //           });
 //       }
 
-      async function getResponsible() {
-        await getAllResponsible(setResponsible);
-      }
+      // async function getResponsible() {
+      //   await getAllResponsible(setResponsible);
+      // }
 
       const handleStartTimeChange = (event) => {
         setStartTime(event.target.value);
