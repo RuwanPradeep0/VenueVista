@@ -25,6 +25,8 @@ const createSpaces = async (requestBody) => {
     }
   };
 
+
+  //get all spaces
   const getAllSpaces = async(setSpaces)=>{
     try{
 
@@ -32,7 +34,6 @@ const createSpaces = async (requestBody) => {
      setSpaces(response?.data);
      console.log(response.data)
 
-     
 
     }catch(error){
       
@@ -52,5 +53,5 @@ const createSpaces = async (requestBody) => {
   }
 
 
-//get all spaces
+
 export{createSpaces , getAllSpaces} 

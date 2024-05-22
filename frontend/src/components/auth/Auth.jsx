@@ -32,8 +32,8 @@ const Auth = () => {
       if (isRegister) {
        
         if (formData.userRole === 'lecturer' || formData.userRole === 'instructor') {
-          setIsRegister(!isRegister)
           const user = await registerLecturer(formData);
+          {user && setIsRegister(!isRegister)}
          
         } else {
           throw new Error('Student registration is not allowed.');

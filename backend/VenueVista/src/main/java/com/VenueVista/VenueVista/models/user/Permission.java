@@ -1,4 +1,4 @@
-package com.VenueVista.VenueVista.models;
+package com.VenueVista.VenueVista.models.user;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

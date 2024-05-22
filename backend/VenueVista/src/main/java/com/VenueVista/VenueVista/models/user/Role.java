@@ -1,4 +1,4 @@
-package com.VenueVista.VenueVista.models;
+package com.VenueVista.VenueVista.models.user;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -46,13 +46,14 @@ public enum Role {
 
     private final Set<Permission> permissions;
 
-    public List<SimpleGrantedAuthority> getAuthorities(){
-        var authorities = getPermissions()
-                .stream()
+    public List<SimpleGrantedAuthority> getAuthorities() {
+        var authorities = permissions.stream()
                 .map(permission -> new SimpleGrantedAuthority(permission.name()))
-                .toList();
-        authorities.add(new SimpleGrantedAuthority("ROLE" + this.name()));
+                .collect(Collectors.toList());
+        authorities.add(new SimpleGrantedAuthority("ROLE_" + this.name()));
         return authorities;
-
+    }
+    public static Role fromString(String roleStr) {
+        return Role.valueOf(roleStr.toUpperCase());
     }
 }

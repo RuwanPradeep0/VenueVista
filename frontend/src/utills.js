@@ -2,22 +2,45 @@ import {jwtDecode} from 'jwt-decode';
 
 export const setUser = (token)=>{
 
-    const userDetails = jwtDecode(token);
-  
-    const user = {
-        email: userDetails.email,
-        username: userDetails.sub
-      };
-
-      localStorage.setItem('user', JSON.stringify(user));
-   
+  const decodedToken = jwtDecode(token);
+  const user = {
+    responsibleName: decodedToken.responsibleName,
+    role: decodedToken.role,
+    id: decodedToken.id,
+    username: decodedToken.sub,
+    token: token
+  };
+  localStorage.setItem('user', JSON.stringify(user));
+  console.log(user)
 }
 
 
-export function checkUser(setUser, setValid, handleLogout){
-  
-}
 
+
+export const checkUser = (setUser, setValid, handleLogout) => {
+  const userString = localStorage.getItem('user');
+  
+  if (userString) {
+    try {
+      const user = JSON.parse(userString);
+      const decodedToken = jwtDecode(user.token);
+      const currentTime = Date.now() / 1000;
+      if (decodedToken.exp < currentTime) {
+        handleLogout();
+      } else {
+        setValid(true);
+        setUser(user.username);
+      }
+    } catch (error) {
+      console.error('Error decoding token:', error);
+      setValid(false);
+      setUser("");
+    }
+  } else {
+    setValid(false);
+    setUser("");
+  }
+}
 
 
 export const getTimeString = (time) => {

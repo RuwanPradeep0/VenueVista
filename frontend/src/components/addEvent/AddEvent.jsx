@@ -24,7 +24,7 @@ import {getAuthenticate} from '../../services/AuthenticationService'
 import styles from './AddEvent.module.scss'
 
 
-const groupedOptions = [
+const reservationPersonOptions = [
     {
       label: "Lecturers",
     },
@@ -32,6 +32,31 @@ const groupedOptions = [
       label: "Instructors",
     },
   ];
+
+  const BatchOptions = [
+    {
+      label: "E19",
+    },
+    {
+      label: "E20",
+    },
+    {
+      label: "E21",
+    },
+    {
+      label: "E22",
+    },
+    {
+      label: "E23",
+    },
+    {
+      label: "E24",
+    },
+    {
+      label: "other",
+    }
+  ];
+
 
 
 const AddEvent = ({
@@ -51,7 +76,7 @@ const AddEvent = ({
     const [user, setUser] = useState("");
     const [valid, setValid] = useState(false);
     const [title, setTitle] = useState("");
-    const [responsibleId, setResponsibleId] = useState(0);
+    const [responsibleId, setResponsibleId] = useState(0); //need to change to userId
     const [isTimeInvalid, setIsTimeInvalid] = useState(false);
 
     // useEffect(() => {
@@ -77,26 +102,26 @@ const AddEvent = ({
         setIsTimeInvalid(false);
       }, [startTimeProp, endTimeProp, spaceId, date]);
 
-// //creating a proper object 
-//       function mapResponsible() {
-//         groupedOptions[0].options = responsible
-//           .filter((res) => res.type.toLowerCase() !== "instructor")
-//           .map((res) => {
-//             const val = {};
-//             val.value = res.id;
-//             val.label = res.type + " " + res.fullName;
-//             return val;
-//           });
+//creating a proper object 
+      function mapResponsible() {
+        reservationPersonOptions[0].options = responsible
+          .filter((res) => res.type.toLowerCase() !== "instructor")
+          .map((res) => {
+            const val = {};
+            val.value = res.id;
+            val.label = res.type + " " + res.fullName;
+            return val;
+          });
           
-//         groupedOptions[1].options = responsible
-//           .filter((res) => res.type.toLowerCase() === "instructor")
-//           .map((res) => {
-//             const val = {};
-//             val.value = res.id;
-//             val.label = res.fullName;
-//             return val;
-//           });
-//       }
+          reservationPersonOptions[1].options = responsible
+          .filter((res) => res.type.toLowerCase() === "instructor")
+          .map((res) => {
+            const val = {};
+            val.value = res.id;
+            val.label = res.fullName;
+            return val;
+          });
+      }
 
       // async function getResponsible() {
       //   await getAllResponsible(setResponsible);
@@ -184,7 +209,7 @@ const AddEvent = ({
               Date.now(),
               getDateInYearFormat(date),
               user.id,
-              responsibleId,
+              // responsibleId,
               -1
             )
               .then((res) => {
@@ -229,7 +254,7 @@ const AddEvent = ({
       Date.now(),
       getDateInYearFormat(date),
       user.id,
-      responsibleId,
+      // responsibleId,
       -1
     )
       .then((res) => {
@@ -266,7 +291,7 @@ const AddEvent = ({
         !mapTimeStringToInteger(endTime) ||
         mapTimeStringToInteger(startTime) > mapTimeStringToInteger(endTime)
     );
-  }, [responsibleId, title, startTime, endTime]);
+  }, [ responsibleId,title, startTime, endTime]); //responsibleId was added to dependancy array
 
         
 
@@ -318,7 +343,10 @@ const AddEvent = ({
          </div>
          <p className={styles.pResPerson}>Responsible Person</p>
 
-         <ResponsibleSelect setResponsibleId={setResponsibleId} />
+         
+         {/* setResponsibleId={setResponsibleId} was here as a prop */}
+         <ResponsibleSelect setResponsibleId={setResponsibleId} /> 
+         <BatchSelect/>
          {isClash ? (
           <button
             type="submit"
@@ -384,10 +412,42 @@ export default AddEvent
 
 
 const ResponsibleSelect = ({ setResponsibleId }) => (
+  
     <Select
       placeholder="Select a reponsible person"
-      options={groupedOptions}
-      onChange={(choice) => setResponsibleId(choice.value)}
+      options={reservationPersonOptions} //groupedoptions
+      onChange={(choice) => {setResponsibleId(choice.value)
+        console.log(choice.value)
+        }
+      }
+      classNames={{
+        container: () => styles.selectContainer,
+        control: (state) =>
+          classNames(
+            styles.selectControl,
+            state.isFocused && styles.selectControlFocused
+          ),
+        option: (state) => classNames(styles.selectOption),
+        placeholder: (state) => classNames(styles.selectPlaceholder),
+        input: (state) =>
+          classNames(
+            styles.selectInput,
+            state.isFocused && styles.selectInputFocused
+          ),
+        menu: (state) => classNames(styles.selectMenu),
+        valueContainer: (state) => styles.selectValueContainer,
+      }}
+    />
+  );
+
+
+  const BatchSelect = ({ setResponsibleId }) => (
+    <Select
+      placeholder="Select the batch"
+      options={BatchOptions}
+      // onChange={(choice) => {setResponsibleId(choice.value)
+      //   console.log(setResponsibleId)}
+      // }
       classNames={{
         container: () => styles.selectContainer,
         control: (state) =>

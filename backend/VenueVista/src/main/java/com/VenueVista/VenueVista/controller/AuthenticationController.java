@@ -4,6 +4,7 @@ import com.VenueVista.VenueVista.auth.RequestResponse.AuthenticationRequest;
 import com.VenueVista.VenueVista.auth.RequestResponse.AuthenticationResponse;
 import com.VenueVista.VenueVista.auth.AuthenticationService;
 import com.VenueVista.VenueVista.auth.RequestResponse.RegisterRequest;
+import com.VenueVista.VenueVista.models.user.Permission;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -24,7 +25,6 @@ public class AuthenticationController {
         return ResponseEntity.ok(service.register(request));
 
     }
-
 
     @PostMapping("/authenticate")
     public ResponseEntity<AuthenticationResponse> register(

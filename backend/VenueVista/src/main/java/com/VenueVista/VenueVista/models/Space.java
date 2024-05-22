@@ -41,4 +41,7 @@ public class Space {
             inverseJoinColumns = @JoinColumn(name = "facility_id")
     )
     private List<Facility> facilities;
+
+//    @OneToMany(mappedBy = "space", cascade = CascadeType.ALL)
+//    private List<Reservation> reservations;
 }

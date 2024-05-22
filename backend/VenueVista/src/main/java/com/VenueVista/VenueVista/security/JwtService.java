@@ -1,5 +1,6 @@
 package com.VenueVista.VenueVista.security;
 
+import com.VenueVista.VenueVista.models.user.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -14,6 +15,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @Service
 public class JwtService {
@@ -34,7 +36,11 @@ public class JwtService {
 
     //Generate Token Without extraClaim
     public String generateToken(UserDetails userDetails) {
+        User user = (User) userDetails;
         Map<String, Object> extraClaims = new HashMap<>();
+        extraClaims.put("responsibleName", user.getResponsibleName());
+        extraClaims.put("role", user.getRole().toString());
+        extraClaims.put("id", user.getId());
         return generateToken(extraClaims, userDetails);
     }
 

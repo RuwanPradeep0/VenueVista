@@ -1,5 +1,6 @@
 package com.VenueVista.VenueVista.auth.RequestResponse;
 
+import com.VenueVista.VenueVista.models.user.Role;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -12,7 +13,7 @@ import lombok.NoArgsConstructor;
 public class AuthenticationResponse {
 
     public String token;
-    public String responsibleName;
-    public String userRole;
-    public  String email;
+//    public String responsibleName;
+//    public  String email;
+//    public Role userRole;
 }

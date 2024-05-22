@@ -13,7 +13,7 @@ const isValidEmail = (email) => {
 
 //Register a lecturer
 const registerLecturer = async (formData) => {
-  console.log(formData)
+ 
   try {
     if (!isValidEmail(formData.email)) {
       throw new Error('Invalid email format');
@@ -24,6 +24,7 @@ const registerLecturer = async (formData) => {
     console.log(user)
     return true;
   } catch (error) {
+    console.log(error)
     throw new Error(error.response?.data?.message || error.message);
   }
 };
@@ -34,8 +35,17 @@ const login = async (email, password) => {
   try {
     const { data } = await axios.post(endPointAuth +'/authenticate', { email, password });
     return data.token;
-  } catch (error) {
-    throw new Error(error.response?.data?.message || 'Error logging in');
+  }  catch (error) {
+    if (error.response) {
+     
+      throw new Error(error.response.data.message || 'Failed to create space: Server error');
+    } else if (error.request) {
+     
+      throw new Error('No response received from the server');
+    } else {
+      // Something happened in setting up the request that triggered an Error
+      throw new Error('Request failed to be sent');
+    }
   }
 };
 

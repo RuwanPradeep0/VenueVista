@@ -3,7 +3,8 @@ package com.VenueVista.VenueVista.auth;
 import com.VenueVista.VenueVista.auth.RequestResponse.AuthenticationRequest;
 import com.VenueVista.VenueVista.auth.RequestResponse.AuthenticationResponse;
 import com.VenueVista.VenueVista.auth.RequestResponse.RegisterRequest;
-import com.VenueVista.VenueVista.models.User;
+import com.VenueVista.VenueVista.models.user.Role;
+import com.VenueVista.VenueVista.models.user.User;
 import com.VenueVista.VenueVista.repository.UserRepository;
 import com.VenueVista.VenueVista.security.JwtService;
 import lombok.RequiredArgsConstructor;
@@ -22,11 +23,12 @@ public class AuthenticationService {
     private final AuthenticationManager authenticationManager;
 
     public AuthenticationResponse register(RegisterRequest request) {
+        var userRole = Role.fromString(request.getUserRole());
         var user = User.builder()
                 .firstName(request.getFirstName())
                 .lastName(request.getLastName())
                 .email(request.getEmail())
-                .userRole(request.getUserRole())
+                .role(userRole)
                 .password(passwordEncoder.encode(request.getPassword()))
                 .build();
         userRepository.save(user);
@@ -52,9 +54,9 @@ public class AuthenticationService {
         var jwtToken = jwtService.generateToken(user);
         return AuthenticationResponse.builder()
                 .token(jwtToken)
-                .email(user.getEmail())
-                .userRole(user.getUserRole())
-                .responsibleName(user.getResponsibleName())
+//                .email(user.getEmail())
+//                .userRole(user.getRole())
+//                .responsibleName(user.getResponsibleName())
                 .build();
     }
 

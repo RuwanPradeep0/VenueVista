@@ -40,9 +40,9 @@ const SheduleManager = ({
 
    //whenever the capacity change, change the displayed spaces using the filteredSpaces state
    useEffect(() => {
-    if (allSpaces.length !== 0) {
+    if (allSpaces?.length !== 0) {
       setFilteredSpaces(
-        allSpaces.filter(
+        allSpaces?.filter(
           (space) =>
             space.capacity <= capacity[1] &&
             space.capacity >= capacity[0] &&
@@ -112,7 +112,7 @@ const SheduleManager = ({
   const [selectSpaceName, setSelectSpaceName] = useState(" ");
   useEffect(() => {
     try {
-      setSelectSpaceName(allSpaces.find((s) => s.id === selectSpace).name);
+      setSelectSpaceName(allSpaces?.find((s) => s.id === selectSpace).name);
       setSpaceReservations(
         reservations.filter(
           (reservation) => reservation.spaceId === selectSpace

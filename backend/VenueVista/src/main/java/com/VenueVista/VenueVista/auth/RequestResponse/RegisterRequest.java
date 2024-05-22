@@ -1,5 +1,6 @@
 package com.VenueVista.VenueVista.auth.RequestResponse;
 
+import com.VenueVista.VenueVista.models.user.Role;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -15,5 +16,6 @@ public class RegisterRequest {
     public  String lastName;
     public  String email;
     public  String password;
+//
     private String userRole;
 }
