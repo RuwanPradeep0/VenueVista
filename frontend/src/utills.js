@@ -15,8 +15,6 @@ export const setUser = (token)=>{
 }
 
 
-
-
 export const checkUser = (setUser, setValid, handleLogout) => {
   const userString = localStorage.getItem('user');
   
