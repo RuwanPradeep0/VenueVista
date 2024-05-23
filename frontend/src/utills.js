@@ -1,7 +1,8 @@
 import {jwtDecode} from 'jwt-decode';
 
-export const setUser = (token)=>{
+export const setUser = (data)=>{
 
+  const token = data.accessToken;
   const decodedToken = jwtDecode(token);
   const user = {
     responsibleName: decodedToken.responsibleName,

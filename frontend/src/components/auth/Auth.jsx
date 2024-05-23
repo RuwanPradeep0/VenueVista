@@ -2,12 +2,15 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { registerLecturer, login } from '../../services/AuthenticationService';
 import { setUser } from '../../utills';
+import FeedbackMessage from '../feedbackMessage/FeedbackMessage';
 import styles from '../../styles/Auth.module.scss'
+
 
 
 const Auth = () => {
   const navigate = useNavigate();
   const [isRegister, setIsRegister] = useState(true);
+  const [feedback, setFeedback] = useState({ message: '', type: '' });
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -33,18 +36,24 @@ const Auth = () => {
        
         if (formData.userRole === 'lecturer' || formData.userRole === 'instructor') {
           const user = await registerLecturer(formData);
-          {user && setIsRegister(!isRegister)}
+          if (user) {
+            setFeedback({ message: 'Registration successful!', type: 'success' });
+            setIsRegister(!isRegister);
+          }
          
         } else {
           throw new Error('Student registration is not allowed.');
         }
       } else {
-        const token = await login(formData.email, formData.password);
-        setUser(token)
+        setFeedback({ message: '', type: '' });
+        const response = await login(formData.email, formData.password);
+        setUser(response)
         navigate('/');
+        setFeedback({ message: 'Login successful!', type: 'success' });
       }
     } catch (error) {
-      setError(error.message);
+      setFeedback({ message: error.message, type: 'error' });
+      
     }
   };
 
@@ -140,6 +149,11 @@ const Auth = () => {
           <span onClick={() => setIsRegister(!isRegister)}>
             {isRegister ? 'Login' : 'Register'}
           </span>
+          <FeedbackMessage
+            message={feedback.message}
+            type={feedback.type}
+            duration={5000}
+          />
         </div>
       </div>
     </div>

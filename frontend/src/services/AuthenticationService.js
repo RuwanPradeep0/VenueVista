@@ -34,11 +34,11 @@ const registerLecturer = async (formData) => {
 const login = async (email, password) => {
   try {
     const { data } = await axios.post(endPointAuth +'/authenticate', { email, password });
-    return data.token;
+    return data;
   }  catch (error) {
     if (error.response) {
      
-      throw new Error(error.response.data.message || 'Failed to create space: Server error');
+      throw new Error(error.response.data.message || 'Failed to login to system: Server error');
     } else if (error.request) {
      
       throw new Error('No response received from the server');

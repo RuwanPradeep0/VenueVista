@@ -125,6 +125,7 @@ const Calender = ({selectSpace,spaceReservations,selectedDays,selectSpaceName,st
    setAddEventEndTime((hour+1 )* 100);
    setIsAddEventOrRes(true);
    setClickedDate(date);
+   console.log("soaceId : " +selectSpace)
  };
 
  const handleReservationClick = (e, reservation) => {

@@ -27,6 +27,7 @@ import styles from './AddEvent.module.scss'
 const reservationPersonOptions = [
     {
       label: "Lecturers",
+      
     },
     {
       label: "Instructors",
