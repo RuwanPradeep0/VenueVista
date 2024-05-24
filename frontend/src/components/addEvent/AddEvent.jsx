@@ -32,6 +32,9 @@ const reservationPersonOptions = [
     {
       label: "Instructors",
     },
+    {
+      label: "Other",
+    }
   ];
 
   const BatchOptions = [
@@ -79,6 +82,8 @@ const AddEvent = ({
     const [title, setTitle] = useState("");
     const [responsibleId, setResponsibleId] = useState(0); //need to change to userId
     const [isTimeInvalid, setIsTimeInvalid] = useState(false);
+    const [responsibleName, setResponsibleName] = useState(''); 
+    const [batchOptions , setBatchOptions] = useState('')
 
     // useEffect(() => {
     //     getResponsible();
@@ -346,8 +351,8 @@ const AddEvent = ({
 
          
          {/* setResponsibleId={setResponsibleId} was here as a prop */}
-         <ResponsibleSelect setResponsibleId={setResponsibleId} /> 
-         <BatchSelect/>
+         <ResponsibleSelect setResponsibleName={setResponsibleName} /> 
+         <BatchSelect setBatchOptions = {setBatchOptions}/>
          {isClash ? (
           <button
             type="submit"
@@ -412,13 +417,13 @@ const AddEvent = ({
 export default AddEvent
 
 
-const ResponsibleSelect = ({ setResponsibleId }) => (
+const ResponsibleSelect = ({ setResponsibleName }) => (
   
     <Select
       placeholder="Select a reponsible person"
       options={reservationPersonOptions} //groupedoptions
-      onChange={(choice) => {setResponsibleId(choice.value)
-        console.log(choice.value)
+      onChange={(choice) => {setResponsibleName(choice.label) 
+        console.log("Reponible: "+choice.label)
         }
       }
       classNames={{
@@ -442,13 +447,13 @@ const ResponsibleSelect = ({ setResponsibleId }) => (
   );
 
 
-  const BatchSelect = ({ setResponsibleId }) => (
+  const BatchSelect = ({ setBatchOptions }) => (
     <Select
       placeholder="Select the batch"
       options={BatchOptions}
-      // onChange={(choice) => {setResponsibleId(choice.value)
-      //   console.log(setResponsibleId)}
-      // }
+      onChange={(choice) => {setBatchOptions(choice.label)
+        console.log("selected btch: " +choice.label)}
+      }
       classNames={{
         container: () => styles.selectContainer,
         control: (state) =>
@@ -467,5 +472,5 @@ const ResponsibleSelect = ({ setResponsibleId }) => (
         valueContainer: (state) => styles.selectValueContainer,
       }}
     />
-  );
-  
+  )
+   
