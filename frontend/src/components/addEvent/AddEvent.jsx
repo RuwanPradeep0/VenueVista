@@ -75,15 +75,33 @@ const AddEvent = ({
 
     const [startTime, setStartTime] = useState(getTimeString(startTimeProp));
     const [endTime, setEndTime] = useState(getTimeString(endTimeProp));
-    const [responsible, setResponsible] = useState([]);
+    // const [responsible, setResponsible] = useState([]);
     const [isClash, setClash] = useState(false);
     const [user, setUser] = useState("");
-    const [valid, setValid] = useState(false);
+    // const [valid, setValid] = useState(false);
     const [title, setTitle] = useState("");
     const [responsibleId, setResponsibleId] = useState(0); //need to change to userId
     const [isTimeInvalid, setIsTimeInvalid] = useState(false);
     const [responsibleName, setResponsibleName] = useState(''); 
     const [batchOptions , setBatchOptions] = useState('')
+    
+   
+    
+
+    const getUserId = () => {
+      const userString = localStorage.getItem('user');
+      const user = userString ? JSON.parse(userString) : null;
+    
+      if (user) {
+        return user.id;
+      }
+    
+      return null;
+    };
+
+    const userId = getUserId(); 
+
+   
 
     // useEffect(() => {
     //     getResponsible();
@@ -101,7 +119,7 @@ const AddEvent = ({
       }, [startTimeProp, endTimeProp]);
     
       useEffect(() => {
-        checkUser(setUser, setValid, () => {});
+        // checkUser(setUser, setValid, () => {});
         setShowFeedbackSuccess(false);
         setShowFeedbackWaiting(false);
         setShowFeedbackError(false);
@@ -109,25 +127,25 @@ const AddEvent = ({
       }, [startTimeProp, endTimeProp, spaceId, date]);
 
 //creating a proper object 
-      function mapResponsible() {
-        reservationPersonOptions[0].options = responsible
-          .filter((res) => res.type.toLowerCase() !== "instructor")
-          .map((res) => {
-            const val = {};
-            val.value = res.id;
-            val.label = res.type + " " + res.fullName;
-            return val;
-          });
+      // function mapResponsible() {
+      //   reservationPersonOptions[0].options = responsible
+      //     .filter((res) => res.type.toLowerCase() !== "instructor")
+      //     .map((res) => {
+      //       const val = {};
+      //       val.value = res.id;
+      //       val.label = res.type + " " + res.fullName;
+      //       return val;
+      //     });
           
-          reservationPersonOptions[1].options = responsible
-          .filter((res) => res.type.toLowerCase() === "instructor")
-          .map((res) => {
-            const val = {};
-            val.value = res.id;
-            val.label = res.fullName;
-            return val;
-          });
-      }
+      //     reservationPersonOptions[1].options = responsible
+      //     .filter((res) => res.type.toLowerCase() === "instructor")
+      //     .map((res) => {
+      //       const val = {};
+      //       val.value = res.id;
+      //       val.label = res.fullName;
+      //       return val;
+      //     });
+      // }
 
       // async function getResponsible() {
       //   await getAllResponsible(setResponsible);
@@ -203,6 +221,8 @@ const AddEvent = ({
 
         const handleSubmit = async (e) => {
             e.preventDefault();
+            console.log('userId' + userId)
+
         
         
             await getAuthenticate(
@@ -214,7 +234,7 @@ const AddEvent = ({
               spaceId,
               Date.now(),
               getDateInYearFormat(date),
-              user.id,
+              userId,
               // responsibleId,
               -1
             )
@@ -251,15 +271,15 @@ const AddEvent = ({
   const handleWaiting = async (e) => {
     e.preventDefault();
 
-    await getAuthenticate(
-      createWaiting,
+    await createWaiting(
+   
       title,
       setTimeFormat(startTime),
       setTimeFormat(endTime),
       spaceId,
       Date.now(),
       getDateInYearFormat(date),
-      user.id,
+      userId,
       // responsibleId,
       -1
     )
