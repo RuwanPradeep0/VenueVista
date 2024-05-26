@@ -1,31 +1,31 @@
 import axios from 'axios';
 
-const endPointReservation = "http://localhost:8080/api/v1/reservation";
+const endPointReservation = "http://localhost:8080/api/v1/reservation/createreservations";
 //Ruwan : need to implement
 
-const createReservation = async(token, arrgs) =>{
+const createReservation = async(arrgs) =>{
 
-    console.log(arrgs )
+    console.log('calling' )
 
     await axios
     .post(
-      endPointReservation,
+      endPointReservation +'/createreservations',
       {
-        spaceID: arrgs[3],
         title: arrgs[0],
-        reservationDateTime: arrgs[4],
         startTime: arrgs[1],
         endTime: arrgs[2],
+        spaceID: arrgs[3],
+        reservationDateTime: arrgs[4],
         date: arrgs[5],
         reservedBy: arrgs[6],
         responsiblePerson: arrgs[7],
-        waitingId: arrgs[8],
+        batch: arrgs[8],                                                                                                                                                               
       },
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
+    //   {
+    //     headers: {
+    //       Authorization: `Bearer ${token}`,
+    //     },
+    //   }
     )
     .then((res) => {
       console.log(res);

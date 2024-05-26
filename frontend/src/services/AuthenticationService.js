@@ -50,22 +50,22 @@ const login = async (email, password) => {
 };
 
 //getAutenticate
-const getAuthenticate = async (result, ...args) => {
-  const token = localStorage.getItem("token");
-  await axios
-    .post(`${endPointAuth}/authenticate`, {}, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    })
-    .then((response) => {
-      return result(response.data.access_token, ...args).catch((error) => {
-        throw error;
-      });
-    })
-    .catch((error) => {
-      console.error("Error authenticating:", error);
-    });
-};
+// const getAuthenticate = async (result, ...args) => {
+//   const token = localStorage.getItem("token");
+//   await axios
+//     .post(`${endPointAuth}/authenticate`, {}, {
+//       headers: {
+//         Authorization: `Bearer ${token}`,
+//       },
+//     })
+//     .then((response) => {
+//       return result(response.data.access_token, ...args).catch((error) => {
+//         throw error;
+//       });
+//     })
+//     .catch((error) => {
+//       console.error("Error authenticating:", error);
+//     });
+// };
 
-export { registerLecturer, login ,getAuthenticate};
+export { registerLecturer, login };

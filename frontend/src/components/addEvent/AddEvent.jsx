@@ -19,7 +19,7 @@ import { useEffect, useState } from "react";
 import {getAllResponsible} from '../../services/ResponsibleService'
 import {createReservation} from '../../services/ReservationService'
 import {createWaiting} from '../../services/WaitingService'
-import {getAuthenticate} from '../../services/AuthenticationService'
+// import {getAuthenticate} from '../../services/AuthenticationService'
 
 import styles from './AddEvent.module.scss'
 
@@ -84,6 +84,15 @@ const AddEvent = ({
     const [isTimeInvalid, setIsTimeInvalid] = useState(false);
     const [responsibleName, setResponsibleName] = useState(''); 
     const [batchOptions , setBatchOptions] = useState('')
+
+    // const [formData, setFormData] = useState({
+    //   title: '',
+    //   startTime: getTimeString(startTimeProp),
+    //   endTime: getTimeString(endTimeProp),
+    //   spaceId,
+    //   date: getDateInYearFormat(date),
+    //   userId: getUserId(),
+    // });
     
    
     
@@ -223,20 +232,19 @@ const AddEvent = ({
             e.preventDefault();
             console.log('userId' + userId)
 
-        
-        
-            await getAuthenticate(
+            await createReservation(
                 
-              createReservation,
               title,
               setTimeFormat(startTime),
               setTimeFormat(endTime),
               spaceId,
-              Date.now(),
               getDateInYearFormat(date),
+              Date.now(),
               userId,
+              responsibleName,
+              batchOptions
               // responsibleId,
-              -1
+              // -1
             )
               .then((res) => {
                 // if reservation sucess
@@ -280,8 +288,10 @@ const AddEvent = ({
       Date.now(),
       getDateInYearFormat(date),
       userId,
+      responsibleName,
+      batchOptions
       // responsibleId,
-      -1
+      // -1
     )
       .then((res) => {
         // if waiting success
