@@ -85,17 +85,6 @@ const AddEvent = ({
     const [responsibleName, setResponsibleName] = useState(''); 
     const [batchOptions , setBatchOptions] = useState('')
 
-    // const [formData, setFormData] = useState({
-    //   title: '',
-    //   startTime: getTimeString(startTimeProp),
-    //   endTime: getTimeString(endTimeProp),
-    //   spaceId,
-    //   date: getDateInYearFormat(date),
-    //   userId: getUserId(),
-    // });
-    
-   
-    
 
     const getUserId = () => {
       const userString = localStorage.getItem('user');
@@ -232,40 +221,38 @@ const AddEvent = ({
             e.preventDefault();
             console.log('userId' + userId)
 
-            await createReservation(
-                
-              title,
-              setTimeFormat(startTime),
-              setTimeFormat(endTime),
-              spaceId,
-              getDateInYearFormat(date),
-              Date.now(),
-              userId,
-              responsibleName,
-              batchOptions
-              // responsibleId,
-              // -1
-            )
-              .then((res) => {
-                // if reservation sucess
-                setShowFeedbackSuccess(true);
-                updateReservations();
-              })
-              .catch((error) => {
-                // if reserved
-                if (error.message === "reserved") {
+            try {
+              const res = await createReservation(
+                  title,
+                  setTimeFormat(startTime),
+                  setTimeFormat(endTime),
+                  spaceId,
+                  getDateInYearFormat(date),
+                  Date.now(),
+                  userId,
+                  responsibleName,
+                  batchOptions
+                  // responsibleId,
+                  // -1
+              );
+      
+              // Handle successful reservation
+              setShowFeedbackSuccess(true);
+              updateReservations();
+          } catch (error) {
+              // Handle errors
+              if (error.message === "reserved") {
                   console.log("reserved");
                   setShowFeedbackError(true);
-                } else if (error.message === "email") {
+              } else if (error.message === "email") {
                   setShowFeedbackSuccess(true);
                   updateReservations();
                   console.log(error);
-                } else {
+              } else {
                   console.log(error);
-                  // other error
                   setShowFeedbackError(true);
-                }
-              });
+              }
+          }
 
                   //reset after timeout
     setTimeout(() => {
