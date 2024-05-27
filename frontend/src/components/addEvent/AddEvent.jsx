@@ -83,7 +83,7 @@ const AddEvent = ({
     const [responsibleId, setResponsibleId] = useState(0); //need to change to userId
     const [isTimeInvalid, setIsTimeInvalid] = useState(false);
     const [responsibleName, setResponsibleName] = useState(''); 
-    const [batchOptions , setBatchOptions] = useState('')
+    const [batchOption , setBatchOption] = useState('')
 
 
     const getUserId = () => {
@@ -124,30 +124,6 @@ const AddEvent = ({
         setIsTimeInvalid(false);
       }, [startTimeProp, endTimeProp, spaceId, date]);
 
-//creating a proper object 
-      // function mapResponsible() {
-      //   reservationPersonOptions[0].options = responsible
-      //     .filter((res) => res.type.toLowerCase() !== "instructor")
-      //     .map((res) => {
-      //       const val = {};
-      //       val.value = res.id;
-      //       val.label = res.type + " " + res.fullName;
-      //       return val;
-      //     });
-          
-      //     reservationPersonOptions[1].options = responsible
-      //     .filter((res) => res.type.toLowerCase() === "instructor")
-      //     .map((res) => {
-      //       const val = {};
-      //       val.value = res.id;
-      //       val.label = res.fullName;
-      //       return val;
-      //     });
-      // }
-
-      // async function getResponsible() {
-      //   await getAllResponsible(setResponsible);
-      // }
 
       const handleStartTimeChange = (event) => {
         setStartTime(event.target.value);
@@ -219,7 +195,8 @@ const AddEvent = ({
 
         const handleSubmit = async (e) => {
             e.preventDefault();
-            console.log('userId' + userId)
+            console.log("submitting")
+            console.log('batch : ' + batchOption)
 
             try {
               const res = await createReservation(
@@ -231,7 +208,7 @@ const AddEvent = ({
                   Date.now(),
                   userId,
                   responsibleName,
-                  batchOptions
+                  batchOption
                   // responsibleId,
                   // -1
               );
@@ -276,7 +253,7 @@ const AddEvent = ({
       getDateInYearFormat(date),
       userId,
       responsibleName,
-      batchOptions
+      batchOption
       // responsibleId,
       // -1
     )
@@ -308,13 +285,14 @@ const AddEvent = ({
 
   useEffect(() => {
     setIsDisable(
-      // !responsibleId ||
+        !responsibleName ||
+        !batchOption ||
         title === "" ||
         !mapTimeStringToInteger(startTime) ||
         !mapTimeStringToInteger(endTime) ||
         mapTimeStringToInteger(startTime) > mapTimeStringToInteger(endTime)
     );
-  }, [ responsibleId,title, startTime, endTime]); //responsibleId was added to dependancy array
+  }, [ responsibleName,batchOption,title, startTime, endTime]); //responsibleId was added to dependancy array
 
         
 
@@ -369,7 +347,7 @@ const AddEvent = ({
          
          {/* setResponsibleId={setResponsibleId} was here as a prop */}
          <ResponsibleSelect setResponsibleName={setResponsibleName} /> 
-         <BatchSelect setBatchOptions = {setBatchOptions}/>
+         <BatchSelect setBatchOption = {setBatchOption}/>
          {isClash ? (
           <button
             type="submit"
@@ -464,13 +442,14 @@ const ResponsibleSelect = ({ setResponsibleName }) => (
   );
 
 
-  const BatchSelect = ({ setBatchOptions }) => (
+  const BatchSelect = ({ setBatchOption }) => (
     <Select
       placeholder="Select the batch"
       options={BatchOptions}
-      onChange={(choice) => {setBatchOptions(choice.label)
-        console.log("selected btch: " +choice.label)}
-      }
+      onChange={(choice) => {
+        setBatchOption(choice.label);
+        console.log("selected batch: " + choice.label);
+      }}
       classNames={{
         container: () => styles.selectContainer,
         control: (state) =>
@@ -489,5 +468,5 @@ const ResponsibleSelect = ({ setResponsibleName }) => (
         valueContainer: (state) => styles.selectValueContainer,
       }}
     />
-  )
-   
+  );
+  

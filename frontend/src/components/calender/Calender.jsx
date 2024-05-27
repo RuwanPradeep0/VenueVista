@@ -7,7 +7,7 @@ import ReservationInfo from "../reservationInfo/ReservationInfo";
 import styles from './Calender.module.scss'
 
 
-const Calender = ({selectSpace,spaceReservations,selectedDays,selectSpaceName,startTime,endTime,updateReservations,}) => {
+const Calender = ({selectSpace,spaceReservations,selectedDays,selectSpaceName,startTime,endTime,updateReservations,isUserLoggedIn}) => {
   
  //calculate the upcoming dates and pass it into the Day component
  const [firstDate, setFirstDate] = useState(new Date());
@@ -170,6 +170,7 @@ const Calender = ({selectSpace,spaceReservations,selectedDays,selectSpaceName,st
 
             startTime={startTime}
             handleSlotClick={handleSlotClick}
+            isUserLoggedIn={isUserLoggedIn} 
             handleReservationClick={handleReservationClick}
           />
         ))}
@@ -218,6 +219,7 @@ const Day = ({
     isToday,
     handleSlotClick,
     handleReservationClick,
+    isUserLoggedIn
   }) => {
     /*
       A Day column in the calendar
@@ -262,6 +264,7 @@ const Day = ({
             handleSlotClick={handleSlotClick}
             hour={hour}
             date={dateObj}
+            isUserLoggedIn={isUserLoggedIn} 
             handleResevationClick={handleReservationClick}
           />
         ))}
@@ -275,6 +278,8 @@ const Day = ({
     handleResevationClick,
     hour,
     date,
+    isUserLoggedIn
+    
   }) => {
 
     
@@ -283,7 +288,7 @@ const Day = ({
   
       <div
         className={styles.slot}
-        onClick={(e) => handleSlotClick(e, hour, date)}
+        onClick={(e) => isUserLoggedIn && handleSlotClick(e, hour, date)}
         id="slot"
       >
         {slotReservations.map((reservation) => {

@@ -21,6 +21,10 @@ const SheduleManager = ({
   const [spaceReservations, setSpaceReservations] = useState([]);
   const [allSpaces, setAllSpaces] = useState([]);
   const [filteredSpaces, setFilteredSpaces] = useState([]);
+  const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
+
+
+
 
   async function getSpaces() {
     await getAllSpaces(setAllSpaces);
@@ -29,6 +33,12 @@ const SheduleManager = ({
   async function getReservations() {
     await getAllReservation(setReservations);
   }
+
+    // Get the user from localStorage on component mount
+    useEffect(() => {
+      const user = localStorage.getItem('user');
+      setIsUserLoggedIn(!!user); // Set isUserLoggedIn to true if user exists, false otherwise
+    }, []);
 
   useEffect(() => {
     if (reservations.length !== 0) {
@@ -143,6 +153,7 @@ const SheduleManager = ({
           startTime={startTime}
           endTime={endTime}
           updateReservations={getReservations}
+          isUserLoggedIn={isUserLoggedIn}
         />
       </div>
 
