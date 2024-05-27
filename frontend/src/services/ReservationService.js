@@ -3,9 +3,16 @@ import axios from 'axios';
 const endPointReservation = "http://localhost:8080/api/v1/reservation/createreservations";
 //Ruwan : need to implement
 
-const createReservation = async(arrgs) =>{
+const createReservation = async(...arrgs) =>{
 
     console.log('calling' )
+    console.log(arrgs)
+    console.log(arrgs[0])
+    console.log(arrgs[1])
+    console.log(arrgs[2])
+    console.log(arrgs[3])
+
+
 
     await axios
     .post(

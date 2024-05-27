@@ -124,6 +124,13 @@ const AddEvent = ({
         setIsTimeInvalid(false);
       }, [startTimeProp, endTimeProp, spaceId, date]);
 
+      useEffect(() => {
+        setTitle('');
+        setResponsibleName('');
+        setBatchOption('');
+      }, [spaceId, startTime, endTime, spaceReservations]);
+    
+
 
       const handleStartTimeChange = (event) => {
         setStartTime(event.target.value);
@@ -198,6 +205,11 @@ const AddEvent = ({
             console.log("submitting")
             console.log('batch : ' + batchOption)
 
+            console.log('title : ' + title)
+            console.log('space : ' + spaceId)
+            console.log('batch : ' + batchOption)
+            console.log('responsible : ' + responsibleName)
+
             try {
               const res = await createReservation(
                   title,
@@ -242,6 +254,8 @@ const AddEvent = ({
   const [showFeedbackWaiting, setShowFeedbackWaiting] = useState(false);
   const handleWaiting = async (e) => {
     e.preventDefault();
+   
+
 
     await createWaiting(
    

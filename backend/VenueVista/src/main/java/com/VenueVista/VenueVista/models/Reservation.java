@@ -41,6 +41,8 @@ public class Reservation {
     @Column(nullable = false)
     private LocalDateTime endDateTime;
 
+    private String date;
+
     @Column(nullable = false)
     private String batch;
 }
