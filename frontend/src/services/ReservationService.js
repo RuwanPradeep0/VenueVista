@@ -13,7 +13,6 @@ const createReservation = async(...arrgs) =>{
     console.log(arrgs[3])
 
 
-
     await axios
     .post(
       endPointReservation +'/createreservations',
@@ -26,7 +25,8 @@ const createReservation = async(...arrgs) =>{
         date: arrgs[5],
         reservedBy: arrgs[6],
         responsiblePerson: arrgs[7],
-        batch: arrgs[8],                                                                                                                                                               
+        batch: arrgs[8],
+        waitingId: arrgs[9]                                                                                                                                                               
       },
     //   {
     //     headers: {

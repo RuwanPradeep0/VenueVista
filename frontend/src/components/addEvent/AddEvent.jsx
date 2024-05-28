@@ -220,7 +220,8 @@ const AddEvent = ({
                   Date.now(),
                   userId,
                   responsibleName,
-                  batchOption
+                  batchOption,
+                  -1
                   // responsibleId,
                   // -1
               );

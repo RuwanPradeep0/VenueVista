@@ -34,8 +34,8 @@ public class User implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-//    @OneToMany(mappedBy = "responsiblePerson", cascade = CascadeType.ALL)
-//    private List<Reservation> reservations;
+    @OneToMany(mappedBy = "reservedby", cascade = CascadeType.ALL)
+    private List<Reservation> reservations;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -68,7 +68,7 @@ public class User implements UserDetails {
         return true;
     }
 
-    public String getResponsibleName(){
+    public String getFullName(){
         return firstName + " " + lastName;
     }
 }

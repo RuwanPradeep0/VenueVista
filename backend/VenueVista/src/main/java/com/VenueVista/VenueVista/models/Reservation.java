@@ -27,19 +27,19 @@ public class Reservation {
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
-    private User responsiblePerson;
+    private User reservedById;
 
     @Column(nullable = false)
     private String title;
 
     @Column(nullable = false)
-    private LocalDateTime reservationDateTime;
+    private LocalDateTime reservationDate;
 
     @Column(nullable = false)
-    private LocalDateTime startDateTime;
+    private LocalDateTime startTime;
 
     @Column(nullable = false)
-    private LocalDateTime endDateTime;
+    private LocalDateTime endTime;
 
     private String date;
 
