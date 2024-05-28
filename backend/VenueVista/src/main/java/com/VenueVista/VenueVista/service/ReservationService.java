@@ -32,13 +32,13 @@ public class ReservationService {
         User user = (User) userRepository.getUserById(reservation.getReservedById().getId()).orElseThrow(() -> new InvalidDataException("invalid user"));
 
 
-        if (reservationRepository.getReservationsByDetails(reservation.getSpace().getId(), reservation.getStartTime(),
+        if (reservationRepository.findBySpaceIdAndStartTimeAndEndTimeAndDate(reservation.getSpace().getId(), reservation.getStartTime(),
                 reservation.getEndTime() , reservation.getDate()) != null) {
             throw new AllReadyReservedException("Reserved");
         }
 
 
-        Reservation savedReservation = reservationRepository.createReservation(reservation);
+        Reservation savedReservation = reservationRepository.save(reservation);
         ReservationResponse reservationResponse = mapToReservationResponse(savedReservation);
         return reservationResponse;
     }
