@@ -10,8 +10,9 @@ const AppRouter = () => {
         <Route path ='/' element ={<Home/>}/>
         <Route path='/signin' element={<Auth/>}/>
         <Route path='/spaces' element={<AddSpace/>}/>
+
     </Routes>
-  )
+  )       
 }
 
 export default AppRouter

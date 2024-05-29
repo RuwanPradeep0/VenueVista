@@ -8,6 +8,7 @@ import { useRef, useState, useEffect } from "react";
 import styles from '../styles/Home.module.scss'
 import TimeSelector from '../components/timeSelector/TimeSelector';
 import SheduleManager from '../components/sheduleManager/SheduleManager';
+import InfiniteTypewriter   from 'react-zider-ui'
 
 const facilitiesOptions = [
   "AC",
@@ -152,7 +153,9 @@ const Home = () => {
         capacity={capacity}
         selectedFacilities={selectedFacilities}
       />
-      
+
+
+
     
     </div>
   )

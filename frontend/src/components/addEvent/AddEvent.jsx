@@ -11,6 +11,7 @@ import {
     mapTimeStringToInteger,
     checkUser,
     getDateInYearFormat,
+   
   } from '../../utills'
 
 import Select from "react-select";
@@ -19,19 +20,48 @@ import { useEffect, useState } from "react";
 import {getAllResponsible} from '../../services/ResponsibleService'
 import {createReservation} from '../../services/ReservationService'
 import {createWaiting} from '../../services/WaitingService'
-import {getAuthenticate} from '../../services/AuthenticationService'
+// import {getAuthenticate} from '../../services/AuthenticationService'
 
 import styles from './AddEvent.module.scss'
 
 
-const groupedOptions = [
+const reservationPersonOptions = [
     {
       label: "Lecturers",
+      
     },
     {
       label: "Instructors",
     },
+    {
+      label: "Other",
+    }
   ];
+
+  const BatchOptions = [
+    {
+      label: "E19",
+    },
+    {
+      label: "E20",
+    },
+    {
+      label: "E21",
+    },
+    {
+      label: "E22",
+    },
+    {
+      label: "E23",
+    },
+    {
+      label: "E24",
+    },
+    {
+      label: "other",
+    }
+  ];
+
 
 
 const AddEvent = ({
@@ -46,22 +76,40 @@ const AddEvent = ({
 
     const [startTime, setStartTime] = useState(getTimeString(startTimeProp));
     const [endTime, setEndTime] = useState(getTimeString(endTimeProp));
-    const [responsible, setResponsible] = useState([]);
+    // const [responsible, setResponsible] = useState([]);
     const [isClash, setClash] = useState(false);
     const [user, setUser] = useState("");
-    const [valid, setValid] = useState(false);
+    // const [valid, setValid] = useState(false);
     const [title, setTitle] = useState("");
-    const [responsibleId, setResponsibleId] = useState(0);
+    const [responsibleId, setResponsibleId] = useState(0); //need to change to userId
     const [isTimeInvalid, setIsTimeInvalid] = useState(false);
+    const [responsibleName, setResponsibleName] = useState(''); 
+    const [batchOption , setBatchOption] = useState('')
+
+
+    const getUserId = () => {
+      const userString = localStorage.getItem('user');
+      const user = userString ? JSON.parse(userString) : null;
+    
+      if (user) {
+        return user.id;
+      }
+    
+      return null;
+    };
+
+    const userId = getUserId(); 
+
+   
 
     useEffect(() => {
-        getResponsible();
+        console.log(date)
       }, []);
 
     
-      useEffect(() => {
-        if (responsible.length !== 0) mapResponsible();
-      }, [responsible]);
+      // useEffect(() => {
+      //   if (responsible.length !== 0) mapResponsible();
+      // }, [responsible]);
 
 
       useEffect(() => {
@@ -70,37 +118,20 @@ const AddEvent = ({
       }, [startTimeProp, endTimeProp]);
     
       useEffect(() => {
-        checkUser(setUser, setValid, () => {});
+        // checkUser(setUser, setValid, () => {});
         setShowFeedbackSuccess(false);
         setShowFeedbackWaiting(false);
         setShowFeedbackError(false);
         setIsTimeInvalid(false);
       }, [startTimeProp, endTimeProp, spaceId, date]);
 
-//creating a proper object 
-      function mapResponsible() {
-        groupedOptions[0].options = responsible
-          .filter((res) => res.type.toLowerCase() !== "instructor")
-          .map((res) => {
-            const val = {};
-            val.value = res.id;
-            val.label = res.type + " " + res.fullName;
-            return val;
-          });
-          
-        groupedOptions[1].options = responsible
-          .filter((res) => res.type.toLowerCase() === "instructor")
-          .map((res) => {
-            const val = {};
-            val.value = res.id;
-            val.label = res.fullName;
-            return val;
-          });
-      }
+      useEffect(() => {
+        setTitle('');
+        setResponsibleName('');
+        setBatchOption('');
+      }, [spaceId, startTime, endTime, spaceReservations]);
+    
 
-      async function getResponsible() {
-        await getAllResponsible(setResponsible);
-      }
 
       const handleStartTimeChange = (event) => {
         setStartTime(event.target.value);
@@ -172,41 +203,48 @@ const AddEvent = ({
 
         const handleSubmit = async (e) => {
             e.preventDefault();
-        
-        
-            await getAuthenticate(
-                
-              createReservation,
-              title,
-              setTimeFormat(startTime),
-              setTimeFormat(endTime),
-              spaceId,
-              Date.now(),
-              getDateInYearFormat(date),
-              user.id,
-              responsibleId,
-              -1
-            )
-              .then((res) => {
-                // if reservation sucess
-                setShowFeedbackSuccess(true);
-                updateReservations();
-              })
-              .catch((error) => {
-                // if reserved
-                if (error.message === "reserved") {
+            console.log("submitting")
+            console.log('batch : ' + batchOption)
+
+            console.log('title : ' + title)
+            console.log('space : ' + spaceId)
+            console.log('batch : ' + batchOption)
+            console.log('responsible : ' + responsibleName)
+            console.log("date :" + date)
+
+            try {
+              const res = await createReservation(
+                  title,
+                  setTimeFormat(startTime),
+                  setTimeFormat(endTime),
+                  spaceId,
+                  getDateInYearFormat(date),
+                  getDateInYearFormat(new Date(Date.now())),
+                  userId,
+                  responsibleName,
+                  batchOption,
+                  -1
+                  // responsibleId,
+                  // -1
+              );
+      
+              // Handle successful reservation
+              setShowFeedbackSuccess(true);
+              updateReservations();
+          } catch (error) {
+              // Handle errors
+              if (error.message === "reserved") {
                   console.log("reserved");
                   setShowFeedbackError(true);
-                } else if (error.message === "email") {
+              } else if (error.message === "email") {
                   setShowFeedbackSuccess(true);
                   updateReservations();
                   console.log(error);
-                } else {
+              } else {
                   console.log(error);
-                  // other error
                   setShowFeedbackError(true);
-                }
-              });
+              }
+          }
 
                   //reset after timeout
     setTimeout(() => {
@@ -219,18 +257,22 @@ const AddEvent = ({
   const [showFeedbackWaiting, setShowFeedbackWaiting] = useState(false);
   const handleWaiting = async (e) => {
     e.preventDefault();
+   
 
-    await getAuthenticate(
-      createWaiting,
+
+    await createWaiting(
+   
       title,
       setTimeFormat(startTime),
       setTimeFormat(endTime),
       spaceId,
       Date.now(),
       getDateInYearFormat(date),
-      user.id,
-      responsibleId,
-      -1
+      userId,
+      responsibleName,
+      batchOption
+      // responsibleId,
+      // -1
     )
       .then((res) => {
         // if waiting success
@@ -260,13 +302,14 @@ const AddEvent = ({
 
   useEffect(() => {
     setIsDisable(
-      // !responsibleId ||
+        !responsibleName ||
+        !batchOption ||
         title === "" ||
         !mapTimeStringToInteger(startTime) ||
         !mapTimeStringToInteger(endTime) ||
         mapTimeStringToInteger(startTime) > mapTimeStringToInteger(endTime)
     );
-  }, [responsibleId, title, startTime, endTime]);
+  }, [ responsibleName,batchOption,title, startTime, endTime]); //responsibleId was added to dependancy array
 
         
 
@@ -318,7 +361,10 @@ const AddEvent = ({
          </div>
          <p className={styles.pResPerson}>Responsible Person</p>
 
-         <ResponsibleSelect setResponsibleId={setResponsibleId} />
+         
+         {/* setResponsibleId={setResponsibleId} was here as a prop */}
+         <ResponsibleSelect setResponsibleName={setResponsibleName} /> 
+         <BatchSelect setBatchOption = {setBatchOption}/>
          {isClash ? (
           <button
             type="submit"
@@ -383,11 +429,44 @@ const AddEvent = ({
 export default AddEvent
 
 
-const ResponsibleSelect = ({ setResponsibleId }) => (
+const ResponsibleSelect = ({ setResponsibleName }) => (
+  
     <Select
       placeholder="Select a reponsible person"
-      options={groupedOptions}
-      onChange={(choice) => setResponsibleId(choice.value)}
+      options={reservationPersonOptions} //groupedoptions
+      onChange={(choice) => {setResponsibleName(choice.label) 
+        console.log("Reponible: "+choice.label)
+        }
+      }
+      classNames={{
+        container: () => styles.selectContainer,
+        control: (state) =>
+          classNames(
+            styles.selectControl,
+            state.isFocused && styles.selectControlFocused
+          ),
+        option: (state) => classNames(styles.selectOption),
+        placeholder: (state) => classNames(styles.selectPlaceholder),
+        input: (state) =>
+          classNames(
+            styles.selectInput,
+            state.isFocused && styles.selectInputFocused
+          ),
+        menu: (state) => classNames(styles.selectMenu),
+        valueContainer: (state) => styles.selectValueContainer,
+      }}
+    />
+  );
+
+
+  const BatchSelect = ({ setBatchOption }) => (
+    <Select
+      placeholder="Select the batch"
+      options={BatchOptions}
+      onChange={(choice) => {
+        setBatchOption(choice.label);
+        console.log("selected batch: " + choice.label);
+      }}
       classNames={{
         container: () => styles.selectContainer,
         control: (state) =>

@@ -13,6 +13,7 @@ const isValidEmail = (email) => {
 
 //Register a lecturer
 const registerLecturer = async (formData) => {
+ 
   try {
     if (!isValidEmail(formData.email)) {
       throw new Error('Invalid email format');
@@ -23,6 +24,7 @@ const registerLecturer = async (formData) => {
     console.log(user)
     return true;
   } catch (error) {
+    console.log(error)
     throw new Error(error.response?.data?.message || error.message);
   }
 };
@@ -32,15 +34,38 @@ const registerLecturer = async (formData) => {
 const login = async (email, password) => {
   try {
     const { data } = await axios.post(endPointAuth +'/authenticate', { email, password });
-    return data.token;
-  } catch (error) {
-    throw new Error(error.response?.data?.message || 'Error logging in');
+    return data;
+  }  catch (error) {
+    if (error.response) {
+     
+      throw new Error(error.response.data.message || 'Failed to login to system: Server error');
+    } else if (error.request) {
+     
+      throw new Error('No response received from the server');
+    } else {
+      // Something happened in setting up the request that triggered an Error
+      throw new Error('Request failed to be sent');
+    }
   }
 };
 
+//getAutenticate
+// const getAuthenticate = async (result, ...args) => {
+//   const token = localStorage.getItem("token");
+//   await axios
+//     .post(`${endPointAuth}/authenticate`, {}, {
+//       headers: {
+//         Authorization: `Bearer ${token}`,
+//       },
+//     })
+//     .then((response) => {
+//       return result(response.data.access_token, ...args).catch((error) => {
+//         throw error;
+//       });
+//     })
+//     .catch((error) => {
+//       console.error("Error authenticating:", error);
+//     });
+// };
 
-const getAuthenticate = async() => {
-
-}
-
-export { registerLecturer, login ,getAuthenticate};
+export { registerLecturer, login };

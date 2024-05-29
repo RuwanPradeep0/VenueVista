@@ -7,7 +7,7 @@ import ReservationInfo from "../reservationInfo/ReservationInfo";
 import styles from './Calender.module.scss'
 
 
-const Calender = ({selectSpace,spaceReservations,selectedDays,selectSpaceName,startTime,endTime,updateReservations,}) => {
+const Calender = ({selectSpace,spaceReservations,selectedDays,selectSpaceName,startTime,endTime,updateReservations,isUserLoggedIn}) => {
   
  //calculate the upcoming dates and pass it into the Day component
  const [firstDate, setFirstDate] = useState(new Date());
@@ -52,7 +52,7 @@ const Calender = ({selectSpace,spaceReservations,selectedDays,selectSpaceName,st
    else newDate.setDate(newDate.getDate() + 7);
 
    //only allow clicking until +30 days from today
-   if (Math.round((newDate - new Date()) / 86400000) < 30)
+   if (Math.round((newDate - new Date()) / 86400000) < 100)
      setFirstDate(newDate);
  };
 
@@ -76,6 +76,13 @@ const Calender = ({selectSpace,spaceReservations,selectedDays,selectSpaceName,st
    (_, index) => index + startTime
  );
 
+
+//  difeerent time coloumn for mapping
+ const hourIntervalForTimeColoumn = Array.from(
+  { length: endTime - startTime+1 },
+  (_, index) => index + startTime
+);
+
  //configuring the modals
  const portalEl = document.getElementById("portal");
  const [isModalOpen, setIsModalOpen] = useState(false);
@@ -83,12 +90,14 @@ const Calender = ({selectSpace,spaceReservations,selectedDays,selectSpaceName,st
    left: 500,
    top: 200,
  });
+ 
  const modalRef = useRef();
  const [addEventStartTime, setAddEventStartTime] = useState(0);
  const [addEventEndTime, setAddEventEndTime] = useState(0);
  const [clickedDate, setClickedDate] = useState(null);
  const [isAddEventOrRes, setIsAddEventOrRes] = useState(true); //true if clicked on an slot, false is clicked on a reservation
  const [clickedReservation, setClickedReservation] = useState(null);
+
  //listen to a click event and close modal if an outside element is clicked.
  useEffect(() => {
    let handler = (e) => {
@@ -106,15 +115,17 @@ const Calender = ({selectSpace,spaceReservations,selectedDays,selectSpaceName,st
      document.removeEventListener("mousedown", handler);
    };
  });
+ 
  const handleSlotClick = (e, hour, date) => {
    if (e.currentTarget !== e.target) return;
 
    setIsModalOpen(true);
    setCoords(e.currentTarget.getBoundingClientRect());
    setAddEventStartTime(hour * 100);
-   setAddEventEndTime(hour * 100 + 40);
+   setAddEventEndTime((hour+1 )* 100);
    setIsAddEventOrRes(true);
    setClickedDate(date);
+   console.log("soaceId : " +selectSpace)
  };
 
  const handleReservationClick = (e, reservation) => {
@@ -159,11 +170,14 @@ const Calender = ({selectSpace,spaceReservations,selectedDays,selectSpaceName,st
 
             startTime={startTime}
             handleSlotClick={handleSlotClick}
+            isUserLoggedIn={isUserLoggedIn} 
             handleReservationClick={handleReservationClick}
           />
         ))}
 
-        <TimeColumn hours={hourIntervals} />
+        {/* difeerent hourInterval coloumn for mapping */}
+
+        <TimeColumn hours={hourIntervalForTimeColoumn} />  
       </div>
 
       <Modal
@@ -205,6 +219,7 @@ const Day = ({
     isToday,
     handleSlotClick,
     handleReservationClick,
+    isUserLoggedIn
   }) => {
     /*
       A Day column in the calendar
@@ -228,7 +243,7 @@ const Day = ({
        
     );
     const Time =() =>{
-      console.log(hourIntervals)
+      console.log('hour intervals ' +hourIntervals)
 
     }
 
@@ -249,6 +264,7 @@ const Day = ({
             handleSlotClick={handleSlotClick}
             hour={hour}
             date={dateObj}
+            isUserLoggedIn={isUserLoggedIn} 
             handleResevationClick={handleReservationClick}
           />
         ))}
@@ -262,13 +278,17 @@ const Day = ({
     handleResevationClick,
     hour,
     date,
+    isUserLoggedIn
+    
   }) => {
+
+    
     return (
       //TODO: Add Tab Navigation -- Conflict of erronous clicks
   
       <div
         className={styles.slot}
-        onClick={(e) => handleSlotClick(e, hour, date)}
+        onClick={(e) => isUserLoggedIn && handleSlotClick(e, hour, date)}
         id="slot"
       >
         {slotReservations.map((reservation) => {

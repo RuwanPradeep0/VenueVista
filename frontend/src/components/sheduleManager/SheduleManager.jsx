@@ -1,7 +1,7 @@
 import React ,{ useEffect, useRef, useState } from 'react'
 import Calender from '../calender/Calender'
 import AvailableSpaces from '../availableSpaces/AvailableSpaces'
-import {getAllSpaces} from '../../services/AddSpaceService'
+import {getAllSpaces} from '../../services/SpaceService'
 import {getAllReservation} from '../../services/ReservationService'
 import { MdClose } from "react-icons/md";
 import classNames from "classnames";
@@ -21,6 +21,10 @@ const SheduleManager = ({
   const [spaceReservations, setSpaceReservations] = useState([]);
   const [allSpaces, setAllSpaces] = useState([]);
   const [filteredSpaces, setFilteredSpaces] = useState([]);
+  const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
+
+
+
 
   async function getSpaces() {
     await getAllSpaces(setAllSpaces);
@@ -29,6 +33,12 @@ const SheduleManager = ({
   async function getReservations() {
     await getAllReservation(setReservations);
   }
+
+    // Get the user from localStorage on component mount
+    useEffect(() => {
+      const user = localStorage.getItem('user');
+      setIsUserLoggedIn(!!user); // Set isUserLoggedIn to true if user exists, false otherwise
+    }, []);
 
   useEffect(() => {
     if (reservations.length !== 0) {
@@ -40,9 +50,9 @@ const SheduleManager = ({
 
    //whenever the capacity change, change the displayed spaces using the filteredSpaces state
    useEffect(() => {
-    if (allSpaces.length !== 0) {
+    if (allSpaces?.length !== 0) {
       setFilteredSpaces(
-        allSpaces.filter(
+        allSpaces?.filter(
           (space) =>
             space.capacity <= capacity[1] &&
             space.capacity >= capacity[0] &&
@@ -112,7 +122,7 @@ const SheduleManager = ({
   const [selectSpaceName, setSelectSpaceName] = useState(" ");
   useEffect(() => {
     try {
-      setSelectSpaceName(allSpaces.find((s) => s.id === selectSpace).name);
+      setSelectSpaceName(allSpaces?.find((s) => s.id === selectSpace).name);
       setSpaceReservations(
         reservations.filter(
           (reservation) => reservation.spaceId === selectSpace
@@ -124,7 +134,6 @@ const SheduleManager = ({
       //so spaces.find will return nothing.
     }
   }, [selectSpace]);
-
 
 
   return (
@@ -144,6 +153,7 @@ const SheduleManager = ({
           startTime={startTime}
           endTime={endTime}
           updateReservations={getReservations}
+          isUserLoggedIn={isUserLoggedIn}
         />
       </div>
 

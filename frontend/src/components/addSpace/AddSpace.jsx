@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import{createSpaces} from '../../services/AddSpaceService'
+import{createSpaces} from '../../services/SpaceService'
 
 import styles from './AddSpace.module.scss';
 

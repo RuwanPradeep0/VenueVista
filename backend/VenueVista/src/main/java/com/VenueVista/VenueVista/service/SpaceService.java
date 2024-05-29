@@ -24,23 +24,7 @@ public class SpaceService {
 //}
 
 public Space saveSpace(SpaceRequest spaceRequest){
-    Space space = new Space();
 
-    space.setName(spaceRequest.getName());
-    space.setLocation(spaceRequest.getLocation());
-    space.setCapacity(spaceRequest.getCapacity());
-    space.setDescription(spaceRequest.getDescription());
-
-
-//    if (spaceRequest.getImage() != null) {
-//        try {
-//            byte[] imageData = IOUtils.toByteArray(spaceRequest.getImage().getInputStream());
-//            space.setImage(imageData);
-//        } catch (IOException e) {
-//            // Handle the exception appropriately
-//            e.printStackTrace();
-//        }
-//    }
 
     List<Facility> facilities = new ArrayList<>();
     for (String facilityName : spaceRequest.getFacilities()) {
@@ -52,8 +36,16 @@ public Space saveSpace(SpaceRequest spaceRequest){
                 });
         facilities.add(facility);
     }
-    space.setFacilities(facilities);
 
+    Space space = Space.builder()
+            .name(spaceRequest.getName())
+            .location(spaceRequest.getLocation())
+            .capacity(spaceRequest.getCapacity())
+            .description(spaceRequest.getDescription())
+            .facilities(facilities)
+            .build();
+
+    // Save and return the Space object
     return spaceRepository.save(space);
 }
 

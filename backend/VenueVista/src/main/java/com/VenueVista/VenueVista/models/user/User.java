@@ -1,5 +1,6 @@
-package com.VenueVista.VenueVista.models;
+package com.VenueVista.VenueVista.models.user;
 
+import com.VenueVista.VenueVista.models.Reservation;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,6 +10,9 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Data
 @Builder
@@ -29,9 +33,16 @@ public class User implements UserDetails {
 
     private  String password;
 
+    @Enumerated(EnumType.STRING)
+    private Role role;
+
+    @OneToMany(mappedBy = "reservedById", cascade = CascadeType.ALL)
+    private Set<Reservation> reservations = new HashSet<>();
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+
+        return role.getAuthorities();
     }
 
     @Override
@@ -57,5 +68,9 @@ public class User implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    public String getFullName(){
+        return firstName + " " + lastName;
     }
 }
