@@ -95,4 +95,6 @@ public class ReservationService {
         reservationResponse.setWaitingId(0); // Set waitingId to 0 as it's not mentioned in the Reservation class
         return reservationResponse;
     }
+
+
 }
