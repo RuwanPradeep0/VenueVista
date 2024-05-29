@@ -10,18 +10,21 @@ import com.VenueVista.VenueVista.models.user.User;
 import com.VenueVista.VenueVista.repository.ReservationRepository;
 import com.VenueVista.VenueVista.repository.SpaceRepository;
 import com.VenueVista.VenueVista.repository.UserRepository;
+import lombok.RequiredArgsConstructor;
 import org.apache.velocity.exception.ResourceNotFoundException;
+import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+@Service
+@RequiredArgsConstructor
 public class ReservationService {
 
-    private SpaceRepository spaceRepository;
-
-    private UserRepository userRepository;
-
-    private ReservationRepository reservationRepository;
+    private final SpaceRepository spaceRepository;
+    private final UserRepository userRepository;
+    private final ReservationRepository reservationRepository;
 
     public ReservationResponse handleReservation(ReservationRequest reservationRequest) throws InvalidDataException, AllReadyReservedException {
 
@@ -58,22 +61,28 @@ public class ReservationService {
         reservation.setDate(reservationRequest.getDate());
 
         try {
-            LocalDateTime dateTime = LocalDateTime.parse(reservationRequest.getReservationDateTime(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
+            LocalDateTime dateTime = LocalDate.parse(reservationRequest.getReservationDate(), DateTimeFormatter.ofPattern("yyyy-MM-dd")).atStartOfDay();
             reservation.setReservationDate(dateTime);
             reservation.setStartTime(dateTime.withHour(reservationRequest.getStartTime() / 100)
                     .withMinute(reservationRequest.getStartTime() % 100));
             reservation.setEndTime(dateTime.withHour(reservationRequest.getEndTime() / 100)
                     .withMinute(reservationRequest.getEndTime() % 100));
         } catch (Exception e) {
-             throw new InvalidDataException("Invalid date format");
+            throw new InvalidDataException("Invalid date format. Expected format: yyyy-MM-dd");
         }
+
+
+        System.out.println("Responsible Role: " + reservationRequest.getResponsibleRole());
+        reservation.setResponsibleRole(reservationRequest.getResponsibleRole());
 
         reservation.setBatch(reservationRequest.getBatch());
         return reservation;
     }
 
     private ReservationResponse mapToReservationResponse(Reservation reservation) {
+
         ReservationResponse reservationResponse = new ReservationResponse();
+
         reservationResponse.setTitle(reservation.getTitle());
         reservationResponse.setStartTime(reservation.getStartTime().getHour() * 100 + reservation.getStartTime().getMinute());
         reservationResponse.setEndTime(reservation.getEndTime().getHour() * 100 + reservation.getEndTime().getMinute());
@@ -81,7 +90,7 @@ public class ReservationService {
         reservationResponse.setReservationDate(reservation.getReservationDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")));
         reservationResponse.setDate(reservation.getDate());
         reservationResponse.setReservedBy(reservation.getReservedById().getId());
-        reservationResponse.setResponsibleRole(reservation.getReservedById().getId()); // Assuming responsiblePerson is the same as reservedBy
+        reservationResponse.setResponsibleRole(reservation.getResponsibleRole()); // Assuming responsiblePerson is the same as reservedBy
         reservationResponse.setBatch(reservation.getBatch());
         reservationResponse.setWaitingId(0); // Set waitingId to 0 as it's not mentioned in the Reservation class
         return reservationResponse;

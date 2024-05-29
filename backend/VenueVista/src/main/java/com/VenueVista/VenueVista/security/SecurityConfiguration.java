@@ -40,6 +40,7 @@ public class SecurityConfiguration {
                         req.requestMatchers(
                                         "/api/v1/auth/**",
                                         "/api/v1/spaces/**",
+                                        "/api/v1/reservations/**",
                                         "/v2/api-docs",
                                         "/v3/api-docs",
                                         "/v3/api-docs/**",

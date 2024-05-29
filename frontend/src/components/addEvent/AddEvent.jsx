@@ -11,6 +11,7 @@ import {
     mapTimeStringToInteger,
     checkUser,
     getDateInYearFormat,
+   
   } from '../../utills'
 
 import Select from "react-select";
@@ -101,9 +102,9 @@ const AddEvent = ({
 
    
 
-    // useEffect(() => {
-    //     getResponsible();
-    //   }, []);
+    useEffect(() => {
+        console.log(date)
+      }, []);
 
     
       // useEffect(() => {
@@ -209,6 +210,7 @@ const AddEvent = ({
             console.log('space : ' + spaceId)
             console.log('batch : ' + batchOption)
             console.log('responsible : ' + responsibleName)
+            console.log("date :" + date)
 
             try {
               const res = await createReservation(
@@ -217,7 +219,7 @@ const AddEvent = ({
                   setTimeFormat(endTime),
                   spaceId,
                   getDateInYearFormat(date),
-                  Date.now(),
+                  getDateInYearFormat(new Date(Date.now())),
                   userId,
                   responsibleName,
                   batchOption,

@@ -43,6 +43,8 @@ public class Reservation {
 
     private String date;
 
+    private String responsibleRole;
+
     @Column(nullable = false)
     private String batch;
 }
