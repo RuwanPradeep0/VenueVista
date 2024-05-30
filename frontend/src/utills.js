@@ -58,9 +58,6 @@ export const getTimeString = (time) => {
   );
 };
 
-export const generateColorCode = () =>{
-
-}
 
 
 export const getDateInFormat = (date) => {
@@ -131,4 +128,17 @@ export const mapTimeStringToInteger = (timeString) => {
 
 export const getDateInYearFormat = (date) => {
   return date.toLocaleDateString("sv-SE", { timeZone: "Asia/Colombo" });
+};
+
+
+export const generateColorCode = (letter) => {
+  const letters = "abcdefghijklmnopqrstuvwxyz";
+  const index = letters.indexOf(letter.toLowerCase());
+  if (index < 0) {
+    throw new Error("Invalid letter");
+  }
+
+  //13.846
+  const hue = (index * 30) % 360; // Generate hues based on the position of the letter in the alphabet
+  return `hsl(${hue}, 30%, 55%)`; // Use HSL colors to generate vibrant and unique colors
 };

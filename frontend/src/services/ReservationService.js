@@ -34,8 +34,15 @@ const createReservation = async(title, startTime, endTime, spaceID, reservationD
     }
 }
 
-const getAllReservation = async() => {
-    // Implement get all reservations if needed
+const getAllReservations = async (setReservations) => {
+    try {
+        console.log('function calling')
+        const response = await axios.get(`${endPointReservation}/getAllreservations`);
+        console.log(response.data); // Log the response data if needed
+        setReservations(response.data); // Return the data to use it in your application
+    } catch (error) {
+        console.log(error.message);
+        throw new Error("Error occurred while fetching reservations");
+    }
 }
-
-export { createReservation, getAllReservation };
+export { createReservation, getAllReservations };

@@ -32,7 +32,7 @@ const createSpaces = async (requestBody) => {
 
      const response = await axios.get(endPointSpace + '/getallspaces');
      setSpaces(response?.data);
-     console.log(response.data)
+    
 
 
     }catch(error){

@@ -72,6 +72,7 @@ const AddEvent = ({
   spaceReservations,
   spaceName,
   updateReservations,
+  setUpdatedSpaceReservations 
 }) => {
 
     const [startTime, setStartTime] = useState(getTimeString(startTimeProp));

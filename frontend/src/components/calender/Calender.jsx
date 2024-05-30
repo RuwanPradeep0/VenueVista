@@ -98,6 +98,8 @@ const Calender = ({selectSpace,spaceReservations,selectedDays,selectSpaceName,st
  const [isAddEventOrRes, setIsAddEventOrRes] = useState(true); //true if clicked on an slot, false is clicked on a reservation
  const [clickedReservation, setClickedReservation] = useState(null);
 
+ const [updatedSpaceReservations, setUpdatedSpaceReservations] = useState(spaceReservations);
+ 
  //listen to a click event and close modal if an outside element is clicked.
  useEffect(() => {
    let handler = (e) => {
@@ -114,6 +116,8 @@ const Calender = ({selectSpace,spaceReservations,selectedDays,selectSpaceName,st
    return () => {
      document.removeEventListener("mousedown", handler);
    };
+
+  
  });
  
  const handleSlotClick = (e, hour, date) => {
@@ -164,8 +168,8 @@ const Calender = ({selectSpace,spaceReservations,selectedDays,selectSpaceName,st
             isToday={date.setHours(0, 0, 0, 0) === today}
             hourIntervals={hourIntervals}
 
-            dayReservations={spaceReservations?.filter(
-              (reservation) => reservation.date === getDateInYearFormat(date)
+            dayReservations={updatedSpaceReservations.filter(
+              (reservation) => reservation.reservationDate === getDateInYearFormat(date)
             )}
 
             startTime={startTime}
@@ -187,14 +191,25 @@ const Calender = ({selectSpace,spaceReservations,selectedDays,selectSpaceName,st
         rect={coords}
       >
         {isAddEventOrRes ? (
+          // <AddEvent
+          //   startTimeProp={addEventStartTime}
+          //   endTimeProp={addEventEndTime}
+          //   spaceId={selectSpace}
+          //   spaceName={selectSpaceName}
+          //   date={clickedDate}
+          //   spaceReservations={spaceReservations}
+          //   updateReservations={updateReservations}
+            
+          // />
           <AddEvent
             startTimeProp={addEventStartTime}
             endTimeProp={addEventEndTime}
             spaceId={selectSpace}
             spaceName={selectSpaceName}
             date={clickedDate}
-            spaceReservations={spaceReservations}
+            spaceReservations={updatedSpaceReservations}
             updateReservations={updateReservations}
+            setUpdatedSpaceReservations={setUpdatedSpaceReservations}
           />
         ) : (
           <ReservationInfo
@@ -266,6 +281,7 @@ const Day = ({
             date={dateObj}
             isUserLoggedIn={isUserLoggedIn} 
             handleResevationClick={handleReservationClick}
+            prevReservations={prevReservations}
           />
         ))}
       </div>
@@ -278,7 +294,8 @@ const Day = ({
     handleResevationClick,
     hour,
     date,
-    isUserLoggedIn
+    isUserLoggedIn,
+    prevReservations 
     
   }) => {
 
@@ -291,6 +308,10 @@ const Day = ({
         onClick={(e) => isUserLoggedIn && handleSlotClick(e, hour, date)}
         id="slot"
       >
+
+
+
+      
         {slotReservations.map((reservation) => {
           const minutes =
             (Math.floor(reservation.endTime / 100) -

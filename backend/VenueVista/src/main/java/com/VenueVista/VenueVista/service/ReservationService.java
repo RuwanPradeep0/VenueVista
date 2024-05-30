@@ -17,6 +17,8 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -26,6 +28,8 @@ public class ReservationService {
     private final UserRepository userRepository;
     private final ReservationRepository reservationRepository;
 
+
+    //Create Reservation
     public ReservationResponse handleReservation(ReservationRequest reservationRequest) throws InvalidDataException, AllReadyReservedException {
 
         Reservation reservation = requestToReservation(reservationRequest);
@@ -46,6 +50,16 @@ public class ReservationService {
         return reservationResponse;
     }
 
+    //Get all reservations
+    public List<ReservationResponse> getAllReservations() {
+        List<Reservation> reservations = reservationRepository.findAll();
+        return reservations.stream()
+                .map(this::mapToReservationResponse)
+                .collect(Collectors.toList());
+    }
+
+
+
     private Reservation requestToReservation(ReservationRequest reservationRequest) throws InvalidDataException {
         Reservation reservation = new Reservation();
 
@@ -59,10 +73,12 @@ public class ReservationService {
         reservation.setReservedById(reservedBy);
 
         reservation.setDate(reservationRequest.getDate());
+        reservation.setReservationDate(reservationRequest.getReservationDate());
+
 
         try {
             LocalDateTime dateTime = LocalDate.parse(reservationRequest.getReservationDate(), DateTimeFormatter.ofPattern("yyyy-MM-dd")).atStartOfDay();
-            reservation.setReservationDate(dateTime);
+
             reservation.setStartTime(dateTime.withHour(reservationRequest.getStartTime() / 100)
                     .withMinute(reservationRequest.getStartTime() % 100));
             reservation.setEndTime(dateTime.withHour(reservationRequest.getEndTime() / 100)
@@ -87,7 +103,7 @@ public class ReservationService {
         reservationResponse.setStartTime(reservation.getStartTime().getHour() * 100 + reservation.getStartTime().getMinute());
         reservationResponse.setEndTime(reservation.getEndTime().getHour() * 100 + reservation.getEndTime().getMinute());
         reservationResponse.setSpaceID(reservation.getSpace().getId());
-        reservationResponse.setReservationDate(reservation.getReservationDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")));
+        reservationResponse.setReservationDate(reservation.getReservationDate());
         reservationResponse.setDate(reservation.getDate());
         reservationResponse.setReservedBy(reservation.getReservedById().getId());
         reservationResponse.setResponsibleRole(reservation.getResponsibleRole()); // Assuming responsiblePerson is the same as reservedBy
@@ -95,6 +111,7 @@ public class ReservationService {
         reservationResponse.setWaitingId(0); // Set waitingId to 0 as it's not mentioned in the Reservation class
         return reservationResponse;
     }
+
 
 
 }

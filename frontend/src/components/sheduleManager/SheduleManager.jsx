@@ -2,7 +2,7 @@ import React ,{ useEffect, useRef, useState } from 'react'
 import Calender from '../calender/Calender'
 import AvailableSpaces from '../availableSpaces/AvailableSpaces'
 import {getAllSpaces} from '../../services/SpaceService'
-import {getAllReservation} from '../../services/ReservationService'
+import {getAllReservations} from '../../services/ReservationService'
 import { MdClose } from "react-icons/md";
 import classNames from "classnames";
 
@@ -28,10 +28,12 @@ const SheduleManager = ({
 
   async function getSpaces() {
     await getAllSpaces(setAllSpaces);
+    
   }
 
   async function getReservations() {
-    await getAllReservation(setReservations);
+    await getAllReservations(setReservations);
+    console.log(reservations)
   }
 
     // Get the user from localStorage on component mount
@@ -84,6 +86,8 @@ const SheduleManager = ({
   useEffect(() => {
     getSpaces();
     getReservations();
+    console.log(reservations)
+  
   }, []);
 
   //Available Spaces Selection
@@ -113,7 +117,7 @@ const SheduleManager = ({
     } else {
       setSelectSpace(id);
       setSpaceReservations(
-        reservations.filter((reservation) => reservation.spaceId === id)
+        reservations.filter((reservation) => reservation.spaceID === id)
       );
     }
   };
@@ -125,7 +129,7 @@ const SheduleManager = ({
       setSelectSpaceName(allSpaces?.find((s) => s.id === selectSpace).name);
       setSpaceReservations(
         reservations.filter(
-          (reservation) => reservation.spaceId === selectSpace
+          (reservation) => reservation.spaceID === selectSpace
         )
       );
     } catch (error) {
@@ -145,7 +149,7 @@ const SheduleManager = ({
           select={selectSpace}
         />
         <Calender
-          getReservations={getReservations}
+          prevReservations={reservations}
           selectSpace={selectSpace}
           selectSpaceName={selectSpaceName}
           spaceReservations={spaceReservations}

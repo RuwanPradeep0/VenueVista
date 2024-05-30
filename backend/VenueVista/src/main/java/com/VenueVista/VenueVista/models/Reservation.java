@@ -7,6 +7,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Data
@@ -33,7 +34,7 @@ public class Reservation {
     private String title;
 
     @Column(nullable = false)
-    private LocalDateTime reservationDate;
+    private String reservationDate;
 
     @Column(nullable = false)
     private LocalDateTime startTime;
