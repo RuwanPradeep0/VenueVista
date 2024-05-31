@@ -28,7 +28,6 @@ const SheduleManager = ({
 
   async function getSpaces() {
     await getAllSpaces(setAllSpaces);
-    
   }
 
   async function getReservations() {
@@ -86,9 +85,12 @@ const SheduleManager = ({
   useEffect(() => {
     getSpaces();
     getReservations();
-    console.log(reservations)
-  
   }, []);
+
+    //initially fetching the data
+    useEffect(() => {
+      getReservations();
+    }, []);
 
   //Available Spaces Selection
   const [selectSpace, setSelectSpace] = useState(1);

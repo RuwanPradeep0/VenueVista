@@ -83,6 +83,8 @@ const Calender = ({selectSpace,spaceReservations,selectedDays,selectSpaceName,st
   (_, index) => index + startTime
 );
 
+
+
  //configuring the modals
  const portalEl = document.getElementById("portal");
  const [isModalOpen, setIsModalOpen] = useState(false);
@@ -99,6 +101,16 @@ const Calender = ({selectSpace,spaceReservations,selectedDays,selectSpaceName,st
  const [clickedReservation, setClickedReservation] = useState(null);
 
  const [updatedSpaceReservations, setUpdatedSpaceReservations] = useState(spaceReservations);
+
+ useEffect(() => {
+  // Update updatedSpaceReservations whenever setUpdatedSpaceReservations is called
+  setUpdatedSpaceReservations(spaceReservations);
+  console.log('updated reservations : '+updatedSpaceReservations)
+}, [spaceReservations]);
+
+useEffect(() =>{
+  console.log(updatedSpaceReservations)
+},[])
  
  //listen to a click event and close modal if an outside element is clicked.
  useEffect(() => {
@@ -168,7 +180,7 @@ const Calender = ({selectSpace,spaceReservations,selectedDays,selectSpaceName,st
             isToday={date.setHours(0, 0, 0, 0) === today}
             hourIntervals={hourIntervals}
 
-            dayReservations={updatedSpaceReservations.filter(
+            dayReservations={spaceReservations.filter(
               (reservation) => reservation.reservationDate === getDateInYearFormat(date)
             )}
 
@@ -310,8 +322,6 @@ const Day = ({
       >
 
 
-
-      
         {slotReservations.map((reservation) => {
           const minutes =
             (Math.floor(reservation.endTime / 100) -

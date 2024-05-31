@@ -204,15 +204,6 @@ const AddEvent = ({
 
         const handleSubmit = async (e) => {
             e.preventDefault();
-            console.log("submitting")
-            console.log('batch : ' + batchOption)
-
-            console.log('title : ' + title)
-            console.log('space : ' + spaceId)
-            console.log('batch : ' + batchOption)
-            console.log('responsible : ' + responsibleName)
-            console.log("date :" + date)
-
             try {
               const res = await createReservation(
                   title,
@@ -225,13 +216,22 @@ const AddEvent = ({
                   responsibleName,
                   batchOption,
                   -1
-                  // responsibleId,
-                  // -1
+                 
               );
+
+              const updatedReservations = [...spaceReservations, res.data];
+
+              //  // Handle successful reservation
+              //  setShowFeedbackSuccess(true);
+
+              setUpdatedSpaceReservations(updatedReservations);
+              console.log('updatedReseravtions : ' + updateReservations)
+             
       
-              // Handle successful reservation
-              setShowFeedbackSuccess(true);
-              updateReservations();
+             
+
+             
+
           } catch (error) {
               // Handle errors
               if (error.message === "reserved") {

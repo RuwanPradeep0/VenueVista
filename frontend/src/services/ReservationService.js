@@ -20,8 +20,8 @@ const createReservation = async(title, startTime, endTime, spaceID, reservationD
                 batch,
                 waitingId
             }
-        );
-        console.log(response.data); // Log the response data if needed
+        )
+        
     } catch (error) {
         console.log(error.message);
         if (error.response && error.response.status === 401) {
@@ -38,7 +38,6 @@ const getAllReservations = async (setReservations) => {
     try {
         console.log('function calling')
         const response = await axios.get(`${endPointReservation}/getAllreservations`);
-        console.log(response.data); // Log the response data if needed
         setReservations(response.data); // Return the data to use it in your application
     } catch (error) {
         console.log(error.message);
