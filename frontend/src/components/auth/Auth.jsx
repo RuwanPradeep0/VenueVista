@@ -1,19 +1,22 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { registerLecturer, login } from '../../services/AuthenticationService';
-import { checkUser } from '../../utills';
+import { setUser } from '../../utills';
+import FeedbackMessage from '../feedbackMessage/FeedbackMessage';
 import styles from '../../styles/Auth.module.scss'
+
 
 
 const Auth = () => {
   const navigate = useNavigate();
   const [isRegister, setIsRegister] = useState(true);
+  const [feedback, setFeedback] = useState({ message: '', type: '' });
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
     email: '',
     password: '',
-    userType: 'lecturer',
+    userRole: 'lecturer',
   });
 
   
@@ -26,22 +29,31 @@ const Auth = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+   
     try {
+    
       if (isRegister) {
-        if (formData.userType === 'lecturer') {
+       
+        if (formData.userRole === 'lecturer' || formData.userRole === 'instructor') {
           const user = await registerLecturer(formData);
-          navigate('/');
+          if (user) {
+            setFeedback({ message: 'Registration successful!', type: 'success' });
+            setIsRegister(!isRegister);
+          }
+         
         } else {
           throw new Error('Student registration is not allowed.');
         }
       } else {
-        const token = await login(formData.email, formData.password);
-        checkUser(token)
+        setFeedback({ message: '', type: '' });
+        const response = await login(formData.email, formData.password);
+        setUser(response)
         navigate('/');
+        setFeedback({ message: 'Login successful!', type: 'success' });
       }
     } catch (error) {
-      setError(error.message);
+      setFeedback({ message: error.message, type: 'error' });
+      
     }
   };
 
@@ -112,16 +124,17 @@ const Auth = () => {
 
           {isRegister && (
             <div className={styles.inputGroup}>
-              <label htmlFor="userType">User Type:</label>
+              <label htmlFor="userRole">User Type:</label>
               <select
-                id="userType"
-                name="userType"
-                value={formData.userType}
+                id="userRole"
+                name="userRole"
+                value={formData.userRole}
                 onChange={handleInputChange}
                 required
               >
                 <option value="student">Student</option>
                 <option value="lecturer">Lecturer</option>
+                <option value="instructor">Instructor</option>
               </select>
             </div>
           )}
@@ -129,13 +142,18 @@ const Auth = () => {
             {isRegister ? 'Register' : 'Login'}
           </button>
         </form>
-        <div className={styles.toggleLink}>
+        <div className={ styles.toggleLink}>
           {isRegister
             ? 'Already have an account? '
             : "Don't have an account? "}
           <span onClick={() => setIsRegister(!isRegister)}>
             {isRegister ? 'Login' : 'Register'}
           </span>
+          <FeedbackMessage
+            message={feedback.message}
+            type={feedback.type}
+            duration={5000}
+          />
         </div>
       </div>
     </div>

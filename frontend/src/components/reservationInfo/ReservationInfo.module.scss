@@ -1,0 +1,82 @@
+.container {
+    height: fit-content;
+  
+    position: relative;
+  
+    .infoTop {
+      width: 100%;
+      padding: 2.5em 2em 1em 2em;
+      border-top-left-radius: 1.7em;
+      border-top-right-radius: 1.7em;
+      .title {
+        font-size: 1.4em;
+        font-weight: 700;
+        color: white;
+      }
+  
+      .info {
+        margin: 2em 0em;
+        font-size: 0.9em;
+        color: hsl(0, 0%, 100%);
+  
+        .infoItem {
+          margin-top: 0.4em;
+          display: flex;
+          align-items: center;
+          gap: 0.4em;
+  
+          .time {
+            max-width: 4em;
+          }
+        }
+      }
+    }
+  
+    .infoBottom {
+      padding: 2em 2em;
+  
+      .infoText {
+        font-size: 0.8em;
+        color: hsl(0, 0%, 30%);
+      }
+      .person {
+        margin-top: 0.2em;
+      }
+      .resPerson {
+        margin-top: 1em;
+      }
+    }
+  
+    .waitingList {
+      margin-top: 1.4em;
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-start;
+      align-items: center;
+      font-size: 0.8em;
+      .waitingListBtn {
+        color: white;
+        background-color: rgb(68, 68, 68);
+        padding: 0.6em 1em;
+        margin-right: 1em;
+        border-radius: 0.6em;
+  
+        font-weight: 600;
+        cursor: pointer;
+        box-shadow: none;
+        transition: box-shadow ease-in-out 100ms, transform ease-in-out 100ms;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.4em;
+  
+        &:hover,
+        &:focus {
+          box-shadow: 0px 12px 12px -12px hsl(190, 40%, 30%);
+          outline: 1px lighten($color: hsl(166, 25%, 50%), $amount: 50%) solid;
+          transform: scale(1.05);
+        }
+      }
+    }
+  }
+  
