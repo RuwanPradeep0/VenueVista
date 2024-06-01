@@ -23,17 +23,33 @@ const SheduleManager = ({
   const [filteredSpaces, setFilteredSpaces] = useState([]);
   const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
 
+  const [allReservations, setAllReservations] = useState([]);
+
+  const fetchInitialReservations = async () => {
+    try {
+      const response = await getAllReservations();
+      setAllReservations(response.data);
+      console.log(response.data)
+    } catch (error) {
+      console.error('Error fetching initial reservations:', error);
+    }
+  };
+  
+  // useEffect(() => {
+  //   fetchInitialReservations();
+  // }, []);
+
 
 
 
   async function getSpaces() {
     await getAllSpaces(setAllSpaces);
   }
-
-  async function getReservations() {
-    await getAllReservations(setReservations);
-    console.log(reservations)
-  }
+////////////////////////////////////////////////////////////////////////////////////////////////////
+  // async function getReservations() {
+  //   await getAllReservations(setReservations);
+  //   console.log(reservations)
+  // }
 
     // Get the user from localStorage on component mount
     useEffect(() => {
@@ -42,12 +58,20 @@ const SheduleManager = ({
     }, []);
 
   useEffect(() => {
-    if (reservations.length !== 0) {
+    if (allReservations.length !== 0) {
       setSpaceReservations(
-        reservations.filter((reservation) => reservation.spaceId === 1)
+        allReservations.filter((reservation) => reservation.spaceID === selectSpace)
       );
     }
-  }, [reservations]);
+  }, [allReservations]);
+
+  useEffect(() => {
+    if (allReservations.length !== 0) {
+      setSpaceReservations(
+        allReservations.filter((reservation) => reservation.spaceID === selectSpace)
+      );
+    }
+  }, []);
 
    //whenever the capacity change, change the displayed spaces using the filteredSpaces state
    useEffect(() => {
@@ -72,7 +96,7 @@ const SheduleManager = ({
       setSelectSpace(filteredSpaces[0].id);
       setSelectSpaceName(filteredSpaces[0].name);
       setSpaceReservations(
-        reservations.filter(
+        allReservations.filter(
           (reservation) => reservation.spaceId === selectSpace
         )
       );
@@ -84,13 +108,13 @@ const SheduleManager = ({
   //initially fetching the data
   useEffect(() => {
     getSpaces();
-    getReservations();
+    fetchInitialReservations();
   }, []);
 
     //initially fetching the data
-    useEffect(() => {
-      getReservations();
-    }, []);
+    // useEffect(() => {
+    //   getReservations();
+    // }, []);
 
   //Available Spaces Selection
   const [selectSpace, setSelectSpace] = useState(1);
@@ -119,7 +143,7 @@ const SheduleManager = ({
     } else {
       setSelectSpace(id);
       setSpaceReservations(
-        reservations.filter((reservation) => reservation.spaceID === id)
+        allReservations.filter((reservation) => reservation.spaceID === id)
       );
     }
   };
@@ -130,7 +154,7 @@ const SheduleManager = ({
     try {
       setSelectSpaceName(allSpaces?.find((s) => s.id === selectSpace).name);
       setSpaceReservations(
-        reservations.filter(
+        allReservations.filter(
           (reservation) => reservation.spaceID === selectSpace
         )
       );
@@ -158,8 +182,11 @@ const SheduleManager = ({
           selectedDays={selectedDays}
           startTime={startTime}
           endTime={endTime}
-          updateReservations={getReservations}
+          // updateReservations={getReservations}
           isUserLoggedIn={isUserLoggedIn}
+          allReservations={allReservations}
+          fetchInitialReservations ={fetchInitialReservations}
+          setAllReservations={setAllReservations}
         />
       </div>
 

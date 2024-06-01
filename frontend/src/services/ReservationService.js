@@ -6,7 +6,7 @@ const createReservation = async(title, startTime, endTime, spaceID, reservationD
     try {
 
         console.log(reservationDate)
-        const response = await axios.post(
+        return await axios.post(
             endPointReservation + '/createreservations',
             {
                 title,
@@ -20,6 +20,7 @@ const createReservation = async(title, startTime, endTime, spaceID, reservationD
                 batch,
                 waitingId
             }
+            
         )
         
     } catch (error) {
@@ -34,11 +35,12 @@ const createReservation = async(title, startTime, endTime, spaceID, reservationD
     }
 }
 
-const getAllReservations = async (setReservations) => {
+const getAllReservations = async () => {
     try {
         console.log('function calling')
         const response = await axios.get(`${endPointReservation}/getAllreservations`);
-        setReservations(response.data); // Return the data to use it in your application
+        // setReservations(response.data); // Return the data to use it in your application
+        return response;
     } catch (error) {
         console.log(error.message);
         throw new Error("Error occurred while fetching reservations");

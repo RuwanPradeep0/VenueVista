@@ -72,7 +72,9 @@ const AddEvent = ({
   spaceReservations,
   spaceName,
   updateReservations,
-  setUpdatedSpaceReservations 
+  setUpdatedSpaceReservations ,
+  setAllReservations,
+  allReservations
 }) => {
 
     const [startTime, setStartTime] = useState(getTimeString(startTimeProp));
@@ -219,13 +221,12 @@ const AddEvent = ({
                  
               );
 
-              const updatedReservations = [...spaceReservations, res.data];
+              setAllReservations([...allReservations, res.data]);
 
               //  // Handle successful reservation
               //  setShowFeedbackSuccess(true);
 
-              setUpdatedSpaceReservations(updatedReservations);
-              console.log('updatedReseravtions : ' + updateReservations)
+              
              
       
              
