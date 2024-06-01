@@ -7,7 +7,7 @@ import ReservationInfo from "../reservationInfo/ReservationInfo";
 import styles from './Calender.module.scss'
 
 
-const Calender = ({allReservations,setAllReservations,fetchInitialReservations,selectSpace,spaceReservations,selectedDays,selectSpaceName,startTime,endTime,updateReservations,isUserLoggedIn}) => {
+const Calender = ({allReservations,setAllReservations,fetchInitialReservations,selectSpace,spaceReservations,selectedDays,selectSpaceName,startTime,endTime,isUserLoggedIn}) => {
   
  //calculate the upcoming dates and pass it into the Day component
  const [firstDate, setFirstDate] = useState(new Date());
@@ -52,7 +52,7 @@ const Calender = ({allReservations,setAllReservations,fetchInitialReservations,s
    else newDate.setDate(newDate.getDate() + 7);
 
    //only allow clicking until +30 days from today
-   if (Math.round((newDate - new Date()) / 86400000) < 100)
+   if (Math.round((newDate - new Date()) / 86400000) < 500)
      setFirstDate(newDate);
  };
 
@@ -100,13 +100,6 @@ const Calender = ({allReservations,setAllReservations,fetchInitialReservations,s
  const [isAddEventOrRes, setIsAddEventOrRes] = useState(true); //true if clicked on an slot, false is clicked on a reservation
  const [clickedReservation, setClickedReservation] = useState(null);
 
- const [updatedSpaceReservations, setUpdatedSpaceReservations] = useState(spaceReservations);
-
-//  useEffect(() => {
-//   // Update updatedSpaceReservations whenever setUpdatedSpaceReservations is called
-//   setUpdatedSpaceReservations(spaceReservations);
-//   console.log('updated reservations : '+updatedSpaceReservations)
-// }, [spaceReservations]);
 
 useEffect(() =>{
   console.log(spaceReservations)
@@ -183,18 +176,6 @@ useEffect(() =>{
             dayReservations={spaceReservations.filter( // Use allReservations
             (reservation) => reservation.reservationDate === getDateInYearFormat(date)
           )}
-
-          // dayReservations={space.filter(
-          //   (reservation) =>
-          //     reservation.reservationDate === getDateInYearFormat(date) &&
-          //     reservation.spaceId === selectSpace // Filter by selected space
-          // )}
-
-          // dayReservations={allReservations.filter(
-          //   (reservation) =>
-          //     reservation.reservationDate === getDateInYearFormat(date) &&
-          //     reservation.spaceId === selectSpace // Filter by selected space
-          // )}
 
             startTime={startTime}
             handleSlotClick={handleSlotClick}
@@ -319,8 +300,7 @@ const Day = ({
     handleResevationClick,
     hour,
     date,
-    isUserLoggedIn,
-    prevReservations 
+    isUserLoggedIn
     
   }) => {
 
@@ -348,9 +328,9 @@ const Day = ({
               style={{
                 height: `${(minutes / 60) * 100}%`,
                 top: `${((reservation.startTime % 100) / 60) * 100}%`,
-                // backgroundColor: `${generateColorCode(
-                //   reservation.reservedBy[0]
-                // )}`,
+                backgroundColor: `${generateColorCode(
+                  reservation.fullName[0]
+                )}`,
               }}
               id="reservation"
               onClick={(e) => handleResevationClick(e, reservation)}

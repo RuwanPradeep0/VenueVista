@@ -39,7 +39,7 @@ const ReservationInfo = ({ reservation, onClick }) => {
       <div
         className={styles.infoTop}
         style={{
-          backgroundColor: `${generateColorCode(reservation.reservedBy[0])}`,
+          backgroundColor: `${generateColorCode(reservation.fullName[0])}`,
         }}
       >
         <h4 className={styles.title}>{reservation.title}</h4>
@@ -64,7 +64,7 @@ const ReservationInfo = ({ reservation, onClick }) => {
 
       <div className={styles.infoBottom}>
         <p className={styles.infoText}>Reserved By</p>
-        <p className={styles.person}>{reservation.reservedBy}</p>
+        <p className={styles.person}>{reservation.fullName}</p>
         <p className={styles.infoText + " " + styles.resPerson}>
           Responsible Person
         </p>

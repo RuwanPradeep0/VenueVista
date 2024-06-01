@@ -139,6 +139,6 @@ export const generateColorCode = (letter) => {
   }
 
   //13.846
-  const hue = (index * 30) % 360; // Generate hues based on the position of the letter in the alphabet
-  return `hsl(${hue}, 30%, 55%)`; // Use HSL colors to generate vibrant and unique colors
+  const hue = (index * 50) % 360; // Generate hues based on the position of the letter in the alphabet
+  return `hsl(${hue}, 23%, 27%)`; // Use HSL colors to generate vibrant and unique colors
 };

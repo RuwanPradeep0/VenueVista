@@ -72,7 +72,6 @@ const AddEvent = ({
   spaceReservations,
   spaceName,
   updateReservations,
-  setUpdatedSpaceReservations ,
   setAllReservations,
   allReservations
 }) => {
@@ -224,14 +223,7 @@ const AddEvent = ({
               setAllReservations([...allReservations, res.data]);
 
               //  // Handle successful reservation
-              //  setShowFeedbackSuccess(true);
-
-              
-             
-      
-             
-
-             
+               setShowFeedbackSuccess(true);
 
           } catch (error) {
               // Handle errors
@@ -255,13 +247,13 @@ const AddEvent = ({
       }, 4000);
     };
 
-    //handling submit waiting list click, on submit show feedback
+
+
+  //handling submit waiting list click, on submit show feedback
   const [showFeedbackWaiting, setShowFeedbackWaiting] = useState(false);
   const handleWaiting = async (e) => {
     e.preventDefault();
    
-
-
     await createWaiting(
    
       title,

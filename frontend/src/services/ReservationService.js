@@ -2,7 +2,7 @@ import axios from 'axios';
 
 const endPointReservation = "http://localhost:8080/api/v1/reservations";
 
-const createReservation = async(title, startTime, endTime, spaceID, reservationDate, date , reservedBy, responsibleRole, batch, waitingId) =>{
+const createReservation = async(title, startTime, endTime, spaceID, reservationDate, date , reservedByID, responsibleRole, batch, waitingId) =>{
     try {
 
         console.log(reservationDate)
@@ -15,7 +15,7 @@ const createReservation = async(title, startTime, endTime, spaceID, reservationD
                 spaceID,
                 reservationDate,
                 date,
-                reservedBy,
+                reservedByID,
                 responsibleRole,
                 batch,
                 waitingId

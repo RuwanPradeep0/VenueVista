@@ -68,8 +68,8 @@ public class ReservationService {
                 .orElseThrow(() -> new ResourceNotFoundException("Space not found with ID: " + reservationRequest.getSpaceID()));
         reservation.setSpace(space);
 
-        User reservedBy = userRepository.findById(reservationRequest.getReservedBy())
-                .orElseThrow(() -> new ResourceNotFoundException("User not found with ID: " + reservationRequest.getReservedBy()));
+        User reservedBy = userRepository.findById(reservationRequest.getReservedByID())
+                .orElseThrow(() -> new ResourceNotFoundException("User not found with ID: " + reservationRequest.getReservedByID()));
         reservation.setReservedById(reservedBy);
 
         reservation.setDate(reservationRequest.getDate());
@@ -105,8 +105,9 @@ public class ReservationService {
         reservationResponse.setSpaceID(reservation.getSpace().getId());
         reservationResponse.setReservationDate(reservation.getReservationDate());
         reservationResponse.setDate(reservation.getDate());
-        reservationResponse.setReservedBy(reservation.getReservedById().getId());
+        reservationResponse.setReservedByID(reservation.getReservedById().getId());
         reservationResponse.setResponsibleRole(reservation.getResponsibleRole()); // Assuming responsiblePerson is the same as reservedBy
+        reservationResponse.setFullName(reservation.getReservedById().getFullName());
         reservationResponse.setBatch(reservation.getBatch());
         reservationResponse.setWaitingId(0); // Set waitingId to 0 as it's not mentioned in the Reservation class
         return reservationResponse;

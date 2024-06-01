@@ -16,13 +16,12 @@ const SheduleManager = ({
     capacity,
     selectedFacilities}) => {
 
-         //filter reservations according to the space selected - default - 1
-  const [reservations, setReservations] = useState([]);
+  //filter reservations according to the space selected - default - 1
+  // const [reservations, setReservations] = useState([]);
   const [spaceReservations, setSpaceReservations] = useState([]);
   const [allSpaces, setAllSpaces] = useState([]);
   const [filteredSpaces, setFilteredSpaces] = useState([]);
   const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
-
   const [allReservations, setAllReservations] = useState([]);
 
   const fetchInitialReservations = async () => {
@@ -35,21 +34,16 @@ const SheduleManager = ({
     }
   };
   
-  // useEffect(() => {
-  //   fetchInitialReservations();
-  // }, []);
-
-
-
-
+ //01
   async function getSpaces() {
     await getAllSpaces(setAllSpaces);
   }
-////////////////////////////////////////////////////////////////////////////////////////////////////
-  // async function getReservations() {
-  //   await getAllReservations(setReservations);
-  //   console.log(reservations)
-  // }
+
+    //initially fetching the data
+    useEffect(() => {
+      getSpaces();
+      fetchInitialReservations();
+    }, []);
 
     // Get the user from localStorage on component mount
     useEffect(() => {
@@ -72,6 +66,8 @@ const SheduleManager = ({
       );
     }
   }, []);
+
+  //02
 
    //whenever the capacity change, change the displayed spaces using the filteredSpaces state
    useEffect(() => {
@@ -105,16 +101,8 @@ const SheduleManager = ({
     }
   }, [filteredSpaces]);
 
-  //initially fetching the data
-  useEffect(() => {
-    getSpaces();
-    fetchInitialReservations();
-  }, []);
 
-    //initially fetching the data
-    // useEffect(() => {
-    //   getReservations();
-    // }, []);
+
 
   //Available Spaces Selection
   const [selectSpace, setSelectSpace] = useState(1);
@@ -175,7 +163,7 @@ const SheduleManager = ({
           select={selectSpace}
         />
         <Calender
-          prevReservations={reservations}
+          // prevReservations={reservations}
           selectSpace={selectSpace}
           selectSpaceName={selectSpaceName}
           spaceReservations={spaceReservations}
