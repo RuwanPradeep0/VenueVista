@@ -41,6 +41,7 @@ public class SecurityConfiguration {
                                         "/api/v1/auth/**",
                                         "/api/v1/spaces/**",
                                         "/api/v1/reservations/**",
+                                        "/api/v1/waiting/**",
                                         "/v2/api-docs",
                                         "/v3/api-docs",
                                         "/v3/api-docs/**",

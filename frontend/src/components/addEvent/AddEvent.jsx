@@ -257,39 +257,40 @@ const AddEvent = ({
 
   //handling submit waiting list click, on submit show feedback
   const [showFeedbackWaiting, setShowFeedbackWaiting] = useState(false);
+
   const handleWaiting = async (e) => {
     e.preventDefault();
-   
-    await createWaiting(
-   
-      title,
-      setTimeFormat(startTime),
-      setTimeFormat(endTime),
-      spaceId,
-      Date.now(),
-      getDateInYearFormat(date),
-      userId,
-      responsibleName,
-      batchOption
-      // responsibleId,
-      // -1
-    )
-      .then((res) => {
-        // if waiting success
+
+    try {
+      
+      const res = await createWaiting(
+        title,
+        setTimeFormat(startTime),
+        setTimeFormat(endTime),
+        spaceId,
+        getDateInYearFormat(new Date(Date.now())),
+        getDateInYearFormat(date),
+        userId,
+        responsibleName,
+        batchOption,
+        -1
+      )
+
+      setShowFeedbackWaiting(true);
+        updateReservations();
+
+    
+    } catch (error) {
+      if (error.message === "email") {
         setShowFeedbackWaiting(true);
         updateReservations();
-      })
-      .catch((error) => {
-        // email error
-        if (error.message === "email") {
-          setShowFeedbackWaiting(true);
-          updateReservations();
-        } else {
-          console.log(error);
-          setShowFeedbackError(true);
-          // other error
-        }
-      });
+      } else {
+        console.log(error);
+        setShowFeedbackError(true);
+        // other error
+      }
+      
+    }
 
     //reset after timeout
     setTimeout(() => {
@@ -310,10 +311,6 @@ const AddEvent = ({
         mapTimeStringToInteger(startTime) > mapTimeStringToInteger(endTime)
     );
   }, [ responsibleName,batchOption,title, startTime, endTime]); //responsibleId was added to dependancy array
-
-        
-
-
 
 
   return (
