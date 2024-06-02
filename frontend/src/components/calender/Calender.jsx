@@ -100,6 +100,7 @@ const Calender = ({allReservations,setAllReservations,fetchInitialReservations,s
  const [isAddEventOrRes, setIsAddEventOrRes] = useState(true); //true if clicked on an slot, false is clicked on a reservation
  const [clickedReservation, setClickedReservation] = useState(null);
 
+ const[isConflict , setIsConflict] = useState(false);
 
 useEffect(() =>{
   console.log(spaceReservations)
@@ -134,13 +135,14 @@ useEffect(() =>{
    setAddEventEndTime((hour+1 )* 100);
    setIsAddEventOrRes(true);
    setClickedDate(date);
-   console.log("soaceId : " +selectSpace)
+   setIsConflict(false)
  };
 
  const handleReservationClick = (e, reservation) => {
    setIsModalOpen(true);
    setIsAddEventOrRes(false);
    setClickedReservation(reservation);
+   setIsConflict(true)
    setCoords(e.currentTarget.getBoundingClientRect());
  };
 
@@ -216,6 +218,7 @@ useEffect(() =>{
             updateReservations={fetchInitialReservations}
             allReservations={allReservations}
             setAllReservations={setAllReservations}
+            isConflict ={isConflict}
           />
         ) : (
           <ReservationInfo

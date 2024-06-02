@@ -34,7 +34,7 @@ public class Reservation {
     private String title;
 
     @Column(nullable = false)
-    private String reservationDate;
+    private LocalDateTime reservationDate;
 
     @Column(nullable = false)
     private LocalDateTime startTime;

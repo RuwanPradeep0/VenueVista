@@ -73,7 +73,8 @@ const AddEvent = ({
   spaceName,
   updateReservations,
   setAllReservations,
-  allReservations
+  allReservations,
+  isConflict
 }) => {
 
     const [startTime, setStartTime] = useState(getTimeString(startTimeProp));
@@ -175,12 +176,12 @@ const AddEvent = ({
       //check availability of the time slot
       const checkAvailablity = (startTimeFormatted, endTimeFormatted) => {
         var reservationDate = getDateInYearFormat(date || new Date());
-        const dayReservations = spaceReservations?.filter(
+        const dayReservations = spaceReservations.filter(
           (reservation) => reservation.date === reservationDate
         );
         console.log(spaceReservations, dayReservations, reservationDate);
         if (
-          dayReservations?.filter(
+          dayReservations.filter(
             (reservation) =>
               // reservation.startTime < startTimeFormatted < reservation.endTime ||
               //reservation.startTime < endTimeFormatted < reservation.endTime
@@ -196,7 +197,12 @@ const AddEvent = ({
           console.log("Slot is not available");
           setClash(true);
         }
+
+        if(isConflict){
+          setClash(true)
+        }
       };
+      
 
       
         //hadnling submit click, on submit click show feedback

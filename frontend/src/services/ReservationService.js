@@ -5,7 +5,7 @@ const endPointReservation = "http://localhost:8080/api/v1/reservations";
 const createReservation = async(title, startTime, endTime, spaceID, reservationDate, date , reservedByID, responsibleRole, batch, waitingId) =>{
     try {
 
-        console.log(reservationDate)
+        console.log(endTime)
         return await axios.post(
             endPointReservation + '/createreservations',
             {
