@@ -1,14 +1,13 @@
-import Hero from '../components/Hero'
+import Hero from '../../components/Hero'
 import { FiMapPin } from "react-icons/fi";
 import { LuCalendarDays } from "react-icons/lu";
 import { FaRegClock } from "react-icons/fa";
 import classNames from "classnames";
 import Slider from "@mui/material/Slider";
 import { useRef, useState, useEffect } from "react";
-import styles from '../styles/Home.module.scss'
-import TimeSelector from '../components/timeSelector/TimeSelector';
-import SheduleManager from '../components/sheduleManager/SheduleManager';
-import InfiniteTypewriter   from 'react-zider-ui'
+import styles from './Home.module.scss'
+import TimeSelector from '../../components/timeSelector/TimeSelector';
+import SheduleManager from '../../components/sheduleManager/SheduleManager';
 
 const facilitiesOptions = [
   "AC",

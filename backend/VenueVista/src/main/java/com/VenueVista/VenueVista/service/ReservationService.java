@@ -2,6 +2,7 @@ package com.VenueVista.VenueVista.service;
 
 import com.VenueVista.VenueVista.controller.RequestResponse.ReservationRequest;
 import com.VenueVista.VenueVista.controller.RequestResponse.ReservationResponse;
+import com.VenueVista.VenueVista.controller.RequestResponse.UserReservationResponse;
 import com.VenueVista.VenueVista.exception.AllReadyReservedException;
 import com.VenueVista.VenueVista.exception.InvalidDataException;
 import com.VenueVista.VenueVista.models.Reservation;
@@ -59,6 +60,17 @@ public class ReservationService {
                 .collect(Collectors.toList());
     }
 
+    //Get uer Reservations
+    public List<UserReservationResponse> getUserReservations(String email) {
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new ResourceNotFoundException("User not found with email: " + email));
+
+        List<Reservation> userReservations = reservationRepository.findByReservedById(user);
+        return userReservations.stream()
+                .map(this::mapToUserReservationResponse)
+                .collect(Collectors.toList());
+    }
+
     private Reservation requestToReservation(ReservationRequest reservationRequest) throws InvalidDataException {
         Reservation reservation = new Reservation();
 
@@ -99,5 +111,26 @@ public class ReservationService {
         reservationResponse.setBatch(reservation.getBatch());
         reservationResponse.setWaitingId(0); // Set waitingId to 0 as it's not mentioned in the Reservation class
         return reservationResponse;
+    }
+
+
+
+
+
+    private UserReservationResponse mapToUserReservationResponse(Reservation reservation) {
+        UserReservationResponse userReservationResponse = new UserReservationResponse();
+
+        userReservationResponse.setTitle(reservation.getTitle());
+        userReservationResponse.setStartTime(reservation.getStartTime().getHour() * 100 + reservation.getStartTime().getMinute());
+        userReservationResponse.setEndTime(reservation.getEndTime().getHour() * 100 + reservation.getEndTime().getMinute());
+        userReservationResponse.setSpaceID(reservation.getSpace().getId());
+        userReservationResponse.setReservationDate(reservation.getReservationDate().toLocalDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+        userReservationResponse.setReservedByID(reservation.getReservedById().getId());
+        userReservationResponse.setResponsibleRole(reservation.getResponsibleRole());
+        userReservationResponse.setFullName(reservation.getReservedById().getFullName());
+        userReservationResponse.setBatch(reservation.getBatch());
+        userReservationResponse.setSpaceName(reservation.getSpace().getName());
+        userReservationResponse.setWaitingId(0); // Set waitingId to 0 as it's not mentioned in the Reservation class
+        return userReservationResponse;
     }
 }

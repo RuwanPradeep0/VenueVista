@@ -40,4 +40,13 @@ async function getWaitingList(){
 
 }
 
-export{createWaiting , getWaitingList};
+
+const getUserWaitings = async()=>{
+
+}
+
+const deleteUserWaiting = () =>{
+
+}
+
+export{createWaiting , getWaitingList ,deleteUserWaiting , getUserWaitings};

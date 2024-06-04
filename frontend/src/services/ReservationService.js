@@ -46,4 +46,42 @@ const getAllReservations = async () => {
         throw new Error("Error occurred while fetching reservations");
     }
 }
-export { createReservation, getAllReservations };
+
+async function deleteUserReservation(id) {
+//   try {
+//     const response = await axios.delete(endPointReservation, {
+//       params: { id: id },
+//     });
+//     console.log(response);
+//   } catch (error) {
+//     console.log(error.message);
+//     if (error.response && error.response.status === 503) {
+//       throw new Error("email");
+//     } else {
+//       throw new Error("");
+//     }
+//   }
+}
+
+
+const getUserReservations = async(setReservations, username) =>{
+    console.log('calling')
+    try {
+        console.log('calling')
+        const response = await axios.get(endPointReservation + "/user" , {
+            params :{
+                email : username,
+            }
+        }
+        )
+
+        setReservations(response.data);
+    } catch (error) {
+
+        console.log(error)
+        
+    }
+
+}
+
+export { createReservation, getAllReservations ,deleteUserReservation ,getUserReservations};

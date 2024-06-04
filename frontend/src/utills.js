@@ -17,20 +17,24 @@ export const setUser = (data)=>{
 }
 
 
-export const checkUser = (setUser, setValid, handleLogout) => {
-  const userString = localStorage.getItem('user');
-  
-  if (userString) {
+export const checkUser = (setUser, setValid, ) => {
+  const storedUser = localStorage.getItem('user');
+
+  if (storedUser) {
     try {
-      const user = JSON.parse(userString);
-      const decodedToken = jwtDecode(user.token);
-      const currentTime = Date.now() / 1000;
-      if (decodedToken.exp < currentTime) {
-        handleLogout();
-      } else {
-        setValid(true);
-        setUser(user.username);
-      }
+      const user = JSON.parse(storedUser);
+      // const decodedToken = jwtDecode(user.token);
+      // const currentTime = Date.now() / 1000;
+      // if (decodedToken.exp < currentTime) {
+      //   handleLogout();
+      // } else {
+      //   setValid(true);
+      //   setUser(user);
+      setValid(true);
+      setUser(user); // Set the parsed user object
+      console.log(user); // Log the user object
+     
+
     } catch (error) {
       console.error('Error decoding token:', error);
       setValid(false);
