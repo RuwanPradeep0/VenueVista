@@ -12,4 +12,4 @@ Featuring a user-friendly interface and robust administrative tools, our system 
 
 ### ER DIAGRAM 
 
-![Venue_ERD](https://github.com/RuwanPradeep0/VenueVista/blob/main/docs/ER_Diagram.png)
+         ![Venue_ERD](https://github.com/RuwanPradeep0/VenueVista/blob/main/docs/ER_Diagram.png)
