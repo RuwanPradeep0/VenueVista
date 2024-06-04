@@ -26,7 +26,7 @@ public class WaitingRequest {
     @JsonFormat(pattern = "yyyy-MM-dd")
     private String date; // Represents the date in the format "yyyy-MM-dd"
 
-    private Integer waitingByByID;
+    private Integer waitingByID;
 
     private String responsibleRole;
 

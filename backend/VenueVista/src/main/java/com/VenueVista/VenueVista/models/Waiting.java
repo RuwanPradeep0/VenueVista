@@ -1,5 +1,6 @@
 package com.VenueVista.VenueVista.models;
 
+import com.VenueVista.VenueVista.models.user.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -21,7 +22,9 @@ public class Waiting {
     @GeneratedValue
     private Integer id;
 
-    private int spaceID;
+    @ManyToOne
+    @JoinColumn(name = "space_id", nullable = false)
+    private Space space;
 
     private String title;
 
@@ -33,7 +36,13 @@ public class Waiting {
 
     private String date;
 
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private User waitingBy;
+
     private long waitingId;
+
+    private String batch;
 
     private String responsiblePersonRole;
 

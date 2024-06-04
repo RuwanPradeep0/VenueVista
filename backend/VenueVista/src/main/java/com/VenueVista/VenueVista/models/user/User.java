@@ -1,6 +1,7 @@
 package com.VenueVista.VenueVista.models.user;
 
 import com.VenueVista.VenueVista.models.Reservation;
+import com.VenueVista.VenueVista.models.Waiting;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -39,6 +40,8 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "reservedById", cascade = CascadeType.ALL)
     private Set<Reservation> reservations = new HashSet<>();
 
+    @OneToMany(mappedBy = "waitingBy", cascade = CascadeType.ALL)
+    private Set<Waiting> waitings = new HashSet<>();
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
 

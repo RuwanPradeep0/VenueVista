@@ -2,10 +2,10 @@ import axios from 'axios';
 
 const endPointWaiting = "http://localhost:8080/api/v1/waiting";
 
-const createWaiting = async(title, startTime, endTime, spaceID, waitingForDate, date ,  waitingByByID, responsibleRole, batch, waitingId) =>{
+const createWaiting = async(title, startTime, endTime, spaceID, waitingForDate, date ,  waitingByID, responsibleRole, batch, waitingId) =>{
     try {
 
-        console.log(endTime)
+        console.log( spaceID)
         return await axios.post(
             endPointWaiting + '/createrwaitings',
             {
@@ -15,7 +15,7 @@ const createWaiting = async(title, startTime, endTime, spaceID, waitingForDate, 
                 spaceID,
                 waitingForDate,
                 date,
-                waitingByByID,
+                waitingByID,
                 responsibleRole,
                 batch,
                 waitingId

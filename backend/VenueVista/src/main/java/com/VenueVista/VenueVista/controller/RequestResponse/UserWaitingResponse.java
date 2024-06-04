@@ -7,9 +7,9 @@ import lombok.NoArgsConstructor;
 
 @Data
 @Builder
-@AllArgsConstructor
 @NoArgsConstructor
-public class WaitingResponse {
+@AllArgsConstructor
+public class UserWaitingResponse {
 
     private String title;
 
@@ -31,9 +31,7 @@ public class WaitingResponse {
 
     private String fullName;
 
+    private String spaceName;
+
     private Integer waitingId;
-
-    public WaitingResponse(String title, int startTime, int endTime, int spaceID, String string, String date, int waitingId, String s, Integer id) {
-    }
 }
-
