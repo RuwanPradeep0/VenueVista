@@ -106,6 +106,7 @@ const ReservationsTable = ({
               <tr>
                 <th className={styles.firstCol}>Title</th>
                 <th>Date</th>
+                <th>Batch</th>
                 <th>Space</th>
                 <th>Start Time</th>
                 <th>End Time</th>
@@ -120,7 +121,8 @@ const ReservationsTable = ({
                 return (
                   <tr key={reservation.id}>
                     <td className={styles.firstCol}>{reservation.title}</td>
-                    <td>{getDateInFormat(new Date(reservation.date))}</td>
+                    <td>{getDateInFormat(new Date(reservation.reservationDate))}</td>
+                    <td>{reservation.batch}</td>
                     <td>{reservation.spaceName}</td>
                     <td>{getTimeString(reservation.startTime)}</td>
                     <td>{getTimeString(reservation.endTime)}</td>

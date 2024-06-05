@@ -19,7 +19,7 @@ public class UserWaitingResponse {
 
     private Integer spaceID;
 
-    private String waitingForDate;
+    private String reservationDate;
 
     private String date;
 

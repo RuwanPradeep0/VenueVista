@@ -41,9 +41,20 @@ async function getWaitingList(){
 }
 
 
-const getUserWaitings = async()=>{
+    async function getUserWaitings(setReservations, username) {
+        try {
+          const response = await axios.get(endPointWaiting + "/user", {
+            params: {
+              email: username,
+            },
+          });
 
-}
+          console.log(response.data)
+          setReservations(response.data);
+        } catch (error) {
+          console.error("Error fetching user waiting:", error.message);
+        }
+      }
 
 const deleteUserWaiting = () =>{
 

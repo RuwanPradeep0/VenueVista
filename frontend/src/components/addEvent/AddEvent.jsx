@@ -27,11 +27,11 @@ import styles from './AddEvent.module.scss'
 
 const reservationPersonOptions = [
     {
-      label: "Lecturers",
+      label: "Lecturer",
       
     },
     {
-      label: "Instructors",
+      label: "Instructor",
     },
     {
       label: "Other",
