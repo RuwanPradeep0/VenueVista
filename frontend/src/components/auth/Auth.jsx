@@ -75,6 +75,7 @@ const Auth = () => {
                 type="text"
                 id="firstName"
                 name="firstName"
+                placeholder='First Name'
                 value={formData.firstName}
                 onChange={handleInputChange}
                 required
@@ -91,6 +92,7 @@ const Auth = () => {
                 id="lastName"
                 name="lastName"
                 value={formData.lastName}
+                placeholder='Last Name'
                 onChange={handleInputChange}
                 required
               />
@@ -104,6 +106,7 @@ const Auth = () => {
               type="email"
               id="email"
               name="email"
+              placeholder='Name@eng.jfn.ac.lk'
               value={formData.email}
               onChange={handleInputChange}
               required
@@ -116,6 +119,7 @@ const Auth = () => {
               type="password"
               id="password"
               name="password"
+              placeholder='Password'
               value={formData.password}
               onChange={handleInputChange}
               required

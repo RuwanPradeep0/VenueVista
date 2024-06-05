@@ -1,0 +1,29 @@
+h2 {
+    margin-left: 6em;
+    font-size: 1.2em;
+    font-weight: 600;
+    color: hsl(0, 0%, 20%);
+    animation: fadeIn 300ms ease-in;
+  }
+  
+  .pastReservations {
+    margin-top: 2em;
+  }
+  
+  .NoReservations {
+    margin-left: calc(6 * 1.2em);
+    margin-top: 0.6em;
+    color: hsl(0, 0, 50%);
+    animation: fadeIn 300ms ease-in;
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 500ms ease-in;
+    animation: fadeIn 500ms ease-in;
+    height: 0;
+    &.show {
+      opacity: 1;
+      visibility: visible;
+      height: auto;
+    }
+  }
+  

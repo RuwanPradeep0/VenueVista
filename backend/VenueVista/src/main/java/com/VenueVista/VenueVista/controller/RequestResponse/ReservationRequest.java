@@ -26,7 +26,7 @@ public class ReservationRequest {
     @JsonFormat(pattern = "yyyy-MM-dd")
     private String date; // Represents the date in the format "yyyy-MM-dd"
 
-    private Integer reservedBy;
+    private Integer reservedByID;
 
     private String responsibleRole;
 

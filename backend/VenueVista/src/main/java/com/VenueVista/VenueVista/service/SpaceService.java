@@ -18,10 +18,8 @@ public class SpaceService {
     private final SpaceRepository spaceRepository;
     private final FacilityRepository facilityRepository;
 
-//public SpaceService(SpaceRepository spaceRepository , FacilityRepository facilityRepository){
-//    this.spaceRepository = spaceRepository;
-//    this.facilityRepository = facilityRepository;
-//}
+
+
 
 public Space saveSpace(SpaceRequest spaceRequest){
 

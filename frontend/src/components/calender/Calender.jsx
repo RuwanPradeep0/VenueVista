@@ -7,7 +7,7 @@ import ReservationInfo from "../reservationInfo/ReservationInfo";
 import styles from './Calender.module.scss'
 
 
-const Calender = ({selectSpace,spaceReservations,selectedDays,selectSpaceName,startTime,endTime,updateReservations,isUserLoggedIn}) => {
+const Calender = ({allReservations,setAllReservations,fetchInitialReservations,selectSpace,spaceReservations,selectedDays,selectSpaceName,startTime,endTime,isUserLoggedIn}) => {
   
  //calculate the upcoming dates and pass it into the Day component
  const [firstDate, setFirstDate] = useState(new Date());
@@ -52,7 +52,7 @@ const Calender = ({selectSpace,spaceReservations,selectedDays,selectSpaceName,st
    else newDate.setDate(newDate.getDate() + 7);
 
    //only allow clicking until +30 days from today
-   if (Math.round((newDate - new Date()) / 86400000) < 100)
+   if (Math.round((newDate - new Date()) / 86400000) < 500)
      setFirstDate(newDate);
  };
 
@@ -83,6 +83,8 @@ const Calender = ({selectSpace,spaceReservations,selectedDays,selectSpaceName,st
   (_, index) => index + startTime
 );
 
+
+
  //configuring the modals
  const portalEl = document.getElementById("portal");
  const [isModalOpen, setIsModalOpen] = useState(false);
@@ -98,6 +100,12 @@ const Calender = ({selectSpace,spaceReservations,selectedDays,selectSpaceName,st
  const [isAddEventOrRes, setIsAddEventOrRes] = useState(true); //true if clicked on an slot, false is clicked on a reservation
  const [clickedReservation, setClickedReservation] = useState(null);
 
+ const[isConflict , setIsConflict] = useState(false);
+
+useEffect(() =>{
+  console.log(spaceReservations)
+},[selectSpace])
+ 
  //listen to a click event and close modal if an outside element is clicked.
  useEffect(() => {
    let handler = (e) => {
@@ -114,6 +122,8 @@ const Calender = ({selectSpace,spaceReservations,selectedDays,selectSpaceName,st
    return () => {
      document.removeEventListener("mousedown", handler);
    };
+
+  
  });
  
  const handleSlotClick = (e, hour, date) => {
@@ -125,13 +135,14 @@ const Calender = ({selectSpace,spaceReservations,selectedDays,selectSpaceName,st
    setAddEventEndTime((hour+1 )* 100);
    setIsAddEventOrRes(true);
    setClickedDate(date);
-   console.log("soaceId : " +selectSpace)
+   setIsConflict(false)
  };
 
  const handleReservationClick = (e, reservation) => {
    setIsModalOpen(true);
    setIsAddEventOrRes(false);
    setClickedReservation(reservation);
+   setIsConflict(true)
    setCoords(e.currentTarget.getBoundingClientRect());
  };
 
@@ -164,9 +175,9 @@ const Calender = ({selectSpace,spaceReservations,selectedDays,selectSpaceName,st
             isToday={date.setHours(0, 0, 0, 0) === today}
             hourIntervals={hourIntervals}
 
-            dayReservations={spaceReservations?.filter(
-              (reservation) => reservation.date === getDateInYearFormat(date)
-            )}
+            dayReservations={spaceReservations.filter( // Use allReservations
+            (reservation) => reservation.reservationDate === getDateInYearFormat(date)
+          )}
 
             startTime={startTime}
             handleSlotClick={handleSlotClick}
@@ -187,14 +198,27 @@ const Calender = ({selectSpace,spaceReservations,selectedDays,selectSpaceName,st
         rect={coords}
       >
         {isAddEventOrRes ? (
+          // <AddEvent
+          //   startTimeProp={addEventStartTime}
+          //   endTimeProp={addEventEndTime}
+          //   spaceId={selectSpace}
+          //   spaceName={selectSpaceName}
+          //   date={clickedDate}
+          //   spaceReservations={spaceReservations}
+          //   updateReservations={updateReservations}
+            
+          // />
           <AddEvent
             startTimeProp={addEventStartTime}
             endTimeProp={addEventEndTime}
             spaceId={selectSpace}
             spaceName={selectSpaceName}
             date={clickedDate}
-            spaceReservations={spaceReservations}
-            updateReservations={updateReservations}
+            spaceReservations={allReservations}
+            updateReservations={fetchInitialReservations}
+            allReservations={allReservations}
+            setAllReservations={setAllReservations}
+            isConflict ={isConflict}
           />
         ) : (
           <ReservationInfo
@@ -258,14 +282,15 @@ const Day = ({
         {hourIntervals.map((hour) => (
           <Slot
             key={`${dateObj.getDate()}-${hour}`}
-            slotReservations={dayReservations.filter(
-              (reservation) => Math.floor(reservation.startTime / 100) === hour
-            )}
+            slotReservations={dayReservations.filter( // Use dayReservations
+            (reservation) => Math.floor(reservation.startTime / 100) === hour
+          )}
             handleSlotClick={handleSlotClick}
             hour={hour}
             date={dateObj}
             isUserLoggedIn={isUserLoggedIn} 
             handleResevationClick={handleReservationClick}
+            prevReservations={prevReservations}
           />
         ))}
       </div>
@@ -291,6 +316,8 @@ const Day = ({
         onClick={(e) => isUserLoggedIn && handleSlotClick(e, hour, date)}
         id="slot"
       >
+
+
         {slotReservations.map((reservation) => {
           const minutes =
             (Math.floor(reservation.endTime / 100) -
@@ -304,9 +331,9 @@ const Day = ({
               style={{
                 height: `${(minutes / 60) * 100}%`,
                 top: `${((reservation.startTime % 100) / 60) * 100}%`,
-                // backgroundColor: `${generateColorCode(
-                //   reservation.reservedBy[0]
-                // )}`,
+                backgroundColor: `${generateColorCode(
+                  reservation.fullName[0]
+                )}`,
               }}
               id="reservation"
               onClick={(e) => handleResevationClick(e, reservation)}

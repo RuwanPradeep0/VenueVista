@@ -163,16 +163,7 @@ const AddSpace = () => {
                   />
                   AC
                 </label>
-                <label className={styles.facilityLabel}>
-                  <input
-                    type="checkbox"
-                    value="SmartBoard"
-                    onChange={handleFacilityChange}
-                    checked={formData.facilities.includes('SmartBoard')}
-                    className={styles.facilityCheckbox}
-                  />
-                  Smart Board
-                </label>
+              
                 <label className={styles.facilityLabel}>
                   <input
                     type="checkbox"
@@ -203,16 +194,7 @@ const AddSpace = () => {
                   />
                   Electronic Equipment
                 </label>
-                <label className={styles.facilityLabel}>
-                  <input
-                    type="checkbox"
-                    value="Robotics"
-                    onChange={handleFacilityChange}
-                    checked={formData.facilities.includes('Robotics')}
-                    className={styles.facilityCheckbox}
-                  />
-                  Robotics
-                </label>
+                
               </div>
             </div>
             <button type="submit" className={styles.submitButton}>

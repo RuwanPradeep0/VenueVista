@@ -2,7 +2,7 @@ import React ,{ useEffect, useRef, useState } from 'react'
 import Calender from '../calender/Calender'
 import AvailableSpaces from '../availableSpaces/AvailableSpaces'
 import {getAllSpaces} from '../../services/SpaceService'
-import {getAllReservation} from '../../services/ReservationService'
+import {getAllReservations} from '../../services/ReservationService'
 import { MdClose } from "react-icons/md";
 import classNames from "classnames";
 
@@ -16,23 +16,34 @@ const SheduleManager = ({
     capacity,
     selectedFacilities}) => {
 
-         //filter reservations according to the space selected - default - 1
-  const [reservations, setReservations] = useState([]);
+  //filter reservations according to the space selected - default - 1
+  // const [reservations, setReservations] = useState([]);
   const [spaceReservations, setSpaceReservations] = useState([]);
   const [allSpaces, setAllSpaces] = useState([]);
   const [filteredSpaces, setFilteredSpaces] = useState([]);
   const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
+  const [allReservations, setAllReservations] = useState([]);
 
-
-
-
+  const fetchInitialReservations = async () => {
+    try {
+      const response = await getAllReservations();
+      setAllReservations(response.data);
+      console.log(response.data)
+    } catch (error) {
+      console.error('Error fetching initial reservations:', error);
+    }
+  };
+  
+ //01
   async function getSpaces() {
     await getAllSpaces(setAllSpaces);
   }
 
-  async function getReservations() {
-    await getAllReservation(setReservations);
-  }
+    //initially fetching the data
+    useEffect(() => {
+      getSpaces();
+      fetchInitialReservations();
+    }, []);
 
     // Get the user from localStorage on component mount
     useEffect(() => {
@@ -41,12 +52,22 @@ const SheduleManager = ({
     }, []);
 
   useEffect(() => {
-    if (reservations.length !== 0) {
+    if (allReservations.length !== 0) {
       setSpaceReservations(
-        reservations.filter((reservation) => reservation.spaceId === 1)
+        allReservations.filter((reservation) => reservation.spaceID === selectSpace)
       );
     }
-  }, [reservations]);
+  }, [allReservations]);
+
+  useEffect(() => {
+    if (allReservations.length !== 0) {
+      setSpaceReservations(
+        allReservations.filter((reservation) => reservation.spaceID === selectSpace)
+      );
+    }
+  }, []);
+
+  //02
 
    //whenever the capacity change, change the displayed spaces using the filteredSpaces state
    useEffect(() => {
@@ -71,7 +92,7 @@ const SheduleManager = ({
       setSelectSpace(filteredSpaces[0].id);
       setSelectSpaceName(filteredSpaces[0].name);
       setSpaceReservations(
-        reservations.filter(
+        allReservations.filter(
           (reservation) => reservation.spaceId === selectSpace
         )
       );
@@ -80,11 +101,8 @@ const SheduleManager = ({
     }
   }, [filteredSpaces]);
 
-  //initially fetching the data
-  useEffect(() => {
-    getSpaces();
-    getReservations();
-  }, []);
+
+
 
   //Available Spaces Selection
   const [selectSpace, setSelectSpace] = useState(1);
@@ -113,7 +131,7 @@ const SheduleManager = ({
     } else {
       setSelectSpace(id);
       setSpaceReservations(
-        reservations.filter((reservation) => reservation.spaceId === id)
+        allReservations.filter((reservation) => reservation.spaceID === id)
       );
     }
   };
@@ -124,8 +142,8 @@ const SheduleManager = ({
     try {
       setSelectSpaceName(allSpaces?.find((s) => s.id === selectSpace).name);
       setSpaceReservations(
-        reservations.filter(
-          (reservation) => reservation.spaceId === selectSpace
+        allReservations.filter(
+          (reservation) => reservation.spaceID === selectSpace
         )
       );
     } catch (error) {
@@ -145,15 +163,18 @@ const SheduleManager = ({
           select={selectSpace}
         />
         <Calender
-          getReservations={getReservations}
+          // prevReservations={reservations}
           selectSpace={selectSpace}
           selectSpaceName={selectSpaceName}
           spaceReservations={spaceReservations}
           selectedDays={selectedDays}
           startTime={startTime}
           endTime={endTime}
-          updateReservations={getReservations}
+          // updateReservations={getReservations}
           isUserLoggedIn={isUserLoggedIn}
+          allReservations={allReservations}
+          fetchInitialReservations ={fetchInitialReservations}
+          setAllReservations={setAllReservations}
         />
       </div>
 

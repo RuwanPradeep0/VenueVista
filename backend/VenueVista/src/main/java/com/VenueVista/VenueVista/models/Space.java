@@ -44,4 +44,8 @@ public class Space {
 
     @OneToMany(mappedBy = "space", cascade = CascadeType.ALL)
     private List<Reservation> reservations;
+
+
+    @OneToMany(mappedBy = "space", cascade = CascadeType.ALL)
+    private List<Waiting> waitings;
 }

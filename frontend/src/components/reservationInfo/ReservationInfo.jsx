@@ -2,7 +2,7 @@ import React,{useState,useEffect} from 'react'
 import { FiMapPin } from "react-icons/fi";
 import { LuCalendarDays } from "react-icons/lu";
 import { FaRegClock, FaPlus } from "react-icons/fa";
-import { getDateInFormat, getTimeString } from '../../utills'
+import { generateColorCode, getDateInFormat, getTimeString } from '../../utills'
 import { getWaitingList } from '../../services/WaitingService'
 
 import styles from './ReservationInfo.module.scss'
@@ -38,9 +38,9 @@ const ReservationInfo = ({ reservation, onClick }) => {
     <div className={styles.container}>
       <div
         className={styles.infoTop}
-        // style={{
-        //   backgroundColor: `${generateColorCode(reservation.reservedBy[0])}`,
-        // }}
+        style={{
+          backgroundColor: `${generateColorCode(reservation.fullName[0])}`,
+        }}
       >
         <h4 className={styles.title}>{reservation.title}</h4>
 
@@ -64,7 +64,7 @@ const ReservationInfo = ({ reservation, onClick }) => {
 
       <div className={styles.infoBottom}>
         <p className={styles.infoText}>Reserved By</p>
-        <p className={styles.person}>{reservation.reservedBy}</p>
+        <p className={styles.person}>{reservation.fullName}</p>
         <p className={styles.infoText + " " + styles.resPerson}>
           Responsible Person
         </p>

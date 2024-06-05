@@ -17,11 +17,13 @@ public class ReservationResponse {
 
     private String date;
 
-    private Integer reservedBy;
+    private Integer reservedByID;
 
     private String responsibleRole;
 
     private String batch;
+
+    private String fullName;
 
     private Integer waitingId;
 

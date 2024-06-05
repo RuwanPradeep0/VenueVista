@@ -27,11 +27,11 @@ import styles from './AddEvent.module.scss'
 
 const reservationPersonOptions = [
     {
-      label: "Lecturers",
+      label: "Lecturer",
       
     },
     {
-      label: "Instructors",
+      label: "Instructor",
     },
     {
       label: "Other",
@@ -72,6 +72,9 @@ const AddEvent = ({
   spaceReservations,
   spaceName,
   updateReservations,
+  setAllReservations,
+  allReservations,
+  isConflict
 }) => {
 
     const [startTime, setStartTime] = useState(getTimeString(startTimeProp));
@@ -173,12 +176,12 @@ const AddEvent = ({
       //check availability of the time slot
       const checkAvailablity = (startTimeFormatted, endTimeFormatted) => {
         var reservationDate = getDateInYearFormat(date || new Date());
-        const dayReservations = spaceReservations?.filter(
+        const dayReservations = spaceReservations.filter(
           (reservation) => reservation.date === reservationDate
         );
         console.log(spaceReservations, dayReservations, reservationDate);
         if (
-          dayReservations?.filter(
+          dayReservations.filter(
             (reservation) =>
               // reservation.startTime < startTimeFormatted < reservation.endTime ||
               //reservation.startTime < endTimeFormatted < reservation.endTime
@@ -194,7 +197,12 @@ const AddEvent = ({
           console.log("Slot is not available");
           setClash(true);
         }
+
+        if(isConflict){
+          setClash(true)
+        }
       };
+      
 
       
         //hadnling submit click, on submit click show feedback
@@ -203,15 +211,6 @@ const AddEvent = ({
 
         const handleSubmit = async (e) => {
             e.preventDefault();
-            console.log("submitting")
-            console.log('batch : ' + batchOption)
-
-            console.log('title : ' + title)
-            console.log('space : ' + spaceId)
-            console.log('batch : ' + batchOption)
-            console.log('responsible : ' + responsibleName)
-            console.log("date :" + date)
-
             try {
               const res = await createReservation(
                   title,
@@ -224,13 +223,14 @@ const AddEvent = ({
                   responsibleName,
                   batchOption,
                   -1
-                  // responsibleId,
-                  // -1
+                 
               );
-      
-              // Handle successful reservation
-              setShowFeedbackSuccess(true);
-              updateReservations();
+
+              setAllReservations([...allReservations, res.data]);
+
+              //  // Handle successful reservation
+               setShowFeedbackSuccess(true);
+
           } catch (error) {
               // Handle errors
               if (error.message === "reserved") {
@@ -253,43 +253,44 @@ const AddEvent = ({
       }, 4000);
     };
 
-    //handling submit waiting list click, on submit show feedback
+
+
+  //handling submit waiting list click, on submit show feedback
   const [showFeedbackWaiting, setShowFeedbackWaiting] = useState(false);
+
   const handleWaiting = async (e) => {
     e.preventDefault();
-   
 
+    try {
+      
+      const res = await createWaiting(
+        title,
+        setTimeFormat(startTime),
+        setTimeFormat(endTime),
+        spaceId,
+        getDateInYearFormat(new Date(Date.now())),
+        getDateInYearFormat(date),
+        userId,
+        responsibleName,
+        batchOption,
+        -1
+      )
 
-    await createWaiting(
-   
-      title,
-      setTimeFormat(startTime),
-      setTimeFormat(endTime),
-      spaceId,
-      Date.now(),
-      getDateInYearFormat(date),
-      userId,
-      responsibleName,
-      batchOption
-      // responsibleId,
-      // -1
-    )
-      .then((res) => {
-        // if waiting success
+      setShowFeedbackWaiting(true);
+        updateReservations();
+
+    
+    } catch (error) {
+      if (error.message === "email") {
         setShowFeedbackWaiting(true);
         updateReservations();
-      })
-      .catch((error) => {
-        // email error
-        if (error.message === "email") {
-          setShowFeedbackWaiting(true);
-          updateReservations();
-        } else {
-          console.log(error);
-          setShowFeedbackError(true);
-          // other error
-        }
-      });
+      } else {
+        console.log(error);
+        setShowFeedbackError(true);
+        // other error
+      }
+      
+    }
 
     //reset after timeout
     setTimeout(() => {
@@ -310,10 +311,6 @@ const AddEvent = ({
         mapTimeStringToInteger(startTime) > mapTimeStringToInteger(endTime)
     );
   }, [ responsibleName,batchOption,title, startTime, endTime]); //responsibleId was added to dependancy array
-
-        
-
-
 
 
   return (
