@@ -56,7 +56,25 @@ async function getUserWaitings(setReservations, username) {
   }
 }
 
-const deleteUserWaiting = (userID) =>{
+const deleteUserWaiting = async(waitingId) =>{
+
+  console.log(waitingId)
+  try {
+    console.log(waitingId)
+    const response = await axios.delete(`${endPointWaiting}/deleteuserwaitings` , {
+      params:{
+        waitingId : waitingId
+      }
+    })
+
+
+    return response;
+
+    
+  } catch (error) {
+    throw new Error(error)
+    
+  }
 
 
 }

@@ -124,9 +124,6 @@ public class ReservationService {
     }
 
 
-
-
-
     private UserReservationResponse mapToUserReservationResponse(Reservation reservation) {
         UserReservationResponse userReservationResponse = new UserReservationResponse();
 

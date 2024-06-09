@@ -52,6 +52,7 @@ const MyReservations = () => {
       }, [reservations]);
 
       const removeReservation = (reservationId) => {
+
         setReservations((prevReservations) =>
             prevReservations.filter((res) => res.id !== reservationId)
         );

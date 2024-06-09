@@ -50,7 +50,11 @@ const ReservationsTable = ({
       } else {
         try {
           const res = await deleteUserWaiting(reservation.id);
-          // Handle the response if needed
+          console.log(res.status)
+          if (res.status === 200) {
+            onDeleteSuccess(reservation.id);
+          }
+   
         } catch (error) {
           if (error.message === "email") {
             // Error but an email issue, so you can handle it accordingly

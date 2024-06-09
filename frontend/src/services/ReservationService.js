@@ -47,7 +47,7 @@ const getAllReservations = async () => {
 }
 
 const deleteUserReservation = async (reservationId) => {
-    console.log('reservation id',reservationId)
+   
     try {
         const response = await axios.delete(`${endPointReservation}/deleteuserereservations`, {
             params: { reservationId: reservationId }
