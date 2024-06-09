@@ -10,6 +10,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserReservationResponse {
+
+    private  Integer id;
     private String title;
 
     private Integer startTime;

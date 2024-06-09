@@ -42,26 +42,43 @@ const getAllReservations = async () => {
         // setReservations(response.data); // Return the data to use it in your application
         return response;
     } catch (error) {
-        console.log(error.message);
         throw new Error("Error occurred while fetching reservations");
     }
 }
 
-async function deleteUserReservation(id) {
-//   try {
-//     const response = await axios.delete(endPointReservation, {
-//       params: { id: id },
-//     });
-//     console.log(response);
-//   } catch (error) {
-//     console.log(error.message);
-//     if (error.response && error.response.status === 503) {
-//       throw new Error("email");
-//     } else {
-//       throw new Error("");
-//     }
-//   }
+const deleteUserReservation = async (reservationId) => {
+    console.log('reservation id',reservationId)
+    try {
+        const response = await axios.delete(`${endPointReservation}/deleteuserereservations`, {
+            params: { reservationId: reservationId }
+        });
+        // Check if the request was successful (status code 200-299)
+        if (response.status >= 200 && response.status < 300) {
+            console.log('Reservation deleted successfully:', response);
+            // Optionally return the response for further processing
+            return response;
+        } else {
+            // If the request was not successful, throw an error with status and message
+            throw new Error(`Failed to delete reservation. Server responded with status: ${response.status}`);
+        }
+    } catch (error) {
+        // Check if the error is a 403 Forbidden error
+        if (error.response && error.response.status === 403) {
+            // Handle 403 Forbidden error: Provide appropriate feedback to the user
+            console.error('Forbidden: You do not have permission to delete this reservation');
+            // Optionally, you can show an error message to the user or perform other actions
+            // For example, display an error message on the UI
+            // showMessage('Error', 'You do not have permission to delete this reservation');
+        } else {
+            // Handle other errors
+            console.error('Error deleting reservation:', error.message);
+            // Optionally, you can show a generic error message to the user or perform other actions
+            // For example, display a generic error message on the UI
+            // showMessage('Error', 'Failed to delete reservation. Please try again later.');
+        }
+    }
 }
+
 
 
 const getUserReservations = async(setReservations, username) =>{
@@ -76,6 +93,7 @@ const getUserReservations = async(setReservations, username) =>{
         )
 
         setReservations(response.data);
+        console.log(response.data)
     } catch (error) {
 
         console.log(error)

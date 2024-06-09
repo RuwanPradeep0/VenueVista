@@ -13,8 +13,6 @@ const MyReservations = () => {
     const [reservations, setReservations] = useState([]);
     const [pastReservations, setPastReservations] = useState([]);
     const [currentReservations, setCurrentReservations] = useState([]);
-    // const [responsibleReservations, setResponsibleReservations] = useState([]);
-    // const [responsibleCurrentReservations, setResponsibleCurrentReservations] = useState([]);
 
     useEffect(() => {
         checkUser(setUser, setValid);
@@ -33,15 +31,7 @@ const MyReservations = () => {
           console.log(reservations)
         }
       }, [user]);
-    //   useEffect(() => {
-    //     if (user !== "") {
-    //       getReservation();
-    //       //no use
-    //     //   if ((user.role = Role.RESPONSIBLE))
-    //     //     getResponsibleReservations(setResponsibleReservations, user.email);
-    //     }
-    //   }, []);
-    
+
       useEffect(() => {
         if (reservations.length > 0) {
           setPastReservations(
@@ -61,19 +51,7 @@ const MyReservations = () => {
         }
       }, [reservations]);
 
-      // nouse
-      
-    //   useEffect(() => {
-    //     if (responsibleReservations.length > 0) {
-    //       setResponsibleCurrentReservations(
-    //         responsibleReservations.filter((res) => {
-    //           const date = new Date(res.date);
-    //           const currentDate = new Date();
-    //           return date >= currentDate;
-    //         })
-    //       );
-    //     }
-    //   }, [responsibleReservations]);
+
 
 
   return (
