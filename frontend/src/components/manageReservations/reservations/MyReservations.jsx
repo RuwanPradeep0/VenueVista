@@ -16,7 +16,7 @@ const MyReservations = () => {
 
     useEffect(() => {
         checkUser(setUser, setValid);
-        console.log(reservations)
+        
       }, []);
     
       // Fetch reservations when user is set
@@ -51,6 +51,12 @@ const MyReservations = () => {
         }
       }, [reservations]);
 
+      const removeReservation = (reservationId) => {
+        setReservations((prevReservations) =>
+            prevReservations.filter((res) => res.id !== reservationId)
+        );
+    };
+
 
 
 
@@ -71,7 +77,7 @@ const MyReservations = () => {
       isActionable={true}
       user={currentReservations.fullName}
       waitingList={false}
-    //   updateReservation={getReservation}
+      onDeleteSuccess={removeReservation}
     />
 
     {pastReservations.length !== 0 && (
