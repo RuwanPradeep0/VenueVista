@@ -1,0 +1,41 @@
+@use '../../styles/variables' as *;
+
+.options {
+  display: grid;
+  grid-template-columns: 2fr 4fr;
+
+  .optionLabel {
+    color: hsl(0, 0%, 20%);
+    text-align: left;
+    font-weight: 600;
+  }
+
+  .optionContent {
+    &.checkboxes {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr); // Set to 2 columns
+      gap: 0.6em; // Use a single gap property for both row and column gaps
+      font-size: 0.95em;
+
+      .checkboxWrapper {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 0.8em;
+      }
+
+      label {
+        display: inline-flex;
+        align-items: center;
+        cursor: pointer;
+      }
+
+      input[type="checkbox"] {
+        background-color: white;
+        border: 1px solid hsl(0, 0%, 20%);
+        border-radius: 1em;
+        margin-top: 0.15em;
+      }
+    }
+  }
+}

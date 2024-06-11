@@ -3,6 +3,7 @@ import Calender from '../calender/Calender'
 import AvailableSpaces from '../availableSpaces/AvailableSpaces'
 import {getAllSpaces} from '../../services/SpaceService'
 import {getAllReservations} from '../../services/ReservationService'
+
 import { MdClose } from "react-icons/md";
 import classNames from "classnames";
 
@@ -14,7 +15,8 @@ const SheduleManager = ({
     startTime,
     endTime,
     capacity,
-    selectedFacilities}) => {
+    selectedFacilities,
+    selectedBatches}) => {
 
   //filter reservations according to the space selected - default - 1
   // const [reservations, setReservations] = useState([]);
@@ -75,7 +77,7 @@ const SheduleManager = ({
       setFilteredSpaces(
         allSpaces?.filter(
           (space) =>
-            space.capacity <= capacity[1] &&
+            space.capacity >= capacity[1] &&
             space.capacity >= capacity[0] &&
             selectedFacilities.every((facility) =>
               space.facilitiesList.includes(facility)
@@ -100,6 +102,8 @@ const SheduleManager = ({
       setSpaceReservations([]);
     }
   }, [filteredSpaces]);
+
+  
 
 
 
@@ -152,6 +156,41 @@ const SheduleManager = ({
       //so spaces.find will return nothing.
     }
   }, [selectSpace]);
+
+  useEffect(() => {
+    if (allReservations.length !== 0) {
+      // Filter reservations based on the selected space and facilities
+      const filteredReservations = allReservations.filter((reservation) => {
+        const matchesSpaceAndFacilities =
+          reservation.spaceID === selectSpace &&
+          selectedFacilities.every((facility) =>
+            reservation.facilitiesList.includes(facility)
+          );
+  
+        // If selectedBatches is not empty, also filter by batch
+        if (selectedBatches.length > 0) {
+          return matchesSpaceAndFacilities && selectedBatches.includes(reservation.batch);
+        }
+  
+        // If selectedBatches is empty, just match space and facilities
+        return matchesSpaceAndFacilities;
+      });
+  
+      // Check if the selected space is present in the filtered spaces
+      const isSelectedSpaceFiltered = filteredSpaces.some(
+        (space) => space.id === selectSpace
+      );
+  
+      if (isSelectedSpaceFiltered) {
+        // If the selected space is present in the filtered spaces, set the spaceReservations
+        setSpaceReservations(filteredReservations);
+      } else {
+        // If the selected space is not present in the filtered spaces, clear the spaceReservations
+        setSpaceReservations([]);
+      }
+    }
+  }, [allReservations, selectSpace, filteredSpaces, selectedFacilities, selectedBatches]);
+  
 
 
   return (

@@ -7,8 +7,9 @@ import Slider from "@mui/material/Slider";
 import { useRef, useState, useEffect } from "react";
 import styles from './Home.module.scss'
 import TimeSelector from '../../components/timeSelector/TimeSelector';
+import BatchSelector from '../../components/batchSelector/BatchSelector';
 import SheduleManager from '../../components/sheduleManager/SheduleManager';
-
+import { SlPeople } from "react-icons/sl";
 const facilitiesOptions = [
   "AC",
   "Computers",
@@ -24,6 +25,7 @@ const Home = () => {
   const [isSpaceSelector, setIsSpaceSelector] = useState(false);
   const [isDaySelector, setIsDaySelector] = useState(false);
   const [isTimeSelector, setIsTimeSelector] = useState(false);
+  const [isBatchSelector , setIsBatchSelector] = useState(false) 
   const menuRef = useRef();
 
   //close menu when clicked outside
@@ -49,12 +51,15 @@ const Home = () => {
   // Initialize selectedDays state with array of indices //DaySelector
   const [selectedDays, setSelectedDays] = useState([1, 2, 3, 4, 5]);
 
+  //batch select
+  const [selectedBatches, setSelectedBatches] = useState([]);
+
   //TimeSelector
   const [startTime, setStartTime] = useState(8); // State for startTime
   const [endTime, setEndTime] = useState(17); // State for endTime
 
   //SpaceSelector
-  const [capacity, setCapacity] = useState([0, 250]);
+  const [capacity, setCapacity] = useState([0, 100]);
   const [selectedFacilities, setSelectedFacilities] = useState([]);
 
   return (
@@ -72,6 +77,7 @@ const Home = () => {
               setIsMenuOpen(true);
               setIsSpaceSelector(true);
               setIsDaySelector(false);
+              setIsBatchSelector(false);
               setIsTimeSelector(false);
             }}
             id="actionBtn"
@@ -87,6 +93,7 @@ const Home = () => {
 
               setIsSpaceSelector(false);
               setIsDaySelector(true);
+              setIsBatchSelector(false);
               setIsTimeSelector(false);
             }}
             id="actionBtn"
@@ -94,12 +101,34 @@ const Home = () => {
             <LuCalendarDays />
             Select Days
           </button>
+
+          <button
+            className={styles.actionBtn}
+            onClick={() => {
+              setIsMenuOpen(true);
+
+              setIsSpaceSelector(false);
+              setIsDaySelector(false);
+              setIsBatchSelector(true)
+              setIsTimeSelector(false);
+            }}
+            id="actionBtn"
+          >
+            <SlPeople />
+            Select Batch
+          </button>
+
+
+
+
+
           <button
             className={styles.actionBtn}
             onClick={() => {
               setIsMenuOpen(true);
               setIsSpaceSelector(false);
               setIsDaySelector(false);
+              setIsBatchSelector(false);
               setIsTimeSelector(true);
             }}
             id="actionBtn"
@@ -132,6 +161,15 @@ const Home = () => {
           />
         )}
 
+        {
+          isBatchSelector && (
+            <BatchSelector
+              selectedBatches={selectedBatches}
+              setSelectedBatches={setSelectedBatches}
+            />
+          )
+        }
+
         {isTimeSelector && (
           <TimeSelector
             startTime={startTime}
@@ -151,6 +189,7 @@ const Home = () => {
         endTime={endTime}
         capacity={capacity}
         selectedFacilities={selectedFacilities}
+        selectedBatches={selectedBatches}
       />
 
 

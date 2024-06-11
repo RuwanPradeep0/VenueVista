@@ -84,7 +84,6 @@ const Calender = ({allReservations,setAllReservations,fetchInitialReservations,s
 );
 
 
-
  //configuring the modals
  const portalEl = document.getElementById("portal");
  const [isModalOpen, setIsModalOpen] = useState(false);
@@ -339,6 +338,7 @@ const Day = ({
               onClick={(e) => handleResevationClick(e, reservation)}
             >
               {reservation.title}
+              {reservation.batch}
              
             </button>
           );
