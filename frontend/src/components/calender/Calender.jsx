@@ -11,6 +11,10 @@ const Calender = ({allReservations,setAllReservations,fetchInitialReservations,s
   
  //calculate the upcoming dates and pass it into the Day component
  const [firstDate, setFirstDate] = useState(new Date());
+ const [currentMonth, setCurrentMonth] = useState(new Date().getMonth());
+ const [currentYear, setCurrentYear] = useState(new Date().getFullYear());
+ 
+
  let dateList = []; //list containing date objects
 //  const selectedDays = [1, 2, 3, 4, 5]; //The user will select days, initially it'll be of weekdays. (0 - Sunday, 1 - Monday...etc)
  const today = new Date().setHours(0, 0, 0, 0); //Date object representing current Date
@@ -104,6 +108,12 @@ const Calender = ({allReservations,setAllReservations,fetchInitialReservations,s
 useEffect(() =>{
   console.log(spaceReservations)
 },[selectSpace])
+
+useEffect(() => {
+  setCurrentMonth(firstDate.getMonth()); // Update currentMonth whenever firstDate changes
+  setCurrentYear(firstDate.getFullYear());
+}, [firstDate]);
+
  
  //listen to a click event and close modal if an outside element is clicked.
  useEffect(() => {
@@ -154,7 +164,13 @@ useEffect(() =>{
   
     return (
 
+      
+
     <div className={styles.container}>
+       <div className={styles.month}>
+      {firstDate.toLocaleString('default', { month: 'long' })} {currentYear} {/* Display current month and year */}
+      </div>
+     
         <div className={styles.controller}>
         <button className={styles.icon} onClick={handleLeftClick}>
           <FaChevronLeft />
@@ -164,9 +180,12 @@ useEffect(() =>{
           <FaChevronRight />
         </button>
 
+
         </div>
+        
 
         <div className={styles.calendar}>
+          
         {dateList.map((date) => (
           <Day
             key={date}
@@ -271,7 +290,6 @@ const Day = ({
     }
 
 
-  
     return (
       <div className={styles.day}>
         <div className={`${styles.date} ${isToday ? styles.today : " "}`}>
@@ -338,7 +356,7 @@ const Day = ({
               onClick={(e) => handleResevationClick(e, reservation)}
             >
               {reservation.title}
-              {reservation.batch}
+              <span className={styles.batch}>{reservation.batch}</span>
              
             </button>
           );
