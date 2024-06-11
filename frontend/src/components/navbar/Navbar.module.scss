@@ -52,7 +52,7 @@
       &:hover,
       &:focus {
         transition: all ease-in-out 100ms;
-        color: $accentColor;
+        color: #fef08a;
 
         &::before {
           width: 100%;
@@ -65,7 +65,7 @@
         height: 2px;
         content: " ";
         position: absolute;
-        background-color: $accentColor;
+        background-color: #fef08a;
         width: 0%;
         top: 1.4em;
       }

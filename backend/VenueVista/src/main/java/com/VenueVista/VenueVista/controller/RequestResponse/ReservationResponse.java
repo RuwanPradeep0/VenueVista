@@ -5,6 +5,8 @@ import lombok.Data;
 @Data
 public class ReservationResponse {
 
+    private Integer id;
+
     private String title;
 
     private Integer startTime;

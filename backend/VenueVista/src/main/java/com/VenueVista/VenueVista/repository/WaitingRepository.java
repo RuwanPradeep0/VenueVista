@@ -10,4 +10,6 @@ public interface WaitingRepository extends JpaRepository<Waiting , Integer> {
 
     List<Waiting> findByWaitingBy(User user);
 
+    void deleteById(Integer waitingId);
+
 }

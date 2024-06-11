@@ -18,7 +18,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/reservations")
-@CrossOrigin("*")
+@CrossOrigin(origins = "*")
 public class ReservationController {
 
     @Autowired
@@ -38,7 +38,6 @@ public class ReservationController {
     }
 
 
-
     @GetMapping("/user")
     public ResponseEntity<List<UserReservationResponse>> getUserReservations(@RequestParam String email) {
         try {
@@ -47,6 +46,13 @@ public class ReservationController {
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
+    }
+
+    @DeleteMapping("/deleteuserereservations")
+    public ResponseEntity<String> deleteUserReservation(@RequestParam Integer reservationId) {
+        reservationService.deleteReservationById(reservationId);
+        return ResponseEntity.ok("Reservation deleted successfully");
+
     }
 }
 

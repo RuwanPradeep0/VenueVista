@@ -21,6 +21,8 @@ const MyWaitings = () => {
         console.log(waiting)
       }
 
+
+
       useEffect(() => {
         checkUser(setUser, setValid);
       }, []);
@@ -36,8 +38,13 @@ const MyWaitings = () => {
           setAvailableWaiting(waiting.filter((wait) => wait.available));
           setUnAvailableWaiting(waiting.filter((wait) => !wait.available));
         }
-      }, [waiting]);
-      console.log(waiting);
+      }, [waiting ]);
+
+      const handleDeleteSuccess = (reservationId) => {
+        setAvailableWaiting(prev => prev.filter(res => res.id !== reservationId));
+        setUnAvailableWaiting(prev => prev.filter(res => res.id !== reservationId));
+      };
+     
 
   return (
      <div className={styles.container}>
@@ -58,6 +65,7 @@ const MyWaitings = () => {
         waitingList={true}
         updateReservation={getReservation}
         user={user}
+        
       />
 
       {unavailableWaiting.length !== 0 && (
@@ -70,6 +78,7 @@ const MyWaitings = () => {
         isActionable={true}
         waitingList={true}
         user={user}
+        onDeleteSuccess={handleDeleteSuccess}
       />
     </div>
   )

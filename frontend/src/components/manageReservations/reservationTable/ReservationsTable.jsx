@@ -15,7 +15,7 @@ const ReservationsTable = ({
     isAcceptable,
     user,
     waitingList,
-    updateReservation,
+    onDeleteSuccess
 }) => {
     const[spaces , setSpaces] = useState('');
 
@@ -28,39 +28,43 @@ const ReservationsTable = ({
 
     },[])
 
-    const handleDelete = async (reservation) => {
-        if (waitingList === false) {
+    // useEffect(()=>{
+    //   updateReservation()
+    // })
 
-            const res = await deleteUserReservation(reservation.id)
-         
-            .then((res) => {
-              //no error proceed to rerender tables with updated reservations
-              updateReservation();
-            })
-            .catch((error) => {
-              if (error.message === "email") {
-                //error but an email issue, so proceed to rerender table with updated reservations
-                updateReservation();
-              } else {
-                // other error
-                console.log(error);
-              }
-            });
-        } else {
-            const res = await deleteUserWaiting(reservation.id)
-            .then((res) => {
-              updateReservation();
-            })
-            .catch((error) => {
-              if (error.message === "email") {
-                updateReservation();
-              } else {
-                // other error
-                console.log(error);
-              }
-            });
+    const handleDelete = async (reservation) => {
+      if (waitingList === false) {
+        try {
+          const res = await deleteUserReservation(reservation.id);
+          if (res.status === 200) {
+            onDeleteSuccess(reservation.id);
+          }
+        } catch (error) {
+          if (error.message === "email") {
+            // Error but an email issue, so you can handle it accordingly
+          } else {
+            // Other errors
+            console.log(error);
+          }
         }
-      };
+      } else {
+        try {
+          const res = await deleteUserWaiting(reservation.id);
+          console.log(res.status)
+          if (res.status === 200) {
+            onDeleteSuccess(reservation.id);
+          }
+   
+        } catch (error) {
+          if (error.message === "email") {
+            // Error but an email issue, so you can handle it accordingly
+          } else {
+            // Other errors
+            console.log(error);
+          }
+        }
+      }
+    };
 
       const handleReservation = async (reservation) => {
         await createReservation(
@@ -78,15 +82,15 @@ const ReservationsTable = ({
           .then((res) => {
             // if reservation sucess
             console.log(res);
-            updateReservation();
+            // updateReservation();
           })
           .catch((error) => {
             // if reserved
             if (error.message === "reserved") {
               console.log("reserved");
-              updateReservation();
+              // updateReservation();
             } else if (error.message === "email") {
-              updateReservation();
+              // updateReservation();
             } else {
               // other error
               console.log(error);

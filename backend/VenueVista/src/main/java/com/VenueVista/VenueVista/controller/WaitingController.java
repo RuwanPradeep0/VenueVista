@@ -33,6 +33,12 @@ public class WaitingController {
         return ResponseEntity.ok(userWaitingResponses);
     }
 
+    @DeleteMapping("/deleteuserwaitings")
+    public ResponseEntity<String> deleteUserWaiting(@RequestParam Integer waitingId){
+        waitingService.deleteUserWaitng(waitingId);
+        return ResponseEntity.ok("Waiting deleted successfully");
+    }
+
 
 
 

@@ -71,6 +71,15 @@ public class ReservationService {
                 .collect(Collectors.toList());
     }
 
+    //Delete User Reservation
+    public void deleteReservationById(Integer reservationId){
+        if(!reservationRepository.existsById(reservationId)){
+            throw new ResourceNotFoundException("Reservation not found with ID: " + reservationId);
+        }
+
+        reservationRepository.deleteById(reservationId);
+    }
+
     private Reservation requestToReservation(ReservationRequest reservationRequest) throws InvalidDataException {
         Reservation reservation = new Reservation();
 
@@ -100,6 +109,7 @@ public class ReservationService {
     private ReservationResponse mapToReservationResponse(Reservation reservation) {
         ReservationResponse reservationResponse = new ReservationResponse();
 
+        reservationResponse.setId(reservation.getId());
         reservationResponse.setTitle(reservation.getTitle());
         reservationResponse.setStartTime(reservation.getStartTime().getHour() * 100 + reservation.getStartTime().getMinute());
         reservationResponse.setEndTime(reservation.getEndTime().getHour() * 100 + reservation.getEndTime().getMinute());
@@ -114,12 +124,10 @@ public class ReservationService {
     }
 
 
-
-
-
     private UserReservationResponse mapToUserReservationResponse(Reservation reservation) {
         UserReservationResponse userReservationResponse = new UserReservationResponse();
 
+        userReservationResponse.setId(reservation.getId());
         userReservationResponse.setTitle(reservation.getTitle());
         userReservationResponse.setStartTime(reservation.getStartTime().getHour() * 100 + reservation.getStartTime().getMinute());
         userReservationResponse.setEndTime(reservation.getEndTime().getHour() * 100 + reservation.getEndTime().getMinute());

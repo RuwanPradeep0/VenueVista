@@ -11,6 +11,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class UserWaitingResponse {
 
+    private Integer id;
+
     private String title;
 
     private Integer startTime;

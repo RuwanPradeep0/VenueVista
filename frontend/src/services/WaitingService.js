@@ -5,7 +5,7 @@ const endPointWaiting = "http://localhost:8080/api/v1/waiting";
 const createWaiting = async(title, startTime, endTime, spaceID, waitingForDate, date ,  waitingByID, responsibleRole, batch, waitingId) =>{
     try {
 
-        console.log( spaceID)
+
         return await axios.post(
             endPointWaiting + '/createrwaitings',
             {
@@ -41,22 +41,41 @@ async function getWaitingList(){
 }
 
 
-    async function getUserWaitings(setReservations, username) {
-        try {
-          const response = await axios.get(endPointWaiting + "/user", {
-            params: {
-              email: username,
-            },
-          });
+async function getUserWaitings(setReservations, username) {
+  try {
+  const response = await axios.get(endPointWaiting + "/user", {
+    params: {
+        email: username,
+      },
+     });
 
-          console.log(response.data)
-          setReservations(response.data);
-        } catch (error) {
+    console.log(response.data)
+    setReservations(response.data);
+  } catch (error) {
           console.error("Error fetching user waiting:", error.message);
-        }
-      }
+  }
+}
 
-const deleteUserWaiting = () =>{
+const deleteUserWaiting = async(waitingId) =>{
+
+  console.log(waitingId)
+  try {
+    console.log(waitingId)
+    const response = await axios.delete(`${endPointWaiting}/deleteuserwaitings` , {
+      params:{
+        waitingId : waitingId
+      }
+    })
+
+
+    return response;
+
+    
+  } catch (error) {
+    throw new Error(error)
+    
+  }
+
 
 }
 

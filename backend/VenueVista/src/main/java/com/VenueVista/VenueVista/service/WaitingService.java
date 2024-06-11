@@ -10,6 +10,7 @@ import com.VenueVista.VenueVista.repository.SpaceRepository;
 import com.VenueVista.VenueVista.repository.UserRepository;
 import com.VenueVista.VenueVista.repository.WaitingRepository;
 import lombok.RequiredArgsConstructor;
+import org.apache.velocity.exception.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -48,6 +49,14 @@ public class WaitingService {
         return userWaitings.stream()
                 .map(this::mapToUserWaitingResponse)
                 .collect(Collectors.toList());
+    }
+
+    //Delete waiting by Id
+    public void deleteUserWaitng(Integer waitingId){
+        if(!waitingRepository.existsById(waitingId)){
+            throw new ResourceNotFoundException("Waiting not found with ID: " + waitingId);
+        }
+        waitingRepository.deleteById(waitingId);
     }
 
     private Waiting requestToWaiting(WaitingRequest request) {
@@ -102,6 +111,7 @@ public class WaitingService {
         int endTime = waiting.getEndTime().getHour() * 100 + waiting.getEndTime().getMinute();
 
         return UserWaitingResponse.builder()
+                .id(waiting.getId())
                 .title(waiting.getTitle())
                 .startTime(startTime)
                 .endTime(endTime)
