@@ -1,6 +1,8 @@
 package com.VenueVista.VenueVista.config;
 
+import com.VenueVista.VenueVista.auth.RequestResponse.RegisterRequest;
 import com.VenueVista.VenueVista.repository.UserRepository;
+import com.VenueVista.VenueVista.service.EmailService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -30,6 +32,8 @@ public class ApplicationConfig {
                 .orElseThrow(() -> new UsernameNotFoundException("User Not Found"));
     }
 
+
+
     @Bean
     public AuthenticationProvider authenticationProvider(){
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
@@ -48,6 +52,10 @@ public class ApplicationConfig {
     public PasswordEncoder passwordEncoder(){
         return  new BCryptPasswordEncoder();
 
+    }
+    @Bean
+    public RegisterRequest registerRequest() {
+        return new RegisterRequest();
     }
 
 //    @Bean

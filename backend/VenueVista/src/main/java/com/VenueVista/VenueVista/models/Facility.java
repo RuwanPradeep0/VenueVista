@@ -24,5 +24,13 @@ public class Facility {
     @ManyToMany(mappedBy = "facilities")
     private List<Space> spaces;
 
+    @Override
+    public String toString() {
+        return "Facility{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
+    }
+
 
 }

@@ -16,7 +16,6 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -27,11 +26,17 @@ public class WaitingService {
     private final WaitingRepository waitingRepository;
     private final UserRepository userRepository;
     private final SpaceRepository spaceRepository;
+    private final EmailService emailService;  // Add EmailService
 
     // Create waiting Table
     public WaitingResponse handleWaiting(WaitingRequest waitingRequest) {
         Waiting waiting = requestToWaiting(waitingRequest);
         Waiting savedWaiting = createWaiting(waiting);
+
+        // Send notification email
+        emailService.sendWaitingListNotification(waiting);
+        emailService.sendWaitingNotificationsWhoReserved(waiting);
+
         return waitingToResponse(savedWaiting);
     }
 
@@ -51,9 +56,9 @@ public class WaitingService {
                 .collect(Collectors.toList());
     }
 
-    //Delete waiting by Id
-    public void deleteUserWaitng(Integer waitingId){
-        if(!waitingRepository.existsById(waitingId)){
+    // Delete waiting by Id
+    public void deleteUserWaitng(Integer waitingId) {
+        if (!waitingRepository.existsById(waitingId)) {
             throw new ResourceNotFoundException("Waiting not found with ID: " + waitingId);
         }
         waitingRepository.deleteById(waitingId);
@@ -134,3 +139,4 @@ public class WaitingService {
         return time;
     }
 }
+
