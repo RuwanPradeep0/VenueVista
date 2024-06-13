@@ -23,13 +23,13 @@ public class ReservationController {
 
     @Autowired
     private ReservationService reservationService;
-    private final EmailService emailService;
+//    private final EmailService emailService;
 
     @PostMapping("/createreservations")
     public ReservationResponse handleReservation(@RequestBody ReservationRequest reservationRequest) throws InvalidDataException, AllReadyReservedException {
         ReservationResponse response = reservationService.handleReservation(reservationRequest);
 
-        emailService.sendReservationConfirmation(reservationRequest);
+//        emailService.sendReservationConfirmation(reservationRequest);
         return response;
     }
 
