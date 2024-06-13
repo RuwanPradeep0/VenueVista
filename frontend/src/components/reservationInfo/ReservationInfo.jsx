@@ -1,38 +1,39 @@
-import React,{useState,useEffect} from 'react'
+import React, { useState, useEffect } from "react";
 import { FiMapPin } from "react-icons/fi";
 import { LuCalendarDays } from "react-icons/lu";
 import { FaRegClock, FaPlus } from "react-icons/fa";
-import { generateColorCode, getDateInFormat, getTimeString } from '../../utills'
-import { getWaitingList } from '../../services/WaitingService'
+import {
+  generateColorCode,
+  getDateInFormat,
+  getTimeString,
+} from "../../utills";
+import { getWaitingList } from "../../services/WaitingService";
 
-import styles from './ReservationInfo.module.scss'
+import styles from "./ReservationInfo.module.scss";
 
 const ReservationInfo = ({ reservation, onClick }) => {
+  // const spaceName = spaces.find((s) => s.id === reservation.spaceId).name;
 
-    // const spaceName = spaces.find((s) => s.id === reservation.spaceId).name;
+  const spaceName = "Lecture Hall 01";
 
-    const spaceName = 'Lecture Hall 01';
+  const [waitingList, setWaitingList] = useState([]);
 
-    const [waitingList, setWaitingList] = useState([]);
-
-    useEffect(() => {
-      if (reservation !== null)
-        getWaitingList(
-          setWaitingList,
-          reservation.spaceId,
-          reservation.date,
-          reservation.startTime,
-          reservation.endTime
-        )
-          .then((res) => {
-            console.log(res);
-          })
-          .catch((error) => {
-            console.log(error);
-          });
-    }, [reservation, onClick]);
-
-
+  useEffect(() => {
+    if (reservation !== null)
+      getWaitingList(
+        setWaitingList,
+        reservation.spaceId,
+        reservation.date,
+        reservation.startTime,
+        reservation.endTime
+      )
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+  }, [reservation, onClick]);
 
   return (
     <div className={styles.container}>
@@ -78,7 +79,7 @@ const ReservationInfo = ({ reservation, onClick }) => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default ReservationInfo
+export default ReservationInfo;
