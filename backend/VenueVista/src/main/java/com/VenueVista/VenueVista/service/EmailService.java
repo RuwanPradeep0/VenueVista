@@ -13,6 +13,7 @@ import com.VenueVista.VenueVista.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -23,6 +24,7 @@ public class EmailService {
     private final UserRepository userRepository;
     private final SpaceRepository spaceRepository;
     private final ReservationRepository reservationRepository;
+
 
     public void sendWelcomeEmail(RegisterRequest registerRequest) {
         String toEmail = registerRequest.getEmail();
@@ -37,6 +39,7 @@ public class EmailService {
 
         sendEmail(toEmail, subject, body);
     }
+
 
     public void sendLoginNotification(AuthenticationRequest authRequest) {
         String toEmail = authRequest.getEmail();
@@ -57,28 +60,30 @@ public class EmailService {
         sendEmail(toEmail, subject, body);
     }
 
-    public void sendReservationConfirmation(ReservationRequest reservationRequest) {
-        String toEmail = userRepository.findById(reservationRequest.getReservedByID())
-                .orElseThrow(() -> new IllegalArgumentException("User not found"))
-                .getEmail();
-        if (toEmail == null || toEmail.isEmpty()) {
-            throw new IllegalArgumentException("Recipient email address is required");
-        }
-        String subject = "Reservation Confirmation";
-        String body = "Dear " + userRepository.findById(reservationRequest.getReservedByID())
-                .orElseThrow(() -> new IllegalArgumentException("User not found"))
-                .getFirstName() + ",\n\n"
-                + "This is to confirm your reservation at VenueVista for the following details:\n\n"
-                + "Space: " + spaceRepository.findById(reservationRequest.getSpaceID())
-                .orElseThrow(() -> new IllegalArgumentException("Space not found")).getName() + "\n"
-                + "Date: " + reservationRequest.getDate() + "\n"
-                + "Time: " + reservationRequest.getStartTime() + "\n\n"
-                + "We look forward to hosting you!\n\n"
-                + "Best regards,\n"
-                + "VenueVista Team";
 
-        sendEmail(toEmail, subject, body);
-    }
+//    public void sendReservationConfirmation(ReservationRequest reservationRequest) {
+//        String toEmail = userRepository.findById(reservationRequest.getReservedByID())
+//                .orElseThrow(() -> new IllegalArgumentException("User not found"))
+//                .getEmail();
+//        if (toEmail == null || toEmail.isEmpty()) {
+//            throw new IllegalArgumentException("Recipient email address is required");
+//        }
+//        String subject = "Reservation Confirmation";
+//        String body = "Dear " + userRepository.findById(reservationRequest.getReservedByID())
+//                .orElseThrow(() -> new IllegalArgumentException("User not found"))
+//                .getFirstName() + ",\n\n"
+//                + "This is to confirm your reservation at VenueVista for the following details:\n\n"
+//                + "Space: " + spaceRepository.findById(reservationRequest.getSpaceID())
+//                .orElseThrow(() -> new IllegalArgumentException("Space not found")).getName() + "\n"
+//                + "Date: " + reservationRequest.getDate() + "\n"
+//                + "Time: " + reservationRequest.getStartTime() + "\n\n"
+//                + "We look forward to hosting you!\n\n"
+//                + "Best regards,\n"
+//                + "VenueVista Team";
+//
+//        sendEmail(toEmail, subject, body);
+//    }
+
 
     public void sendSpaceCreationNotification(SpaceRequest spaceRequest) {
         String toEmail = "2020e017@eng.jfn.ac.lk"; // Admin email
@@ -94,6 +99,7 @@ public class EmailService {
 
         sendEmail(toEmail, subject, body);
     }
+
 
     public void sendWaitingListNotification(Waiting waiting) {
         // Get the email of the person who booked the slot earlier
@@ -117,6 +123,7 @@ public class EmailService {
 
         sendEmail(toEmail, subject, body);
     }
+
 
     public void sendWaitingNotificationsWhoReserved(Waiting waiting) {
         // Get the reservation of the existing user for the same space and time
@@ -144,6 +151,7 @@ public class EmailService {
         sendEmail(toEmail, subject, body);
     }
 
+    @Async
     private void sendEmail(String toEmail, String subject, String body) {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setTo(toEmail);
