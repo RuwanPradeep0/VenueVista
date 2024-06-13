@@ -13,6 +13,7 @@ import com.VenueVista.VenueVista.repository.SpaceRepository;
 import com.VenueVista.VenueVista.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.apache.velocity.exception.ResourceNotFoundException;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -78,6 +79,17 @@ public class ReservationService {
         }
 
         reservationRepository.deleteById(reservationId);
+    }
+
+    // Scheduled task to delete reservations older than 3 days
+    @Scheduled(cron = "0 0 0 * * ?") // Runs every day at midnight
+    public void deleteOldReservations() {
+        LocalDateTime threeDaysAgo = LocalDateTime.now().minusDays(3);
+        List<Reservation> oldReservations = reservationRepository.findAll().stream()
+                .filter(reservation -> reservation.getReservationDate().isBefore(threeDaysAgo))
+                .collect(Collectors.toList());
+
+        oldReservations.forEach(reservation -> reservationRepository.deleteById(reservation.getId()));
     }
 
     private Reservation requestToReservation(ReservationRequest reservationRequest) throws InvalidDataException {
