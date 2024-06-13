@@ -110,7 +110,7 @@ useEffect(() =>{
 },[selectSpace])
 
 useEffect(() => {
-  setCurrentMonth(firstDate.getMonth()); // Update currentMonth whenever firstDate changes
+ 
   setCurrentYear(firstDate.getFullYear());
 }, [firstDate]);
 
@@ -168,7 +168,7 @@ useEffect(() => {
 
     <div className={styles.container}>
        <div className={styles.month}>
-      {firstDate.toLocaleString('default', { month: 'long' })} {currentYear} {/* Display current month and year */}
+      {firstDate.toLocaleString('default', { month: 'long' })} {currentYear} 
       </div>
      
         <div className={styles.controller}>
@@ -189,6 +189,7 @@ useEffect(() => {
         {dateList.map((date) => (
           <Day
             key={date}
+            today={today}
             dateObj={date}
             isToday={date.setHours(0, 0, 0, 0) === today}
             hourIntervals={hourIntervals}
@@ -261,7 +262,8 @@ const Day = ({
     isToday,
     handleSlotClick,
     handleReservationClick,
-    isUserLoggedIn
+    isUserLoggedIn,
+    today
   }) => {
     /*
       A Day column in the calendar
@@ -272,9 +274,8 @@ const Day = ({
       dayReservations: All reservations in the selected space for this date
       isToday: if the day represented is today
     */
-    const dayName = new Intl.DateTimeFormat("en-US", { weekday: "short" }).format(
-      dateObj
-    );
+    const dayName = new Intl.DateTimeFormat("en-US", { weekday: "short" }).format(dateObj);
+    const isBeforeToday = dateObj.setHours(0, 0, 0, 0) < today; // Check if dateObj is before today
   
     //check if there are reservations which started before the first interval, but continues after that.
     //todo: APPROACH: Pass this to the first slot set the height to match the time from the first interval to the endTime
@@ -299,6 +300,7 @@ const Day = ({
         {hourIntervals.map((hour) => (
           <Slot
             key={`${dateObj.getDate()}-${hour}`}
+            isBeforeToday={isBeforeToday}
             slotReservations={dayReservations.filter( // Use dayReservations
             (reservation) => Math.floor(reservation.startTime / 100) === hour
           )}
@@ -320,7 +322,8 @@ const Day = ({
     handleResevationClick,
     hour,
     date,
-    isUserLoggedIn
+    isUserLoggedIn,
+    isBeforeToday 
     
   }) => {
 
@@ -329,10 +332,15 @@ const Day = ({
       //TODO: Add Tab Navigation -- Conflict of erronous clicks
   
       <div
-        className={styles.slot}
-        onClick={(e) => isUserLoggedIn && handleSlotClick(e, hour, date)}
+        // className={styles.slot}
+        // onClick={(e) => isUserLoggedIn && handleSlotClick(e, hour, date)}
+        // id="slot"
+
+        className={`${styles.slot} ${isBeforeToday ? styles.disabledSlot : ''}`} // Add disabledSlot class if isBeforeToday is true
+        onClick={(e) => isUserLoggedIn && !isBeforeToday && handleSlotClick(e, hour, date)} // Disable click handler if isBeforeToday is true
         id="slot"
       >
+        {isBeforeToday && <div className={styles.overlay}></div>}
 
 
         {slotReservations.map((reservation) => {

@@ -1,8 +1,8 @@
 package com.VenueVista.VenueVista.controller;
 
-import com.VenueVista.VenueVista.controller.RequestResponse.ReservationRequest;
-import com.VenueVista.VenueVista.controller.RequestResponse.ReservationResponse;
-import com.VenueVista.VenueVista.controller.RequestResponse.UserReservationResponse;
+import com.VenueVista.VenueVista.controller.RequestResponse_DTO.ReservationRequest;
+import com.VenueVista.VenueVista.controller.RequestResponse_DTO.ReservationResponse;
+import com.VenueVista.VenueVista.controller.RequestResponse_DTO.UserReservationResponse;
 import com.VenueVista.VenueVista.exception.AllReadyReservedException;
 import com.VenueVista.VenueVista.exception.InvalidDataException;
 //import com.VenueVista.VenueVista.service.EmailService;

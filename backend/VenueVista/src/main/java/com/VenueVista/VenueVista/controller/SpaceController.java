@@ -1,8 +1,7 @@
 package com.VenueVista.VenueVista.controller;
 
-import ch.qos.logback.classic.Logger;
-import com.VenueVista.VenueVista.controller.RequestResponse.SpaceRequest;
-import com.VenueVista.VenueVista.controller.RequestResponse.SpaceResponse;
+import com.VenueVista.VenueVista.controller.RequestResponse_DTO.SpaceRequest;
+import com.VenueVista.VenueVista.controller.RequestResponse_DTO.SpaceResponse;
 import com.VenueVista.VenueVista.models.Space;
 //import com.VenueVista.VenueVista.service.EmailService;
 import com.VenueVista.VenueVista.service.SpaceService;

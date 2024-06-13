@@ -1,6 +1,6 @@
 package com.VenueVista.VenueVista.service;
 
-import com.VenueVista.VenueVista.controller.RequestResponse.SpaceRequest;
+import com.VenueVista.VenueVista.controller.RequestResponse_DTO.SpaceRequest;
 import com.VenueVista.VenueVista.models.Facility;
 import com.VenueVista.VenueVista.models.Space;
 import com.VenueVista.VenueVista.repository.FacilityRepository;
@@ -8,7 +8,6 @@ import com.VenueVista.VenueVista.repository.SpaceRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 

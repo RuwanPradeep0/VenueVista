@@ -1,4 +1,4 @@
-package com.VenueVista.VenueVista.controller.RequestResponse;
+package com.VenueVista.VenueVista.controller.RequestResponse_DTO;
 
 import com.VenueVista.VenueVista.models.Space;
 import com.VenueVista.VenueVista.models.Facility;

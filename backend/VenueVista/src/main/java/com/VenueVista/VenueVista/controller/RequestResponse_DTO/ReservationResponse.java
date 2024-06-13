@@ -1,17 +1,12 @@
-package com.VenueVista.VenueVista.controller.RequestResponse;
+package com.VenueVista.VenueVista.controller.RequestResponse_DTO;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Data
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
-public class UserReservationResponse {
+public class ReservationResponse {
 
-    private  Integer id;
+    private Integer id;
+
     private String title;
 
     private Integer startTime;
@@ -32,7 +27,6 @@ public class UserReservationResponse {
 
     private String fullName;
 
-    private String spaceName;
-
     private Integer waitingId;
+
 }

@@ -1,8 +1,8 @@
 package com.VenueVista.VenueVista.service;
 
-import com.VenueVista.VenueVista.controller.RequestResponse.UserWaitingResponse;
-import com.VenueVista.VenueVista.controller.RequestResponse.WaitingRequest;
-import com.VenueVista.VenueVista.controller.RequestResponse.WaitingResponse;
+import com.VenueVista.VenueVista.controller.RequestResponse_DTO.UserWaitingResponse;
+import com.VenueVista.VenueVista.controller.RequestResponse_DTO.WaitingRequest;
+import com.VenueVista.VenueVista.controller.RequestResponse_DTO.WaitingResponse;
 import com.VenueVista.VenueVista.models.Space;
 import com.VenueVista.VenueVista.models.Waiting;
 import com.VenueVista.VenueVista.models.user.User;
@@ -16,7 +16,6 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
 
