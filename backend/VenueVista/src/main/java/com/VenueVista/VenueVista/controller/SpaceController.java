@@ -43,5 +43,17 @@ public class SpaceController {
                 .collect(Collectors.toList());
         return ResponseEntity.ok(spaceResponses);
     }
+    @PutMapping("/updatespace/{id}")
+    public ResponseEntity<SpaceResponse> updateSpace(@PathVariable Integer id, @RequestBody SpaceRequest spaceRequest) {
+        Space updatedSpace = spaceService.updateSpace(id, spaceRequest);
+        SpaceResponse spaceResponse = new SpaceResponse(updatedSpace);
+        return ResponseEntity.ok(spaceResponse);
+    }
+
+    @DeleteMapping("/deletespace/{id}")
+    public ResponseEntity<Void> deleteSpace(@PathVariable Integer id) {
+        spaceService.deleteSpace(id);
+        return ResponseEntity.noContent().build();
+    }
 
 }

@@ -50,7 +50,35 @@ public Space saveSpace(SpaceRequest spaceRequest){
 public List<Space> getAllSpaces(){
     return spaceRepository.findAll();
 }
+    public Space updateSpace(Integer id, SpaceRequest spaceRequest) {
+        Space existingSpace = spaceRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Space not found"));
 
+        List<Facility> facilities = new ArrayList<>();
+        for (String facilityName : spaceRequest.getFacilities()) {
+            Facility facility = facilityRepository.findByName(facilityName)
+                    .orElseGet(() -> {
+                        Facility newFacility = new Facility();
+                        newFacility.setName(facilityName);
+                        return facilityRepository.save(newFacility);
+                    });
+            facilities.add(facility);
+        }
+
+        existingSpace.setName(spaceRequest.getName());
+        existingSpace.setLocation(spaceRequest.getLocation());
+        existingSpace.setCapacity(spaceRequest.getCapacity());
+        existingSpace.setDescription(spaceRequest.getDescription());
+        existingSpace.setFacilities(facilities);
+
+        return spaceRepository.save(existingSpace);
+    }
+
+    public void deleteSpace(Integer id) {
+        Space space = spaceRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Space not found"));
+        spaceRepository.delete(space);
+    }
 }
 
 
