@@ -4,7 +4,6 @@ import com.VenueVista.VenueVista.auth.RequestResponse.AuthenticationRequest;
 import com.VenueVista.VenueVista.auth.RequestResponse.AuthenticationResponse;
 import com.VenueVista.VenueVista.auth.AuthenticationService;
 import com.VenueVista.VenueVista.auth.RequestResponse.RegisterRequest;
-//import com.VenueVista.VenueVista.service.EmailService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -20,19 +19,16 @@ import java.io.IOException;
 public class AuthenticationController {
 
     private final AuthenticationService service;
-//    private final EmailService emailService;
 
     @PostMapping("/register")
     public ResponseEntity<AuthenticationResponse> register(@RequestBody RegisterRequest request) {
         ResponseEntity<AuthenticationResponse> response = ResponseEntity.ok(service.register(request));
-//        emailService.sendWelcomeEmail(request);
         return response;
     }
 
     @PostMapping("/authenticate")
     public ResponseEntity<AuthenticationResponse> authenticate(@RequestBody AuthenticationRequest request) {
         ResponseEntity<AuthenticationResponse> response = ResponseEntity.ok(service.authenticate(request));
-//        emailService.sendLoginNotification(request);
         return response;
     }
 

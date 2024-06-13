@@ -8,7 +8,6 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 @SpringBootApplication
 @EnableScheduling
-
 public class VenueVistaApplication {
 
 	public static void main(String[] args) {
