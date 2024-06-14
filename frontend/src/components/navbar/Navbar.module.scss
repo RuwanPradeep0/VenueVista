@@ -1,0 +1,179 @@
+@use '../../styles/variables' as *;
+
+.Navbar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  font-family: $font-stack;
+  font-weight: 500;
+  z-index: 90;
+  background-color: $primaryContainerColor;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+  .NavContainer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1em 8dvw;
+    height: 4rem;
+  }
+
+  .NavLogoContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    color: rgb(255, 255, 255);
+    font-size: 14px;
+    line-height: 1.3rem;
+
+    .NavLogo {
+      width: 50px;
+      height: 50px;
+    }
+  }
+
+  .NavLinks {
+    display: flex;
+    flex-direction: row;
+    gap: 2em;
+    margin-left: 3rem;
+    cursor: pointer;
+
+    .NavLink {
+      position: relative;
+      list-style: none;
+      font-size: 15px;
+      color: $NavbarTextColor;
+
+      &.active {
+        font-size: 17px;
+        font-weight: 550;
+      }
+
+      &:hover,
+      &:focus {
+        transition: all ease-in-out 100ms;
+        color: #fef08a;
+
+        &::before {
+          width: 100%;
+        }
+      }
+
+      &::before {
+        display: block;
+        transition: width 300ms;
+        height: 2px;
+        content: " ";
+        position: absolute;
+        background-color: #fef08a;
+        width: 0%;
+        top: 1.4em;
+      }
+    }
+  }
+
+  .GeneralText {
+    color: $NavbarTextColor;
+    list-style: none;
+    font-size: 15px;
+  }
+
+  .LogoutButton {
+    padding: 0.6em 0.6em;
+    transition: all 100ms ease-in-out;
+    position: relative;
+    cursor: pointer;
+    color: $NavbarTextColor;
+
+    &:hover {
+      color: $accentColor;
+
+      &::before {
+        width: 75%;
+      }
+    }
+
+    &::before {
+      display: block;
+      transition: width 300ms;
+      height: 2px;
+      content: " ";
+      position: absolute;
+      background-color: $accentColor;
+      width: 0%;
+      top: 2em;
+    }
+  }
+
+  .NavToggleBtn {
+    display: none;
+    background: transparent;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: $NavbarTextColor;
+    border: none;
+  }
+
+  //Media quaries for mobile responsive
+  @media screen and (max-width: 800px) {
+    .NavContainer {
+      position: relative;
+    }
+  
+    .NavLinks {
+      position: absolute;
+      top: 100%;
+      right: 0;
+      flex-direction: column;
+      gap: 0;
+      width: 30%;
+      background-color: $primaryContainerColor;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      margin-left: 0;
+      animation:dropDown 500ms ease forwards;
+      transform:roteX(90deg);
+      transform-origin:top;
+
+      .NavLink {
+        width: 100%;
+        text-align: left;
+        padding: 1rem 2.5rem;
+        transition: background-color 0.3s ease, color 0.3s ease;
+  
+        &:hover {
+          background-color: silver;
+          
+          a {
+            color: black;
+          }
+        }
+  
+        a {
+          display: block;
+          width: 100%;
+          height: 100%;
+          color: $NavbarTextColor;
+          text-decoration: none;
+          transition: color 2s ease;
+  
+          &:hover {
+            color: rgb(20, 17, 41);
+          }
+        }
+
+  
+        &::before {
+          display: none;
+        }
+      }
+    }
+  
+    .NavToggleBtn {
+      display: block;
+    }
+  }
+}
