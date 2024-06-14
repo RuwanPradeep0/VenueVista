@@ -45,7 +45,7 @@ public class WaitingService {
 
         // Check if the slot is available
         boolean isSlotAvailable = waitingRepository.findByWaitingForDateAndStartTimeLessThanEqualAndEndTimeGreaterThanEqual(
-                waiting.getWaitingForDate().toLocalDate(), waiting.getStartTime(), waiting.getEndTime()).isEmpty();
+                waiting.getWaitingForDate().toLocalDate().atStartOfDay(), waiting.getStartTime(), waiting.getEndTime()).isEmpty();
 
         if (!isSlotAvailable) {
             // Slot is not available, return an error response or throw an exception
@@ -93,7 +93,7 @@ public class WaitingService {
 /////////////////////
     private void updateOtherWaitingEntries(Waiting waiting) {
         List<Waiting> overlappingWaitings = waitingRepository.findByWaitingForDateAndStartTimeLessThanEqualAndEndTimeGreaterThanEqual(
-                waiting.getWaitingForDate().toLocalDate(), waiting.getStartTime(), waiting.getEndTime());
+                waiting.getWaitingForDate().toLocalDate().atStartOfDay(), waiting.getStartTime(), waiting.getEndTime());
 
         for (Waiting otherWaiting : overlappingWaitings) {
             if (!otherWaiting.getId().equals(waiting.getId())) {

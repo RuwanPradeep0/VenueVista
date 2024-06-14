@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -56,7 +57,6 @@ public class ReservationService {
         Reservation savedReservation = reservationRepository.save(reservation);
         ReservationResponse reservationResponse = mapToReservationResponse(savedReservation);
 
-
         return reservationResponse;
     }
 
@@ -68,7 +68,7 @@ public class ReservationService {
                 .collect(Collectors.toList());
     }
 
-    //Get uer Reservations
+    // Get user Reservations
     public List<UserReservationResponse> getUserReservations(String email) {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found with email: " + email));
@@ -79,16 +79,15 @@ public class ReservationService {
                 .collect(Collectors.toList());
     }
 
-    //Delete User Reservation
-    public void deleteReservationById(Integer reservationId){
-        if(!reservationRepository.existsById(reservationId)){
+    // Delete User Reservation
+    public void deleteReservationById(Integer reservationId) {
+        if (!reservationRepository.existsById(reservationId)) {
             throw new ResourceNotFoundException("Reservation not found with ID: " + reservationId);
         }
-
         reservationRepository.deleteById(reservationId);
     }
 
-    ///////////////////////
+    // Cancel Reservation
     public void cancelReservation(Integer reservationId) {
         Reservation reservation = reservationRepository.findById(reservationId)
                 .orElseThrow(() -> new ResourceNotFoundException("Reservation not found with ID: " + reservationId));
@@ -96,8 +95,9 @@ public class ReservationService {
         // Check the waiting list for overlapping time slots
         LocalDateTime reservationStart = reservation.getStartTime();
         LocalDateTime reservationEnd = reservation.getEndTime();
+        LocalDateTime reservationDate = reservation.getReservationDate().with(LocalTime.MIN);
         List<Waiting> overlappingWaitings = waitingRepository.findByWaitingForDateAndStartTimeLessThanEqualAndEndTimeGreaterThanEqual(
-                reservation.getReservationDate().toLocalDate(), reservationStart, reservationEnd);
+                reservationDate, reservationStart, reservationEnd);
 
         // Move these waiting entries to an available status
         for (Waiting waiting : overlappingWaitings) {
@@ -109,14 +109,12 @@ public class ReservationService {
         reservationRepository.delete(reservation);
     }
 
-
-
     // Scheduled task to delete reservations older than 3 days
     @Scheduled(cron = "0 0 0 * * ?") // Runs every day at midnight
     public void deleteOldReservations() {
-        LocalDateTime threeDaysAgo = LocalDateTime.now().minusDays(3);
+        LocalDate threeDaysAgo = LocalDate.now().minusDays(3);
         List<Reservation> oldReservations = reservationRepository.findAll().stream()
-                .filter(reservation -> reservation.getReservationDate().isBefore(threeDaysAgo))
+                .filter(reservation -> reservation.getReservationDate().toLocalDate().isBefore(threeDaysAgo))
                 .collect(Collectors.toList());
 
         oldReservations.forEach(reservation -> reservationRepository.deleteById(reservation.getId()));
@@ -164,7 +162,6 @@ public class ReservationService {
         reservationResponse.setWaitingId(0); // Set waitingId to 0 as it's not mentioned in the Reservation class
         return reservationResponse;
     }
-
 
     private UserReservationResponse mapToUserReservationResponse(Reservation reservation) {
         UserReservationResponse userReservationResponse = new UserReservationResponse();

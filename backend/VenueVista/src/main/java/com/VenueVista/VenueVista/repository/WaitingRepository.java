@@ -15,6 +15,7 @@ public interface WaitingRepository extends JpaRepository<Waiting , Integer> {
     void deleteById(Integer waitingId);
 
 
-    List<Waiting> findByWaitingForDateAndStartTimeLessThanEqualAndEndTimeGreaterThanEqual(LocalDate localDate, LocalDateTime reservationStart, LocalDateTime reservationEnd);
+    List<Waiting> findByWaitingForDateAndStartTimeLessThanEqualAndEndTimeGreaterThanEqual(
+            LocalDateTime waitingForDate, LocalDateTime reservationStart, LocalDateTime reservationEnd);
 }
 

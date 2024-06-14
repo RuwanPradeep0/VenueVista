@@ -57,9 +57,9 @@ public class ReservationController {
 //    }
 
     @DeleteMapping("/canceluserreservations")
-    public ResponseEntity<Void> cancelOrDeleteReservation(@RequestParam Integer reservationId) {
+    public ResponseEntity<String> cancelOrDeleteReservation(@RequestParam Integer reservationId) {
         reservationService.cancelReservation(reservationId);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok("Reservation deleted successfully");
     }
 }
 

@@ -49,7 +49,7 @@ const getAllReservations = async () => {
 const deleteUserReservation = async (reservationId) => {
    
     try {
-        const response = await axios.delete(`${endPointReservation}/deleteuserereservations`, {
+        const response = await axios.delete(`${endPointReservation}/canceluserreservations`, {
             params: { reservationId: reservationId }
         });
         // Check if the request was successful (status code 200-299)
