@@ -89,6 +89,8 @@ const MyReservations = () => {
       reservations={pastReservations}
       user={pastReservations.fullName}
       waitingList={false}
+      isActionable={true}
+      onDeleteSuccess={removeReservation}
     />
 
     {/* {user.role === Role.RESPONSIBLE &&

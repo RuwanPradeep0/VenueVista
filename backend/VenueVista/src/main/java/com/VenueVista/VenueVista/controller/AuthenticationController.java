@@ -48,5 +48,8 @@ public class AuthenticationController {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             response.getWriter().write("Failed to refresh token: " + ex.getMessage());
         }
+
+
+
     }
 }
