@@ -93,18 +93,7 @@ const MyReservations = () => {
       onDeleteSuccess={removeReservation}
     />
 
-    {/* {user.role === Role.RESPONSIBLE &&
-      responsibleReservations.length !== 0 && (
-        <>
-          <h2 className={styles.pastReservations}>Responsible</h2>
-          <ReservationTable
-            reservations={responsibleCurrentReservations}
-            user={user}
-            waitingList={false}
-            isActionable={true}
-          />
-        </>
-      )} */}
+  
   </div>
   )
 }

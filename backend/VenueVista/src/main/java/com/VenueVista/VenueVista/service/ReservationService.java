@@ -7,15 +7,18 @@ import com.VenueVista.VenueVista.exception.AllReadyReservedException;
 import com.VenueVista.VenueVista.exception.InvalidDataException;
 import com.VenueVista.VenueVista.models.Reservation;
 import com.VenueVista.VenueVista.models.Space;
+import com.VenueVista.VenueVista.models.Waiting;
 import com.VenueVista.VenueVista.models.user.User;
 import com.VenueVista.VenueVista.repository.ReservationRepository;
 import com.VenueVista.VenueVista.repository.SpaceRepository;
 import com.VenueVista.VenueVista.repository.UserRepository;
+import com.VenueVista.VenueVista.repository.WaitingRepository;
 import lombok.RequiredArgsConstructor;
 import org.apache.velocity.exception.ResourceNotFoundException;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -29,6 +32,8 @@ public class ReservationService {
     private final UserRepository userRepository;
     private final ReservationRepository reservationRepository;
     private final ReservationAvailabilityService reservationAvailabilityService;
+    private final WaitingService waitingService;
+    private final WaitingRepository waitingRepository;
 
     // Create Reservation
     public ReservationResponse handleReservation(ReservationRequest reservationRequest) throws InvalidDataException, AllReadyReservedException {
@@ -50,6 +55,8 @@ public class ReservationService {
 
         Reservation savedReservation = reservationRepository.save(reservation);
         ReservationResponse reservationResponse = mapToReservationResponse(savedReservation);
+
+
         return reservationResponse;
     }
 
@@ -80,6 +87,29 @@ public class ReservationService {
 
         reservationRepository.deleteById(reservationId);
     }
+
+    ///////////////////////
+    public void cancelReservation(Integer reservationId) {
+        Reservation reservation = reservationRepository.findById(reservationId)
+                .orElseThrow(() -> new ResourceNotFoundException("Reservation not found with ID: " + reservationId));
+
+        // Check the waiting list for overlapping time slots
+        LocalDateTime reservationStart = reservation.getStartTime();
+        LocalDateTime reservationEnd = reservation.getEndTime();
+        List<Waiting> overlappingWaitings = waitingRepository.findByWaitingForDateAndStartTimeLessThanEqualAndEndTimeGreaterThanEqual(
+                reservation.getReservationDate().toLocalDate(), reservationStart, reservationEnd);
+
+        // Move these waiting entries to an available status
+        for (Waiting waiting : overlappingWaitings) {
+            waiting.setAvailable(true);
+            waitingRepository.save(waiting);
+        }
+
+        // Delete the reservation from the database
+        reservationRepository.delete(reservation);
+    }
+
+
 
     // Scheduled task to delete reservations older than 3 days
     @Scheduled(cron = "0 0 0 * * ?") // Runs every day at midnight

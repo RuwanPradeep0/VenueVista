@@ -48,12 +48,18 @@ public class ReservationController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
+//
+//    @DeleteMapping("/deleteuserereservations")
+//    public ResponseEntity<String> deleteUserReservation(@RequestParam Integer reservationId) {
+//        reservationService.deleteReservationById(reservationId);
+//        return ResponseEntity.ok("Reservation deleted successfully");
+//
+//    }
 
-    @DeleteMapping("/deleteuserereservations")
-    public ResponseEntity<String> deleteUserReservation(@RequestParam Integer reservationId) {
-        reservationService.deleteReservationById(reservationId);
-        return ResponseEntity.ok("Reservation deleted successfully");
-
+    @DeleteMapping("/canceluserreservations")
+    public ResponseEntity<Void> cancelOrDeleteReservation(@RequestParam Integer reservationId) {
+        reservationService.cancelReservation(reservationId);
+        return ResponseEntity.noContent().build();
     }
 }
 

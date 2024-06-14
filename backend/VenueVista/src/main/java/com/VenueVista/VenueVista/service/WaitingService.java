@@ -29,13 +29,37 @@ public class WaitingService {
     private final EmailService emailService;  // Add EmailService
 
     // Create waiting Table
+//    public WaitingResponse handleWaiting(WaitingRequest waitingRequest) {
+//        Waiting waiting = requestToWaiting(waitingRequest);
+//        Waiting savedWaiting = createWaiting(waiting);
+//
+//        // Send notification email
+//        emailService.sendWaitingListNotification(waiting);
+//        emailService.sendWaitingNotificationsWhoReserved(waiting);
+//
+//        return waitingToResponse(savedWaiting);
+//    }
+
     public WaitingResponse handleWaiting(WaitingRequest waitingRequest) {
         Waiting waiting = requestToWaiting(waitingRequest);
+
+        // Check if the slot is available
+        boolean isSlotAvailable = waitingRepository.findByWaitingForDateAndStartTimeLessThanEqualAndEndTimeGreaterThanEqual(
+                waiting.getWaitingForDate().toLocalDate(), waiting.getStartTime(), waiting.getEndTime()).isEmpty();
+
+        if (!isSlotAvailable) {
+            // Slot is not available, return an error response or throw an exception
+            return null;
+        }
+
         Waiting savedWaiting = createWaiting(waiting);
 
         // Send notification email
         emailService.sendWaitingListNotification(waiting);
         emailService.sendWaitingNotificationsWhoReserved(waiting);
+
+        // Update other waiting entries with the same slot as unavailable
+        updateOtherWaitingEntries(waiting);
 
         return waitingToResponse(savedWaiting);
     }
@@ -63,6 +87,22 @@ public class WaitingService {
         }
         waitingRepository.deleteById(waitingId);
     }
+
+
+
+/////////////////////
+    private void updateOtherWaitingEntries(Waiting waiting) {
+        List<Waiting> overlappingWaitings = waitingRepository.findByWaitingForDateAndStartTimeLessThanEqualAndEndTimeGreaterThanEqual(
+                waiting.getWaitingForDate().toLocalDate(), waiting.getStartTime(), waiting.getEndTime());
+
+        for (Waiting otherWaiting : overlappingWaitings) {
+            if (!otherWaiting.getId().equals(waiting.getId())) {
+                otherWaiting.setAvailable(false);
+                waitingRepository.save(otherWaiting);
+            }
+        }
+    }
+
 
     private Waiting requestToWaiting(WaitingRequest request) {
         int startTime = parseTime(request.getStartTime());

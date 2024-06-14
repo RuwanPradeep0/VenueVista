@@ -238,11 +238,13 @@ useEffect(() => {
             allReservations={allReservations}
             setAllReservations={setAllReservations}
             isConflict ={isConflict}
+            setIsModalOpen={setIsModalOpen}
           />
         ) : (
           <ReservationInfo
             reservation={clickedReservation}
             onClick={handleAddWaitingClick}
+            isUserLoggedIn={isUserLoggedIn}
           />
         )}
       </Modal>

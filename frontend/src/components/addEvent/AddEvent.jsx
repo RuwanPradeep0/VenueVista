@@ -74,7 +74,8 @@ const AddEvent = ({
   updateReservations,
   setAllReservations,
   allReservations,
-  isConflict
+  isConflict,
+  setIsModalOpen
 }) => {
 
     const [startTime, setStartTime] = useState(getTimeString(startTimeProp));
@@ -108,11 +109,6 @@ const AddEvent = ({
     useEffect(() => {
         console.log(date)
       }, []);
-
-    
-      // useEffect(() => {
-      //   if (responsible.length !== 0) mapResponsible();
-      // }, [responsible]);
 
 
       useEffect(() => {
@@ -230,7 +226,7 @@ const AddEvent = ({
 
               //  // Handle successful reservation
                setShowFeedbackSuccess(true);
-
+               
           } catch (error) {
               // Handle errors
               if (error.message === "reserved") {
@@ -250,7 +246,11 @@ const AddEvent = ({
     setTimeout(() => {
         setShowFeedbackError(false);
         setShowFeedbackSuccess(false);
+        setIsModalOpen(false)
+
       }, 4000);
+
+      
     };
 
 

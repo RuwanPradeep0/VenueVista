@@ -46,7 +46,9 @@ public class Waiting {
 
     private String responsiblePersonRole;
 
-    private boolean available = false;
+    private boolean available;
+
+//    private boolean isAvailable;
 
 
 }
