@@ -50,6 +50,14 @@ public Space saveSpace(SpaceRequest spaceRequest){
 public List<Space> getAllSpaces(){
     return spaceRepository.findAll();
 }
+
+    /**
+     * Updates an existing space in the repository.
+     *
+     * @param id the ID of the space to be updated
+     * @param spaceRequest the space request object containing updated space details
+     * @return the updated Space object
+     */
     public Space updateSpace(Integer id, SpaceRequest spaceRequest) {
         Space existingSpace = spaceRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Space not found"));
@@ -74,6 +82,11 @@ public List<Space> getAllSpaces(){
         return spaceRepository.save(existingSpace);
     }
 
+    /**
+     * Deletes an existing space from the repository.
+     *
+     * @param id the ID of the space to be deleted
+     */
     public void deleteSpace(Integer id) {
         Space space = spaceRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Space not found"));
