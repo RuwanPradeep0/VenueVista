@@ -72,16 +72,18 @@ const ReservationsTable = ({
           reservation.title,
           reservation.startTime,
           reservation.endTime,
-          reservation.spaceId,
+          reservation.spaceID,
+          reservation.reservationDate,
           Date.now(),
-          reservation.date,
-          user.id,
-          reservation.responsiblePersonId,
-          reservation.id
+          reservation.waitingByID,
+          reservation.responsibleRole,
+          reservation.batch,
+          reservation.waitingId
         )
           .then((res) => {
             // if reservation sucess
             console.log(res);
+            onDeleteSuccess(reservation.waitingId)
             // updateReservation();
           })
           .catch((error) => {

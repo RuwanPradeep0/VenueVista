@@ -39,6 +39,11 @@ public class ReservationService {
 
     // Create Reservation
     public ReservationResponse handleReservation(ReservationRequest reservationRequest) throws InvalidDataException, AllReadyReservedException {
+
+       if(reservationRequest.getWaitingId() >0){
+           waitingService.deleteUserWaitng(reservationRequest.getWaitingId());
+       }
+
         Reservation reservation = requestToReservation(reservationRequest);
 
         // Check if space is available for the new reservation
@@ -49,6 +54,7 @@ public class ReservationService {
                 reservation.getEndTime())) {
             throw new AllReadyReservedException("Space not available for the selected time slot.");
         }
+
 
         User user = userRepository.findById(reservationRequest.getReservedByID())
                 .orElseThrow(() -> new ResourceNotFoundException("User not found with ID: " + reservationRequest.getReservedByID()));

@@ -199,7 +199,7 @@ public class WaitingService {
                 .batch(waiting.getBatch())
                 .fullName(waiting.getWaitingBy().getFullName())
                 .spaceName(waiting.getSpace().getName())
-                .waitingId((int) waiting.getWaitingId())
+                .waitingId(waiting.getId())
                 .available(waiting.isAvailable())
                 .build();
     }

@@ -34,20 +34,23 @@ const MyReservations = () => {
 
       useEffect(() => {
         if (reservations.length > 0) {
-          setPastReservations(
-            reservations.filter((res) => {
-              const date = new Date(res.reservationDate);
-              const currentDate = new Date();
-              return date <= currentDate;
-            })
-          );
-          setCurrentReservations(
-            reservations.filter((res) => {
-              const date = new Date(res.reservationDate);
-              const currentDate = new Date();
-              return date > currentDate;
-            })
-          );
+          const currentDate = new Date();
+      
+          const pastReservations = reservations.filter((res) => {
+            const date = new Date(res.reservationDate);
+            return date <= currentDate;
+          });
+      
+          const currentReservations = reservations.filter((res) => {
+            const date = new Date(res.reservationDate);
+            return date > currentDate;
+          });
+      
+          setPastReservations(pastReservations);
+          setCurrentReservations(currentReservations);
+        } else {
+          setPastReservations([]);
+          setCurrentReservations([]);
         }
       }, [reservations]);
 
