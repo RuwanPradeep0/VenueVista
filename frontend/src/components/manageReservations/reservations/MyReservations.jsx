@@ -84,17 +84,24 @@ const MyReservations = () => {
       onDeleteSuccess={removeReservation}
     />
 
-    {pastReservations.length !== 0 && (
-      <h2 className={styles.pastReservations}>Past Reservations</h2>
-    )}
+{pastReservations.length !== 0 && (
+        <h2 className={styles.pastReservations}>Past Reservations</h2>
 
-    <ReservationsTable
-      reservations={pastReservations}
-      user={pastReservations.fullName}
-      waitingList={false}
-      isActionable={true}
-      onDeleteSuccess={removeReservation}
-    />
+
+      
+      )}
+
+      {pastReservations.length !==0 &&(
+          <ReservationsTable
+          reservations={pastReservations}
+          user={pastReservations.fullName}
+          waitingList={false}
+          isActionable={true}
+          onDeleteSuccess={removeReservation}
+        />
+      )}
+
+
 
   
   </div>

@@ -124,24 +124,24 @@ const AddEvent = ({
   const checkAvailability = (startTimeFormatted, endTimeFormatted) => {
     const reservationDate = getDateInYearFormat(date || new Date());
     const dayReservations = spaceReservations.filter(
-      (reservation) => reservation.date === reservationDate
+      (reservation) => reservation.reservationDate === reservationDate
     );
 
     if (dayReservations.filter(
       (reservation) =>
         (reservation.startTime <= startTimeFormatted &&
-          startTimeFormatted <= reservation.endTime) ||
+          startTimeFormatted <= reservation.endTime) &&
         (reservation.startTime <= endTimeFormatted &&
-          endTimeFormatted <= reservation.endTime)
+          endTimeFormatted <= reservation.endTime) 
     ).length === 0) {
       setClash(false);
     } else {
       setClash(true);
     }
 
-    if (isConflict) {
-      setClash(true);
-    }
+    // if (isConflict) {
+    //   setClash(true);
+    // }
   };
 
   const handleSubmit = async (e) => {
