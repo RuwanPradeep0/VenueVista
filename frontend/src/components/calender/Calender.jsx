@@ -145,6 +145,7 @@ useEffect(() => {
    setIsAddEventOrRes(true);
    setClickedDate(date);
    setIsConflict(false)
+   console.log('slot')
  };
 
  const handleReservationClick = (e, reservation) => {
@@ -153,13 +154,14 @@ useEffect(() => {
    setClickedReservation(reservation);
    setIsConflict(true)
    setCoords(e.currentTarget.getBoundingClientRect());
+   console.log('reservation',reservation)
  };
 
  const handleAddWaitingClick = (e) => {
    setIsAddEventOrRes(true);
    setAddEventStartTime(clickedReservation.startTime);
    setAddEventEndTime(clickedReservation.endTime);
-   setClickedDate(new Date(clickedReservation.date));
+   setClickedDate(new Date(clickedReservation.reservationDate));
  };
   
     return (

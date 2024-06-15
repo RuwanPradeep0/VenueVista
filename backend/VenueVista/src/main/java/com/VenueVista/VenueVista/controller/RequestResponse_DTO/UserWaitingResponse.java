@@ -36,4 +36,6 @@ public class UserWaitingResponse {
     private String spaceName;
 
     private Integer waitingId;
+
+    private boolean available;
 }

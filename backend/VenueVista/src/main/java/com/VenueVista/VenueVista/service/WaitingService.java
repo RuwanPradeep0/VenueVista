@@ -3,6 +3,7 @@ package com.VenueVista.VenueVista.service;
 import com.VenueVista.VenueVista.controller.RequestResponse_DTO.UserWaitingResponse;
 import com.VenueVista.VenueVista.controller.RequestResponse_DTO.WaitingRequest;
 import com.VenueVista.VenueVista.controller.RequestResponse_DTO.WaitingResponse;
+import com.VenueVista.VenueVista.exception.InvalidDataException;
 import com.VenueVista.VenueVista.models.Space;
 import com.VenueVista.VenueVista.models.Waiting;
 import com.VenueVista.VenueVista.models.user.User;
@@ -13,9 +14,8 @@ import lombok.RequiredArgsConstructor;
 import org.apache.velocity.exception.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -40,12 +40,12 @@ public class WaitingService {
 //        return waitingToResponse(savedWaiting);
 //    }
 
-    public WaitingResponse handleWaiting(WaitingRequest waitingRequest) {
+    public WaitingResponse handleWaiting(WaitingRequest waitingRequest) throws InvalidDataException {
         Waiting waiting = requestToWaiting(waitingRequest);
 
         // Check if the slot is available
-        boolean isSlotAvailable = waitingRepository.findByWaitingForDateAndStartTimeLessThanEqualAndEndTimeGreaterThanEqual(
-                waiting.getWaitingForDate().toLocalDate().atStartOfDay(), waiting.getStartTime(), waiting.getEndTime()).isEmpty();
+        boolean isSlotAvailable = waitingRepository.findByWaitingForDateAndStartTimeAndEndTimeAndSpace(
+                waiting.getWaitingForDate().toLocalDate().atStartOfDay(), waiting.getStartTime(), waiting.getEndTime() ,waiting.getSpace()).isEmpty();
 
         if (!isSlotAvailable) {
             // Slot is not available, return an error response or throw an exception
@@ -55,8 +55,8 @@ public class WaitingService {
         Waiting savedWaiting = createWaiting(waiting);
 
         // Send notification email
-        emailService.sendWaitingListNotification(waiting);
-        emailService.sendWaitingNotificationsWhoReserved(waiting);
+//        emailService.sendWaitingListNotification(waiting);
+//        emailService.sendWaitingNotificationsWhoReserved(waiting);
 
         // Update other waiting entries with the same slot as unavailable
         updateOtherWaitingEntries(waiting);
@@ -92,8 +92,8 @@ public class WaitingService {
 
 /////////////////////
     private void updateOtherWaitingEntries(Waiting waiting) {
-        List<Waiting> overlappingWaitings = waitingRepository.findByWaitingForDateAndStartTimeLessThanEqualAndEndTimeGreaterThanEqual(
-                waiting.getWaitingForDate().toLocalDate().atStartOfDay(), waiting.getStartTime(), waiting.getEndTime());
+        List<Waiting> overlappingWaitings = waitingRepository.findByWaitingForDateAndStartTimeAndEndTimeAndSpace(
+                waiting.getWaitingForDate().toLocalDate().atStartOfDay(), waiting.getStartTime(), waiting.getEndTime() , waiting.getSpace());
 
         for (Waiting otherWaiting : overlappingWaitings) {
             if (!otherWaiting.getId().equals(waiting.getId())) {
@@ -104,32 +104,63 @@ public class WaitingService {
     }
 
 
-    private Waiting requestToWaiting(WaitingRequest request) {
-        int startTime = parseTime(request.getStartTime());
-        int endTime = parseTime(request.getEndTime());
-        LocalDate waitingForDate = LocalDate.parse(request.getWaitingForDate());
-        LocalDateTime startDateTime = LocalDateTime.of(waitingForDate, LocalTime.of(startTime / 100, startTime % 100));
-        LocalDateTime endDateTime = LocalDateTime.of(waitingForDate, LocalTime.of(endTime / 100, endTime % 100));
+//    private Waiting requestToWaiting(WaitingRequest request) {
+//        int startTime = parseTime(request.getStartTime());
+//        int endTime = parseTime(request.getEndTime());
+//        LocalDate waitingForDate = LocalDate.parse(request.getWaitingForDate());
+//        LocalDateTime startDateTime = LocalDateTime.of(waitingForDate, LocalTime.of(startTime / 100, startTime % 100));
+//        LocalDateTime endDateTime = LocalDateTime.of(waitingForDate, LocalTime.of(endTime / 100, endTime % 100));
+//
+//        User waitingBy = userRepository.findById(request.getWaitingByID())
+//                .orElseThrow(() -> new RuntimeException("User not found with ID: " + request.getWaitingByID()));
+//
+//        Space space = spaceRepository.findById(request.getSpaceID())
+//                .orElseThrow(() -> new RuntimeException("Space not found with ID: " + request.getSpaceID()));
+//
+//        return Waiting.builder()
+//                .space(space)
+//                .title(request.getTitle())
+//                .waitingForDate(startDateTime)
+//                .startTime(startDateTime)
+//                .endTime(endDateTime)
+//                .date(request.getDate())
+//                .batch(request.getBatch())
+//                .waitingBy(waitingBy)
+//                .waitingId(request.getWaitingId())
+//                .responsiblePersonRole(request.getResponsibleRole())
+//                .available(false)
+//                .build();
+//    }
 
-        User waitingBy = userRepository.findById(request.getWaitingByID())
-                .orElseThrow(() -> new RuntimeException("User not found with ID: " + request.getWaitingByID()));
+    private Waiting requestToWaiting(WaitingRequest waitingRequest) throws InvalidDataException {
+       Waiting waiting = new Waiting();
+        User user = userRepository.findById(waitingRequest.getWaitingByID())
+                .orElseThrow(() -> new ResourceNotFoundException("User not found with ID: " + waitingRequest.getWaitingByID()));
 
-        Space space = spaceRepository.findById(request.getSpaceID())
-                .orElseThrow(() -> new RuntimeException("Space not found with ID: " + request.getSpaceID()));
+        waiting.setWaitingBy(user);
 
-        return Waiting.builder()
-                .space(space)
-                .title(request.getTitle())
-                .waitingForDate(startDateTime)
-                .startTime(startDateTime)
-                .endTime(endDateTime)
-                .date(request.getDate())
-                .batch(request.getBatch())
-                .waitingBy(waitingBy)
-                .waitingId(request.getWaitingId())
-                .responsiblePersonRole(request.getResponsibleRole())
-                .available(false)
-                .build();
+        waiting.setTitle(waitingRequest.getTitle());
+        Space space = spaceRepository.findById(waitingRequest.getSpaceID())
+                .orElseThrow(() -> new ResourceNotFoundException("Space not found with ID: " + waitingRequest.getSpaceID()));
+        waiting.setSpace(space);
+
+        try {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+            LocalDateTime waitingForDate = LocalDateTime.parse(waitingRequest.getWaitingForDate() + " 00:00", formatter);
+
+            waiting.setWaitingForDate(waitingForDate);
+            waiting.setStartTime(waitingForDate.withHour(waitingRequest.getStartTime() / 100)
+                    .withMinute(waitingRequest.getStartTime() % 100));
+            waiting.setEndTime(waitingForDate.withHour(waitingRequest.getEndTime() / 100)
+                    .withMinute(waitingRequest.getEndTime() % 100));
+        } catch (Exception e) {
+            throw new InvalidDataException("Invalid date format. Expected format: yyyy-MM-dd");
+        }
+
+
+        waiting.setResponsiblePersonRole(waitingRequest.getResponsibleRole());
+        waiting.setBatch(waitingRequest.getBatch());
+        return waiting;
     }
 
     private WaitingResponse waitingToResponse(Waiting waiting) {
@@ -169,6 +200,7 @@ public class WaitingService {
                 .fullName(waiting.getWaitingBy().getFullName())
                 .spaceName(waiting.getSpace().getName())
                 .waitingId((int) waiting.getWaitingId())
+                .available(waiting.isAvailable())
                 .build();
     }
 

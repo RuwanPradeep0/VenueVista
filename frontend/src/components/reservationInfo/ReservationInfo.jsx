@@ -23,7 +23,7 @@ const ReservationInfo = ({ reservation, onClick,isUserLoggedIn }) => {
       getWaitingList(
         setWaitingList,
         reservation.spaceId,
-        reservation.date,
+        reservation.reservationDate,
         reservation.startTime,
         reservation.endTime
       )
@@ -52,7 +52,7 @@ const ReservationInfo = ({ reservation, onClick,isUserLoggedIn }) => {
           </p>
           <p className={styles.infoItem}>
             <LuCalendarDays />
-            {getDateInFormat(new Date(reservation.date))}
+            {getDateInFormat(new Date(reservation.reservationDate))}
           </p>
           <p className={styles.infoItem}>
             <FaRegClock />

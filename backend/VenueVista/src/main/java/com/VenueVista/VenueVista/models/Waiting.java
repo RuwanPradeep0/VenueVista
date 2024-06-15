@@ -48,7 +48,5 @@ public class Waiting {
 
     private boolean available;
 
-//    private boolean isAvailable;
-
 
 }

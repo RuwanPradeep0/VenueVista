@@ -1,5 +1,6 @@
 package com.VenueVista.VenueVista.repository;
 
+import com.VenueVista.VenueVista.models.Space;
 import com.VenueVista.VenueVista.models.Waiting;
 import com.VenueVista.VenueVista.models.user.User;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -15,7 +16,8 @@ public interface WaitingRepository extends JpaRepository<Waiting , Integer> {
     void deleteById(Integer waitingId);
 
 
-    List<Waiting> findByWaitingForDateAndStartTimeLessThanEqualAndEndTimeGreaterThanEqual(
-            LocalDateTime waitingForDate, LocalDateTime reservationStart, LocalDateTime reservationEnd);
+    List<Waiting> findByWaitingForDateAndStartTimeAndEndTimeAndSpace(
+            LocalDateTime waitingForDate, LocalDateTime reservationStart, LocalDateTime reservationEnd, Space space);
+
 }
 
