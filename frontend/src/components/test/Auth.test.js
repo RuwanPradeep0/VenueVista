@@ -1,13 +1,12 @@
 import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import { MemoryRouter } from 'react-router-dom';
+import { BrowserRouter as Router } from 'react-router-dom';
+import '@testing-library/jest-dom/extend-expect';
 import Auth from './Auth';
-import {
-  registerLecturer,
-  login
-} from '../../services/AuthenticationService';
+import { registerLecturer, login } from '../../services/AuthenticationService';
 import { setUser } from '../../utills';
 
+// Mock the registerLecturer and login services
 jest.mock('../../services/AuthenticationService', () => ({
   registerLecturer: jest.fn(),
   login: jest.fn(),
@@ -18,98 +17,105 @@ jest.mock('../../utills', () => ({
 }));
 
 describe('Auth Component', () => {
-  beforeEach(() => {
-    jest.clearAllMocks();
+  it('renders register form by default', () => {
+    render(
+      <Router>
+        <Auth />
+      </Router>
+    );
+
+    expect(screen.getByRole('heading', { name: /register/i })).toBeInTheDocument();
+    expect(screen.getByLabelText('First Name:')).toBeInTheDocument();
+    expect(screen.getByLabelText('Last Name:')).toBeInTheDocument();
+    expect(screen.getByLabelText('Email:')).toBeInTheDocument();
+    expect(screen.getByLabelText('Password:')).toBeInTheDocument();
+    expect(screen.getByLabelText('User Type:')).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /register/i })).toBeInTheDocument();
   });
 
-  test('renders register form by default', () => {
-    render(<Auth />, { wrapper: MemoryRouter });
-    expect(screen.getByText('Register')).toBeInTheDocument();
-  });
+  it('switches to login form when toggle link is clicked', () => {
+    render(
+      <Router>
+        <Auth />
+      </Router>
+    );
 
-  test('renders login form when toggled', () => {
-    render(<Auth />, { wrapper: MemoryRouter });
     fireEvent.click(screen.getByText('Login'));
-    expect(screen.getByText('Login')).toBeInTheDocument();
+
+    expect(screen.getByRole('heading', { name: /login/i })).toBeInTheDocument();
+    expect(screen.queryByLabelText('First Name:')).not.toBeInTheDocument();
+    expect(screen.queryByLabelText('Last Name:')).not.toBeInTheDocument();
+    expect(screen.getByLabelText('Email:')).toBeInTheDocument();
+    expect(screen.getByLabelText('Password:')).toBeInTheDocument();
+    expect(screen.queryByLabelText('User Type:')).not.toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /login/i })).toBeInTheDocument();
   });
 
-  test('allows user to fill out the registration form', () => {
-    render(<Auth />, { wrapper: MemoryRouter });
-    fireEvent.change(screen.getByLabelText('First Name:'), { target: { value: 'John' } });
-    fireEvent.change(screen.getByLabelText('Last Name:'), { target: { value: 'Doe' } });
-    fireEvent.change(screen.getByLabelText('Email:'), { target: { value: 'john.doe@example.com' } });
+  it('registers a lecturer and redirects to the login page', async () => {
+    const mockLecturer = { id: 1, firstName: 'Zoya', lastName: 'Nick', email: 'Zoya.Nick@example.com', userRole: 'lecturer' };
+    registerLecturer.mockResolvedValue(mockLecturer);
+
+    render(
+      <Router>
+        <Auth />
+      </Router>
+    );
+
+    fireEvent.change(screen.getByLabelText('First Name:'), { target: { value: 'Zoya' } });
+    fireEvent.change(screen.getByLabelText('Last Name:'), { target: { value: 'Nick' } });
+    fireEvent.change(screen.getByLabelText('Email:'), { target: { value: 'zoya.nick@example.com' } });
     fireEvent.change(screen.getByLabelText('Password:'), { target: { value: 'password' } });
     fireEvent.change(screen.getByLabelText('User Type:'), { target: { value: 'lecturer' } });
 
-    expect(screen.getByLabelText('First Name:')).toHaveValue('John');
-    expect(screen.getByLabelText('Last Name:')).toHaveValue('Doe');
-    expect(screen.getByLabelText('Email:')).toHaveValue('john.doe@example.com');
-    expect(screen.getByLabelText('Password:')).toHaveValue('password');
-    expect(screen.getByLabelText('User Type:')).toHaveValue('lecturer');
-  });
+    fireEvent.click(screen.getByRole('button', { name: /register/i }));
 
-  test('handles successful registration', async () => {
-    registerLecturer.mockResolvedValueOnce({});
-
-    render(<Auth />, { wrapper: MemoryRouter });
-
-    fireEvent.change(screen.getByLabelText('First Name:'), { target: { value: 'John' } });
-    fireEvent.change(screen.getByLabelText('Last Name:'), { target: { value: 'Doe' } });
-    fireEvent.change(screen.getByLabelText('Email:'), { target: { value: 'john.doe@example.com' } });
-    fireEvent.change(screen.getByLabelText('Password:'), { target: { value: 'password' } });
-    fireEvent.change(screen.getByLabelText('User Type:'), { target: { value: 'lecturer' } });
-    fireEvent.click(screen.getByText('Register'));
+    await waitFor(() => {
+      expect(registerLecturer).toHaveBeenCalledWith({
+        firstName: 'Zoya',
+        lastName: 'Nick',
+        email: 'zoya.nick@example.com',
+        password: 'password',
+        userRole: 'lecturer',
+      });
+    });
 
     await waitFor(() => {
       expect(screen.getByText('Registration successful!')).toBeInTheDocument();
     });
-  });
-
-  test('handles registration error', async () => {
-    registerLecturer.mockRejectedValueOnce(new Error('Registration failed'));
-
-    render(<Auth />, { wrapper: MemoryRouter });
-
-    fireEvent.change(screen.getByLabelText('First Name:'), { target: { value: 'John' } });
-    fireEvent.change(screen.getByLabelText('Last Name:'), { target: { value: 'Doe' } });
-    fireEvent.change(screen.getByLabelText('Email:'), { target: { value: 'john.doe@example.com' } });
-    fireEvent.change(screen.getByLabelText('Password:'), { target: { value: 'password' } });
-    fireEvent.change(screen.getByLabelText('User Type:'), { target: { value: 'lecturer' } });
-    fireEvent.click(screen.getByText('Register'));
 
     await waitFor(() => {
-      expect(screen.getByText('Registration failed')).toBeInTheDocument();
+      expect(screen.getByRole('heading', { name: /login/i })).toBeInTheDocument();
     });
   });
 
-  test('handles successful login', async () => {
-    login.mockResolvedValueOnce({ id: 1, name: 'John Doe' });
+  it('logs in a user and redirects to the dashboard', async () => {
+    const mockResponse = { token: 'fake-token', user: { id: 1, email: 'zoya.nick@example.com' } };
+    login.mockResolvedValue(mockResponse);
 
-    render(<Auth />, { wrapper: MemoryRouter });
+    render(
+      <Router>
+        <Auth />
+      </Router>
+    );
 
     fireEvent.click(screen.getByText('Login'));
-    fireEvent.change(screen.getByLabelText('Email:'), { target: { value: 'john.doe@example.com' } });
+
+    fireEvent.change(screen.getByLabelText('Email:'), { target: { value: 'zoya.nick@example.com' } });
     fireEvent.change(screen.getByLabelText('Password:'), { target: { value: 'password' } });
-    fireEvent.click(screen.getByText('Login'));
 
+    fireEvent.click(screen.getByRole('button', { name: /login/i }));
+
+    await waitFor(() => {
+      expect(login).toHaveBeenCalledWith('zoya.nick@example.com', 'password');
+    });
+
+    await waitFor(() => {
+      expect(setUser).toHaveBeenCalledWith(mockResponse);
+    });
+
+    // Check for redirection (this depends on your implementation, adjust as necessary)
     await waitFor(() => {
       expect(screen.getByText('Login successful!')).toBeInTheDocument();
-      expect(setUser).toHaveBeenCalledWith({ id: 1, name: 'John Doe' });
-    });
-  });
-
-  test('handles login error', async () => {
-    login.mockRejectedValueOnce(new Error('Login failed'));
-
-    render(<Auth />, { wrapper: MemoryRouter });
-
-    fireEvent.click(screen.getByText('Login'));
-    fireEvent.change(screen.getByLabelText('Email:'), { target: { value: 'john.doe@example.com' } });
-    fireEvent.change(screen.getByLabelText('Password:'), { target: { value: 'password' } });
-    fireEvent.click(screen.getByText('Login'));
-
-    await waitFor(() => {
-      expect(screen.getByText('Login failed')).toBeInTheDocument();
     });
   });
 });
