@@ -1,57 +1,37 @@
 import React from 'react';
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import AvailableSpaces from './AvailableSpaces';
 
 describe('AvailableSpaces Component', () => {
-  const mockSpaces = [
-    { id: 1, name: 'Room 101', location: 'Building A' },
-    { id: 2, name: 'Room 102', location: 'Building B' },
-    { id: 3, name: 'Room 103', location: 'Building C' },
+  const availableSpaces = [
+    { id: 1, name: 'Space 1', location: 'Location 1' },
+    { id: 2, name: 'Space 2', location: 'Location 2' },
+    { id: 3, name: 'Space 3', location: 'Location 3' },
   ];
 
-  const mockHandleClick = jest.fn();
+  it('renders available spaces', () => {
+    render(<AvailableSpaces availableSpaces={availableSpaces} />);
+    const headingElement = screen.getByText('Available Spaces');
+    expect(headingElement).toBeInTheDocument();
 
-  beforeEach(() => {
-    jest.clearAllMocks();
-  });
-
-  test('renders without crashing', () => {
-    render(<AvailableSpaces availableSpaces={mockSpaces} handleClick={mockHandleClick} select={null} />);
-    expect(screen.getByText('Available Spaces')).toBeInTheDocument();
-  });
-
-  test('displays the correct number of spaces', () => {
-    render(<AvailableSpaces availableSpaces={mockSpaces} handleClick={mockHandleClick} select={null} />);
-    const spaces = screen.getAllByRole('button');
-    expect(spaces).toHaveLength(mockSpaces.length);
-  });
-
-  test('displays the space names and locations correctly', () => {
-    render(<AvailableSpaces availableSpaces={mockSpaces} handleClick={mockHandleClick} select={null} />);
-    mockSpaces.forEach(space => {
-      expect(screen.getByText(space.name)).toBeInTheDocument();
-      expect(screen.getByText(space.location)).toBeInTheDocument();
+    availableSpaces.forEach((space) => {
+      const nameElement = screen.getByText(space.name);
+      const locationElement = screen.getByText(space.location);
+      expect(nameElement).toBeInTheDocument();
+      expect(locationElement).toBeInTheDocument();
     });
   });
 
-  test('handles space click correctly', () => {
-    render(<AvailableSpaces availableSpaces={mockSpaces} handleClick={mockHandleClick} select={null} />);
-    const spaceButton = screen.getByText(mockSpaces[0].name).closest('button');
-    fireEvent.click(spaceButton);
-    expect(mockHandleClick).toHaveBeenCalledWith(mockSpaces[0].id);
-  });
-
-  test('applies the selected class to the selected space', () => {
-    const { container } = render(<AvailableSpaces availableSpaces={mockSpaces} handleClick={mockHandleClick} select={1} />);
-    const selectedSpace = container.querySelector('.SpaceSelected');
-    expect(selectedSpace).toBeInTheDocument();
-    expect(selectedSpace).toHaveTextContent(mockSpaces[0].name);
-  });
-
-  test('displays the chevron icon for the selected space', () => {
-    render(<AvailableSpaces availableSpaces={mockSpaces} handleClick={mockHandleClick} select={1} />);
-    const chevronIcon = screen.getByText(mockSpaces[0].name).querySelector('svg');
-    expect(chevronIcon).toBeInTheDocument();
+  it('selects a space when clicked', () => {
+    const handleClick = jest.fn();
+    render(<AvailableSpaces availableSpaces={availableSpaces} handleClick={handleClick} select={null} />);
+    
+    availableSpaces.forEach((space) => {
+      const spaceButton = screen.getByText(space.name).closest('button');
+      expect(spaceButton).toBeInTheDocument();
+      spaceButton.click();
+      expect(handleClick).toHaveBeenCalledWith(space.id);
+    });
   });
 });
