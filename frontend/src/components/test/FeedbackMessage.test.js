@@ -1,32 +1,34 @@
 import React from 'react';
-import { render, waitFor } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
+import '@testing-library/jest-dom/extend-expect';
 import FeedbackMessage from './FeedbackMessage';
 
-describe('FeedbackMessage', () => {
-  it('should render a success message', async () => {
-    const { getByText, queryByText } = render(
-      <FeedbackMessage message="Success message" type="success" />
-    );
+describe('FeedbackMessage Component', () => {
+  it('renders success message and icon correctly', () => {
+    render(<FeedbackMessage message="Operation successful" type="success" duration={2000} />);
 
-    expect(getByText('Success message')).toBeInTheDocument();
-
-    // Message should disappear after a delay
-    await waitFor(() => expect(queryByText('Success message')).not.toBeInTheDocument());
+    expect(screen.getByText('Operation successful')).toBeInTheDocument();
+    expect(screen.getByTestId('feedback-success-icon')).toBeInTheDocument();
   });
 
-  it('should render an error message', async () => {
-    const { getByText, queryByText } = render(
-      <FeedbackMessage message="Error message" type="error" />
-    );
+  it('renders error message and icon correctly', () => {
+    render(<FeedbackMessage message="Operation failed" type="error" duration={2000} />);
 
-    expect(getByText('Error message')).toBeInTheDocument();
-
-    // Message should disappear after a delay
-    await waitFor(() => expect(queryByText('Error message')).not.toBeInTheDocument());
+    expect(screen.getByText('Operation failed')).toBeInTheDocument();
+    expect(screen.getByTestId('feedback-error-icon')).toBeInTheDocument();
   });
 
-  it('should not render a message when message prop is empty', () => {
-    const { queryByText } = render(<FeedbackMessage message="" type="success" />);
-    expect(queryByText('')).not.toBeInTheDocument();
+  it('hides the message after the specified duration', async () => {
+    render(<FeedbackMessage message="This will disappear" type="success" duration={2000} />);
+
+    expect(screen.getByText('This will disappear')).toBeInTheDocument();
+
+    await waitFor(() => expect(screen.queryByText('This will disappear')).not.toBeInTheDocument(), { timeout: 3000 });
+  });
+
+  it('does not render anything when message is null', () => {
+    const { container } = render(<FeedbackMessage message={null} type="success" duration={2000} />);
+
+    expect(container.firstChild).toBeNull();
   });
 });
