@@ -33,4 +33,7 @@ public class WaitingRequest {
     private String batch;
 
     private Integer waitingId;
+
+    public void setEmail(String s) {
+    }
 }
