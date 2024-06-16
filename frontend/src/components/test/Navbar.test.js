@@ -1,79 +1,34 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
-import { MemoryRouter } from 'react-router-dom';
-import Navbar from './Navbar';
+import { render, screen, waitFor } from '@testing-library/react';
+import '@testing-library/jest-dom/extend-expect';
+import FeedbackMessage from './FeedbackMessage';
 
-describe('Navbar', () => {
-  it('renders navbar links correctly', () => {
-    render(
-      <MemoryRouter>
-        <Navbar user={{}} />
-      </MemoryRouter>
-    );
+describe('FeedbackMessage Component', () => {
+  it('renders success message and icon correctly', () => {
+    render(<FeedbackMessage message="Operation successful" type="success" duration={2000} />);
 
-    const homeLink = screen.getByText('Home');
-    expect(homeLink).toBeInTheDocument();
-
-    const manageReservationsLink = screen.queryByText('Manage Reservations');
-    expect(manageReservationsLink).not.toBeInTheDocument();
-
-    const manageSpacesLink = screen.getByText('Manage Spaces');
-    expect(manageSpacesLink).toBeInTheDocument();
-
-    const signInLink = screen.getByText('Sign In');
-    expect(signInLink).toBeInTheDocument();
+    expect(screen.getByText('Operation successful')).toBeInTheDocument();
+    expect(screen.getByTestId('feedback-success-icon')).toBeInTheDocument();
   });
 
-  it('renders manage reservations link when user is logged in', () => {
-    render(
-      <MemoryRouter>
-        <Navbar user={{ username: 'testuser' }} />
-      </MemoryRouter>
-    );
+  it('renders error message and icon correctly', () => {
+    render(<FeedbackMessage message="Operation failed" type="error" duration={2000} />);
 
-    const manageReservationsLink = screen.getByText('Manage Reservations');
-    expect(manageReservationsLink).toBeInTheDocument();
-
-    const signInLink = screen.queryByText('Sign In');
-    expect(signInLink).not.toBeInTheDocument();
+    expect(screen.getByText('Operation failed')).toBeInTheDocument();
+    expect(screen.getByTestId('feedback-error-icon')).toBeInTheDocument();
   });
 
-  it('renders username when user is logged in', () => {
-    render(
-      <MemoryRouter>
-        <Navbar user={{ username: 'testuser' }} />
-      </MemoryRouter>
-    );
+  it('hides the message after the specified duration', async () => {
+    render(<FeedbackMessage message="This will disappear" type="success" duration={2000} />);
 
-    const usernameText = screen.getByText('testuser');
-    expect(usernameText).toBeInTheDocument();
+    expect(screen.getByText('This will disappear')).toBeInTheDocument();
+
+    await waitFor(() => expect(screen.queryByText('This will disappear')).not.toBeInTheDocument(), { timeout: 3000 });
   });
 
-  it('renders log out link when user is logged in', () => {
-    render(
-      <MemoryRouter>
-        <Navbar user={{ username: 'testuser' }} />
-      </MemoryRouter>
-    );
+  it('does not render anything when message is null', () => {
+    const { container } = render(<FeedbackMessage message={null} type="success" duration={2000} />);
 
-    const logOutLink = screen.getByText('Log Out');
-    expect(logOutLink).toBeInTheDocument();
-  });
-
-  it('renders logo and university information', () => {
-    render(
-      <MemoryRouter>
-        <Navbar user={{}} />
-      </MemoryRouter>
-    );
-
-    const logo = screen.getByAltText('logo');
-    expect(logo).toBeInTheDocument();
-
-    const facultyName = screen.getByText('Faculty Of Engineering');
-    expect(facultyName).toBeInTheDocument();
-
-    const universityName = screen.getByText('University Of jaffna');
-    expect(universityName).toBeInTheDocument();
+    expect(container.firstChild).toBeNull();
   });
 });
