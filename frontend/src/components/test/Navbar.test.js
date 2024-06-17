@@ -1,34 +1,94 @@
-import React from 'react';
-import { render, screen, waitFor } from '@testing-library/react';
-import '@testing-library/jest-dom/extend-expect';
-import FeedbackMessage from './FeedbackMessage';
+import React ,{useEffect , useState} from 'react'
+import { NavLink, useLocation } from "react-router-dom";
 
-describe('FeedbackMessage Component', () => {
-  it('renders success message and icon correctly', () => {
-    render(<FeedbackMessage message="Operation successful" type="success" duration={2000} />);
+import logo from '../../images/logo.png'
+import styles from './Navbar.module.scss';
 
-    expect(screen.getByText('Operation successful')).toBeInTheDocument();
-    expect(screen.getByTestId('feedback-success-icon')).toBeInTheDocument();
-  });
 
-  it('renders error message and icon correctly', () => {
-    render(<FeedbackMessage message="Operation failed" type="error" duration={2000} />);
+const Navbar = ({user}) => {
 
-    expect(screen.getByText('Operation failed')).toBeInTheDocument();
-    expect(screen.getByTestId('feedback-error-icon')).toBeInTheDocument();
-  });
+  const [userName, setUserName] = useState('');
+   const location = useLocation();
 
-  it('hides the message after the specified duration', async () => {
-    render(<FeedbackMessage message="This will disappear" type="success" duration={2000} />);
+  useEffect(() => {
+    const storedUser = localStorage.getItem('user');
+    if (storedUser) {
+      const { username } = JSON.parse(storedUser);
+      setUserName(username);
+    }
 
-    expect(screen.getByText('This will disappear')).toBeInTheDocument();
+  }, [location]);
 
-    await waitFor(() => expect(screen.queryByText('This will disappear')).not.toBeInTheDocument(), { timeout: 3000 });
-  });
+  return (
+    <>
+    <div className={styles.Navbar}>
+        <div className={styles.NavLogoContainer}>
+            <img className={styles.NavLogo} src={logo} alt='logo' />
 
-  it('does not render anything when message is null', () => {
-    const { container } = render(<FeedbackMessage message={null} type="success" duration={2000} />);
+            <div>
+            <p>Faculty Of Engineering</p>
+            <p>University Of jaffna</p>
+        </div>
 
-    expect(container.firstChild).toBeNull();
-  });
-});
+           
+           
+            <ul className={styles.NavLinks}>
+                <li className={styles.NavLink} title="Home">
+
+              <NavLink exact={true} to="/" className={({ isActive }) => isActive && styles.active}>
+                Home
+              </NavLink>
+            </li>
+
+
+               {/* Manage Reservations Should Only be Visible if the user is logged in */}
+          {userName && (
+            <li className={styles.NavLink} title="Manage Reservations">
+              <NavLink to="/ManageReservations" className={({ isActive }) => isActive && styles.active}>
+                Manage Reservations
+              </NavLink>
+            </li>
+          )}
+
+            <li className={styles.NavLink} title="Home">
+
+            <NavLink exact={true} to="/spaces" className={({ isActive }) => isActive && styles.active}>
+              Manage Spaces
+            </NavLink>
+            </li>
+
+          
+            </ul>
+
+            
+
+        </div>
+        <div>
+                <ul className={styles.NavLinks}>
+                {userName && <li className={styles.GeneralText}>{userName}</li>}
+                    {
+                        userName ? (
+                            <li className={styles.NavLink}>
+                                Log Out
+                            </li>
+                        ) : (
+                            <li className={styles.NavLink}>
+                                <NavLink to="/signin" className={({ isActive }) => isActive && styles.active}>
+                                    Sign In
+                                </NavLink>
+                            </li>
+                        )
+                    }
+                </ul>
+                
+            </div>
+
+
+    </div>
+    
+    
+    </>
+  )
+}
+
+export default Navbar
