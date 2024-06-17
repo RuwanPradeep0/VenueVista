@@ -1,0 +1,25 @@
+// SpaceManagement.module.scss
+@use '../../styles/variables' as *;
+
+.container {
+  display: flex;
+  gap: 2rem;
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.cardSection, .formSection {
+  flex: 1;
+}
+
+.sectionTitle {
+  color: $accentColor;
+  margin-bottom: 1rem;
+}
+
+@media (max-width: 768px) {
+  .container {
+    flex-direction: column;
+  }
+}
