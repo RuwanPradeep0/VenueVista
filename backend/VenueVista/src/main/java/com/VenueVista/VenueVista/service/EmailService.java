@@ -3,8 +3,6 @@ package com.VenueVista.VenueVista.service;
 
 import com.VenueVista.VenueVista.auth.RequestResponse.AuthenticationRequest;
 import com.VenueVista.VenueVista.auth.RequestResponse.RegisterRequest;
-import com.VenueVista.VenueVista.controller.RequestResponse.ReservationRequest;
-import com.VenueVista.VenueVista.controller.RequestResponse.SpaceRequest;
 import com.VenueVista.VenueVista.models.Reservation;
 import com.VenueVista.VenueVista.models.Waiting;
 import com.VenueVista.VenueVista.repository.ReservationRepository;
@@ -85,44 +83,44 @@ public class EmailService {
 //    }
 
 
-    public void sendSpaceCreationNotification(SpaceRequest spaceRequest) {
-        String toEmail = "2020e017@eng.jfn.ac.lk"; // Admin email
-        String subject = "New Space Created";
-        String body = "Hello Admin,\n\n"
-                + "A new space has been created in VenueVista with the following details:\n\n"
-                + "Space Name: " + spaceRequest.getName() + "\n"
-                + "Description: " + spaceRequest.getDescription() + "\n"
-                + "Capacity: " + spaceRequest.getCapacity() + "\n\n"
-                + "Please review and take necessary actions.\n\n"
-                + "Best regards,\n"
-                + "VenueVista Team";
+//    public void sendSpaceCreationNotification(SpaceRequest spaceRequest) {
+//        String toEmail = "2020e017@eng.jfn.ac.lk"; // Admin email
+//        String subject = "New Space Created";
+//        String body = "Hello Admin,\n\n"
+//                + "A new space has been created in VenueVista with the following details:\n\n"
+//                + "Space Name: " + spaceRequest.getName() + "\n"
+//                + "Description: " + spaceRequest.getDescription() + "\n"
+//                + "Capacity: " + spaceRequest.getCapacity() + "\n\n"
+//                + "Please review and take necessary actions.\n\n"
+//                + "Best regards,\n"
+//                + "VenueVista Team";
+//
+//        sendEmail(toEmail, subject, body);
+//    }
 
-        sendEmail(toEmail, subject, body);
-    }
 
-
-    public void sendWaitingListNotification(Waiting waiting) {
-        // Get the email of the person who booked the slot earlier
-        String toEmail = userRepository.findById(waiting.getWaitingBy().getId())
-                .orElseThrow(() -> new IllegalArgumentException("User not found"))
-                .getEmail();
-
-        if (toEmail == null || toEmail.isEmpty()) {
-            throw new IllegalArgumentException("Recipient email address is required");
-        }
-
-        String subject = "Waiting List Notification";
-        String body = "Dear " + waiting.getWaitingBy().getFullName() + ",\n\n"
-                + "This is to inform you that you have been added to the waiting list for the following slot at VenueVista:\n\n"
-                + "Space: " + waiting.getSpace().getName() + "\n"
-                + "Date: " + waiting.getWaitingForDate().toLocalDate().toString() + "\n"
-                + "Time: " + waiting.getStartTime().toLocalTime().toString() + " - " + waiting.getEndTime().toLocalTime().toString() + "\n\n"
-                + "We will notify you if the slot becomes available.\n\n"
-                + "Best regards,\n"
-                + "VenueVista Team";
-
-        sendEmail(toEmail, subject, body);
-    }
+//    public void sendWaitingListNotification(Waiting waiting) {
+//        // Get the email of the person who booked the slot earlier
+//        String toEmail = userRepository.findById(waiting.getWaitingBy().getId())
+//                .orElseThrow(() -> new IllegalArgumentException("User not found"))
+//                .getEmail();
+//
+//        if (toEmail == null || toEmail.isEmpty()) {
+//            throw new IllegalArgumentException("Recipient email address is required");
+//        }
+//
+//        String subject = "Waiting List Notification";
+//        String body = "Dear " + waiting.getWaitingBy().getFullName() + ",\n\n"
+//                + "This is to inform you that you have been added to the waiting list for the following slot at VenueVista:\n\n"
+//                + "Space: " + waiting.getSpace().getName() + "\n"
+//                + "Date: " + waiting.getWaitingForDate().toLocalDate().toString() + "\n"
+//                + "Time: " + waiting.getStartTime().toLocalTime().toString() + " - " + waiting.getEndTime().toLocalTime().toString() + "\n\n"
+//                + "We will notify you if the slot becomes available.\n\n"
+//                + "Best regards,\n"
+//                + "VenueVista Team";
+//
+//        sendEmail(toEmail, subject, body);
+//    }
 
 
     public void sendWaitingNotificationsWhoReserved(Waiting waiting) {

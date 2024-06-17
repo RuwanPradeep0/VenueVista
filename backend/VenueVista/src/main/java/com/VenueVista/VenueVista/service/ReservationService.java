@@ -141,7 +141,7 @@ public class ReservationService {
         reservation.setSpace(space);
 
         try {
-           x DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
             LocalDateTime reservationDate = LocalDateTime.parse(reservationRequest.getReservationDate() + " 00:00", formatter);
 
             reservation.setReservationDate(reservationDate);

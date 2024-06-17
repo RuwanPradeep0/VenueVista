@@ -104,34 +104,6 @@ public class WaitingService {
     }
 
 
-//    private Waiting requestToWaiting(WaitingRequest request) {
-//        int startTime = parseTime(request.getStartTime());
-//        int endTime = parseTime(request.getEndTime());
-//        LocalDate waitingForDate = LocalDate.parse(request.getWaitingForDate());
-//        LocalDateTime startDateTime = LocalDateTime.of(waitingForDate, LocalTime.of(startTime / 100, startTime % 100));
-//        LocalDateTime endDateTime = LocalDateTime.of(waitingForDate, LocalTime.of(endTime / 100, endTime % 100));
-//
-//        User waitingBy = userRepository.findById(request.getWaitingByID())
-//                .orElseThrow(() -> new RuntimeException("User not found with ID: " + request.getWaitingByID()));
-//
-//        Space space = spaceRepository.findById(request.getSpaceID())
-//                .orElseThrow(() -> new RuntimeException("Space not found with ID: " + request.getSpaceID()));
-//
-//        return Waiting.builder()
-//                .space(space)
-//                .title(request.getTitle())
-//                .waitingForDate(startDateTime)
-//                .startTime(startDateTime)
-//                .endTime(endDateTime)
-//                .date(request.getDate())
-//                .batch(request.getBatch())
-//                .waitingBy(waitingBy)
-//                .waitingId(request.getWaitingId())
-//                .responsiblePersonRole(request.getResponsibleRole())
-//                .available(false)
-//                .build();
-//    }
-
     private Waiting requestToWaiting(WaitingRequest waitingRequest) throws InvalidDataException {
        Waiting waiting = new Waiting();
         User user = userRepository.findById(waitingRequest.getWaitingByID())

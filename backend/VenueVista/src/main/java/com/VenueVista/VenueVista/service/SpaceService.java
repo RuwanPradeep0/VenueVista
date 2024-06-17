@@ -18,8 +18,6 @@ public class SpaceService {
     private final FacilityRepository facilityRepository;
 
 
-
-
 public Space saveSpace(SpaceRequest spaceRequest){
 
 

@@ -1,7 +1,6 @@
 package com.VenueVista.VenueVista.models.user;
 
 import com.VenueVista.VenueVista.repository.UserRepository;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
