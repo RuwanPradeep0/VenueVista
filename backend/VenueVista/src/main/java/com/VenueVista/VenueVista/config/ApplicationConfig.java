@@ -2,10 +2,10 @@ package com.VenueVista.VenueVista.config;
 
 import com.VenueVista.VenueVista.auth.RequestResponse.RegisterRequest;
 import com.VenueVista.VenueVista.repository.UserRepository;
-import com.VenueVista.VenueVista.service.EmailService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -20,6 +20,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 @RequiredArgsConstructor
+@EnableAsync
 public class ApplicationConfig {
 
     private final UserRepository repository;

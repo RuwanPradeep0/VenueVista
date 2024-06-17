@@ -13,6 +13,7 @@ import com.VenueVista.VenueVista.repository.ReservationRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -24,6 +25,7 @@ public class EmailService {
     private final SpaceRepository spaceRepository;
     private final ReservationRepository reservationRepository;
 
+    @Async
     public void sendWelcomeEmail(RegisterRequest registerRequest) {
         String toEmail = registerRequest.getEmail();
         if (toEmail == null || toEmail.isEmpty()) {
@@ -39,6 +41,7 @@ public class EmailService {
         sendEmail(toEmail, subject, body);
     }
 
+    @Async
     public void sendLoginNotification(AuthenticationRequest authRequest) {
         String toEmail = authRequest.getEmail();
 
@@ -60,6 +63,7 @@ public class EmailService {
         sendEmail(toEmail, subject, body);
     }
 
+    @Async
     public void sendReservationConfirmation(ReservationRequest reservationRequest) {
 
 //        String toEmail = userRepository.findById(reservationRequest.getReservedByID()).get().getEmail();
@@ -91,6 +95,7 @@ public class EmailService {
         sendEmail(toEmail, subject, body);
     }
 
+    @Async
     public void sendSpaceCreationNotification(SpaceRequest spaceRequest) {
 
         String toEmail = "2020e017@eng.jfn.ac.lk"; //  MA email
@@ -109,7 +114,7 @@ public class EmailService {
         sendEmail(toEmail, subject, body);
     }
 
-
+    @Async
     public void sendWaitingListNotification(Waiting waiting) {
         // Get the email of the person who booked the slot earlier
         String toEmail = userRepository.findById(waiting.getWaitingBy().getId())
@@ -133,6 +138,7 @@ public class EmailService {
         sendEmail(toEmail, subject, body);
     }
 
+    @Async
     public void sendWaitingNotificationsWhoReserved(Waiting waiting) {
         // Get the reservation of the existing user for the same space and time
         Reservation existingReservation = reservationRepository.findBySpaceAndStartTimeAndEndTime(

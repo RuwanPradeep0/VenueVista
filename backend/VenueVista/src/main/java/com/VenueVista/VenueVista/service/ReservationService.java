@@ -170,7 +170,7 @@ public class ReservationService {
         reservation.setSpace(space);
 
         try {
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+           x DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
             LocalDateTime reservationDate = LocalDateTime.parse(reservationRequest.getReservationDate() + " 00:00", formatter);
 
             reservation.setReservationDate(reservationDate);
