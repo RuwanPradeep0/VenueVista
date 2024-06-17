@@ -1,71 +1,69 @@
-package com.VenueVista.VenueVista.Security;
+package com.VenueVista.VenueVista.security;
 
 import lombok.RequiredArgsConstructor;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
+
+import java.util.logging.Logger;
+
+import static org.springframework.security.config.Customizer.withDefaults;
+import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
 
 @Configuration
 @EnableWebSecurity
+@EnableMethodSecurity
 @RequiredArgsConstructor
-public class SecurityConfig extends WebSecurityConfigurerAdapter {
+public class SecurityConfiguration {
 
-    private final JwtAuthenticationFilter jwtAuthenticationFilter;
-    private final JwtService jwtService;
+    private final JwtAuthenticationFilter jwtAuthFilter;
+    private final AuthenticationProvider authenticationProvider;
 
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
+
+
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
+
+        System.out.println("Configuring Security Filter Chain...");
+
         http
-                .csrf().disable()
-                .authorizeRequests()
-                .antMatchers("/public/**", "/login", "/register").permitAll() // Permit access to public resources
-                .anyRequest().authenticated() // All other endpoints require authentication
-                .and()
-                .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
-                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
-                .formLogin()
-                .loginPage("/login") // Specify your custom login page URL
-                .defaultSuccessUrl("/dashboard") // Redirect to this URL after successful login
-                .permitAll()
-                .and()
-                .logout()
-                .logoutUrl("/logout") // Specify the URL for logout
-                .logoutSuccessUrl("/login?logout") // Redirect to login page after logout
-                .invalidateHttpSession(true) // Invalidate session
-                .deleteCookies("JSESSIONID") // Delete cookies
-                .logoutSuccessHandler(logoutSuccessHandler()); // Handle successful logout
-    }
+                .cors(withDefaults())
+                .csrf(AbstractHttpConfigurer::disable)
+                .authorizeHttpRequests(req ->
+                        req.requestMatchers(
+                                        "/api/v1/auth/**",
+                                        "/api/v1/spaces/**",
+                                        "/api/v1/reservations/**",
+                                        "/api/v1/waiting/**",
+                                        "/v2/api-docs",
+                                        "/v3/api-docs",
+                                        "/v3/api-docs/**",
+                                        "/swagger-resources",
+                                        "/swagger-resources/**",
+                                        "/configuration/ui",
+                                        "/configuration/security",
+                                        "/swagger-ui/**",
+                                        "/webjars/**",
+                                        "/swagger-ui.html"
 
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder(); // Use BCryptPasswordEncoder for password encoding
-    }
+                                ).permitAll()
+                                .anyRequest()
+                                .authenticated()
+                )
+                .sessionManagement(session -> session.sessionCreationPolicy(STATELESS))
+                .authenticationProvider(authenticationProvider)
+                .addFilterBefore(jwtAuthFilter , UsernamePasswordAuthenticationFilter.class);
 
-    @Bean
-    @Override
-    public AuthenticationManager authenticationManagerBean() throws Exception {
-        return super.authenticationManagerBean();
-    }
-
-    @Bean
-    public LogoutSuccessHandler logoutSuccessHandler() {
-        return (request, response, authentication) -> {
-            String token = jwtService.extractToken(request);
-            if (token != null && !token.isEmpty()) {
-                jwtService.invalidateToken(token);
-            }
-            response.setStatus(HttpServletResponse.SC_OK);
-            response.sendRedirect("/login?logout");
-        };
+        System.out.println("Configuring Success ...");
+        return http.build();
     }
 }
+
+
