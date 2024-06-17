@@ -52,7 +52,7 @@ describe('Auth Component', () => {
   });
 
   it('registers a lecturer and redirects to the login page', async () => {
-    const mockLecturer = { id: 1, firstName: 'Zoya', lastName: 'Nick', email: 'Zoya.Nick@example.com', userRole: 'lecturer' };
+    const mockLecturer = { id: 1, firstName: 'John', lastName: 'Doe', email: 'john.doe@example.com', userRole: 'lecturer' };
     registerLecturer.mockResolvedValue(mockLecturer);
 
     render(
@@ -61,9 +61,9 @@ describe('Auth Component', () => {
       </Router>
     );
 
-    fireEvent.change(screen.getByLabelText('First Name:'), { target: { value: 'Zoya' } });
-    fireEvent.change(screen.getByLabelText('Last Name:'), { target: { value: 'Nick' } });
-    fireEvent.change(screen.getByLabelText('Email:'), { target: { value: 'zoya.nick@example.com' } });
+    fireEvent.change(screen.getByLabelText('First Name:'), { target: { value: 'Wasana' } });
+    fireEvent.change(screen.getByLabelText('Last Name:'), { target: { value: 'Sewwandi' } });
+    fireEvent.change(screen.getByLabelText('Email:'), { target: { value: 'wasanasewwandi@gmail.com' } });
     fireEvent.change(screen.getByLabelText('Password:'), { target: { value: 'password' } });
     fireEvent.change(screen.getByLabelText('User Type:'), { target: { value: 'lecturer' } });
 
@@ -71,9 +71,9 @@ describe('Auth Component', () => {
 
     await waitFor(() => {
       expect(registerLecturer).toHaveBeenCalledWith({
-        firstName: 'Zoya',
-        lastName: 'Nick',
-        email: 'zoya.nick@example.com',
+        firstName: 'Wasana',
+        lastName: 'Sewwandi',
+        email: 'wasanasewwandi@gmail.com',
         password: 'password',
         userRole: 'lecturer',
       });
@@ -89,7 +89,7 @@ describe('Auth Component', () => {
   });
 
   it('logs in a user and redirects to the dashboard', async () => {
-    const mockResponse = { token: 'fake-token', user: { id: 1, email: 'zoya.nick@example.com' } };
+    const mockResponse = { token: 'fake-token', user: { id: 1, email: 'wasanasewwandi@gmail.com' } };
     login.mockResolvedValue(mockResponse);
 
     render(
@@ -100,13 +100,13 @@ describe('Auth Component', () => {
 
     fireEvent.click(screen.getByText('Login'));
 
-    fireEvent.change(screen.getByLabelText('Email:'), { target: { value: 'zoya.nick@example.com' } });
+    fireEvent.change(screen.getByLabelText('Email:'), { target: { value: 'wasanasewwandi@gmail.com' } });
     fireEvent.change(screen.getByLabelText('Password:'), { target: { value: 'password' } });
 
     fireEvent.click(screen.getByRole('button', { name: /login/i }));
 
     await waitFor(() => {
-      expect(login).toHaveBeenCalledWith('zoya.nick@example.com', 'password');
+      expect(login).toHaveBeenCalledWith('wasanasewwandi@gmail.com', 'password');
     });
 
     await waitFor(() => {
