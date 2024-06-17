@@ -1,29 +1,68 @@
 import React from 'react';
-import { render, waitFor } from '@testing-library/react';
+import { render, screen, fireEvent } from '@testing-library/react';
 import SheduleManager from './SheduleManager';
-import { getAllSpaces, getAllReservation } from '../../services/SpaceService';
-import { act } from 'react-dom/test-utils';
 
-jest.mock('../../services/SpaceService');
-jest.mock('../../services/ReservationService');
+// Mock services
+jest.mock('../../services/SpaceService', () => ({
+  getAllSpaces: jest.fn(() => Promise.resolve({ data: [{ id: 1, name: 'Space 1', capacity: 100, facilitiesList: ['Facility 1'] }] })),
+}));
 
-describe('SheduleManager', () => {
+jest.mock('../../services/ReservationService', () => ({
+  getAllReservations: jest.fn(() => Promise.resolve({ data: [{ id: 1, spaceID: 1, facilitiesList: ['Facility 1'], batch: 'Batch 1' }] })),
+}));
+
+describe('SheduleManager Component', () => {
   beforeEach(() => {
-    getAllSpaces.mockResolvedValue([]);
-    getAllReservation.mockResolvedValue([]);
+    localStorage.setItem('user', JSON.stringify({ id: 1, name: 'Test User' }));
   });
 
-  it('renders without crashing', () => {
-    render(<SheduleManager />);
+  afterEach(() => {
+    localStorage.clear();
   });
 
-  it('fetches spaces and reservations on mount', async () => {
-    await act(async () => {
-      render(<SheduleManager />);
-      await waitFor(() => {
-        expect(getAllSpaces).toHaveBeenCalledTimes(1);
-        expect(getAllReservation).toHaveBeenCalledTimes(1);
-      });
-    });
+  test('renders without crashing', async () => {
+    render(
+      <SheduleManager
+        selectedDays={[]}
+        startTime="09:00"
+        endTime="17:00"
+        capacity={[50, 150]}
+        selectedFacilities={[]}
+        selectedBatches={[]}
+      />
+    );
+    expect(screen.getByText(/Available Spaces/i)).toBeInTheDocument();
+  });
+
+  test('handles space selection and shows details', async () => {
+    render(
+      <SheduleManager
+        selectedDays={[]}
+        startTime="09:00"
+        endTime="17:00"
+        capacity={[50, 150]}
+        selectedFacilities={[]}
+        selectedBatches={[]}
+      />
+    );
+
+    // Simulate space click
+    fireEvent.click(screen.getByText('Space 1'));
+    expect(screen.getByText('Capacity:')).toBeInTheDocument();
+  });
+
+  test('filters spaces based on capacity and facilities', async () => {
+    render(
+      <SheduleManager
+        selectedDays={[]}
+        startTime="09:00"
+        endTime="17:00"
+        capacity={[50, 150]}
+        selectedFacilities={['Facility 1']}
+        selectedBatches={[]}
+      />
+    );
+
+    expect(screen.getByText('Space 1')).toBeInTheDocument();
   });
 });
