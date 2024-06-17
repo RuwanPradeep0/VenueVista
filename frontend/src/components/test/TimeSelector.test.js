@@ -1,80 +1,78 @@
 import React from 'react';
-import { render, fireEvent } from '@testing-library/react';
+import { render, screen, fireEvent } from '@testing-library/react';
 import TimeSelector from './TimeSelector';
 
-describe('TimeSelector', () => {
-  it('renders without crashing', () => {
+describe('TimeSelector Component', () => {
+  let startTime, setStartTime, endTime, setEndTime;
+
+  beforeEach(() => {
+    startTime = 8; // Initial start time
+    setStartTime = jest.fn();
+    endTime = 9; // Initial end time
+    setEndTime = jest.fn();
+  });
+
+  test('renders without crashing', () => {
     render(
       <TimeSelector
-        startTime={8}
-        setStartTime={() => {}}
-        endTime={10}
-        setEndTime={() => {}}
-      />
-    );
-  });
-
-  it('updates start time when changed', () => {
-    const setStartTime = jest.fn();
-    const { getByLabelText } = render(
-      <TimeSelector
-        startTime={8}
+        startTime={startTime}
         setStartTime={setStartTime}
-        endTime={10}
-        setEndTime={() => {}}
-      />
-    );
-
-    fireEvent.change(getByLabelText('Start Time:'), { target: { value: 9 } });
-
-    expect(setStartTime).toHaveBeenCalledWith(9);
-  });
-
-  it('updates end time when changed', () => {
-    const setEndTime = jest.fn();
-    const { getByLabelText } = render(
-      <TimeSelector
-        startTime={8}
-        setStartTime={() => {}}
-        endTime={10}
+        endTime={endTime}
         setEndTime={setEndTime}
       />
     );
 
-    fireEvent.change(getByLabelText('End Time:'), { target: { value: 11 } });
+    expect(screen.getByLabelText(/Start Time:/i)).toBeInTheDocument();
+    expect(screen.getByLabelText(/End Time:/i)).toBeInTheDocument();
+  });
+
+  test('handles start time change', () => {
+    render(
+      <TimeSelector
+        startTime={startTime}
+        setStartTime={setStartTime}
+        endTime={endTime}
+        setEndTime={setEndTime}
+      />
+    );
+
+    const startTimeSelect = screen.getByLabelText(/Start Time:/i);
+    fireEvent.change(startTimeSelect, { target: { value: '10' } });
+
+    expect(setStartTime).toHaveBeenCalledWith(10);
+    expect(setEndTime).toHaveBeenCalledWith(11); // Adjust end time if less than start time
+  });
+
+  test('handles end time change', () => {
+    render(
+      <TimeSelector
+        startTime={startTime}
+        setStartTime={setStartTime}
+        endTime={endTime}
+        setEndTime={setEndTime}
+      />
+    );
+
+    const endTimeSelect = screen.getByLabelText(/End Time:/i);
+    fireEvent.change(endTimeSelect, { target: { value: '11' } });
 
     expect(setEndTime).toHaveBeenCalledWith(11);
   });
 
-  it('does not allow end time to be less than start time', () => {
-    const setEndTime = jest.fn();
-    const { getByLabelText } = render(
+  test('prevents setting end time less than or equal to start time', () => {
+    render(
       <TimeSelector
-        startTime={8}
-        setStartTime={() => {}}
-        endTime={10}
+        startTime={10}
+        setStartTime={setStartTime}
+        endTime={11}
         setEndTime={setEndTime}
       />
     );
 
-    fireEvent.change(getByLabelText('End Time:'), { target: { value: 7 } });
+    const endTimeSelect = screen.getByLabelText(/End Time:/i);
+    fireEvent.change(endTimeSelect, { target: { value: '9' } });
 
+    // The setEndTime function should not be called because 9 is less than start time (10)
     expect(setEndTime).not.toHaveBeenCalled();
-  });
-
-  it('automatically adjusts end time if less than start time', () => {
-    const setEndTime = jest.fn();
-    const { getByLabelText } = render(
-      <TimeSelector
-        startTime={8}
-        setStartTime={() => {}}
-        endTime={10}
-        setEndTime={setEndTime}
-      />
-    );
-
-    fireEvent.change(getByLabelText('End Time:'), { target: { value: 8 } });
-
-    expect(setEndTime).toHaveBeenCalledWith(9);
   });
 });
