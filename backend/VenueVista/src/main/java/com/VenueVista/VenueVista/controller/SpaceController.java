@@ -1,10 +1,8 @@
 package com.VenueVista.VenueVista.controller;
 
-import ch.qos.logback.classic.Logger;
-import com.VenueVista.VenueVista.controller.RequestResponse.SpaceRequest;
-import com.VenueVista.VenueVista.controller.RequestResponse.SpaceResponse;
+import com.VenueVista.VenueVista.controller.RequestResponse_DTO.SpaceRequest;
+import com.VenueVista.VenueVista.controller.RequestResponse_DTO.SpaceResponse;
 import com.VenueVista.VenueVista.models.Space;
-//import com.VenueVista.VenueVista.service.EmailService;
 import com.VenueVista.VenueVista.service.SpaceService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -24,14 +22,12 @@ public class SpaceController {
 
 
     private final SpaceService spaceService;
-//    private final EmailService emailService;
 
     @PostMapping("/createspaces")
     public ResponseEntity<SpaceResponse> createSpace(@RequestBody SpaceRequest spaceRequest){
         Space savedSpace = spaceService.saveSpace(spaceRequest);
 
         SpaceResponse spaceResponse = new SpaceResponse(savedSpace);
-//        emailService.sendSpaceCreationNotification(spaceRequest);
         return ResponseEntity.status(HttpStatus.CREATED).body(spaceResponse);
     }
 

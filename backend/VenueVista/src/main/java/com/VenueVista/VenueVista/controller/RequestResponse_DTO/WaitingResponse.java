@@ -1,4 +1,4 @@
-package com.VenueVista.VenueVista.controller.RequestResponse;
+package com.VenueVista.VenueVista.controller.RequestResponse_DTO;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

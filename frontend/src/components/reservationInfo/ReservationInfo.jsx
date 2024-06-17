@@ -8,10 +8,10 @@ import {
   getTimeString,
 } from "../../utills";
 import { getWaitingList } from "../../services/WaitingService";
-
+import { SlPeople } from "react-icons/sl";
 import styles from "./ReservationInfo.module.scss";
 
-const ReservationInfo = ({ reservation, onClick }) => {
+const ReservationInfo = ({ reservation, onClick,isUserLoggedIn }) => {
   // const spaceName = spaces.find((s) => s.id === reservation.spaceId).name;
 
   const spaceName = "Lecture Hall 01";
@@ -23,7 +23,7 @@ const ReservationInfo = ({ reservation, onClick }) => {
       getWaitingList(
         setWaitingList,
         reservation.spaceId,
-        reservation.date,
+        reservation.reservationDate,
         reservation.startTime,
         reservation.endTime
       )
@@ -52,13 +52,17 @@ const ReservationInfo = ({ reservation, onClick }) => {
           </p>
           <p className={styles.infoItem}>
             <LuCalendarDays />
-            {getDateInFormat(new Date(reservation.date))}
+            {getDateInFormat(new Date(reservation.reservationDate))}
           </p>
           <p className={styles.infoItem}>
             <FaRegClock />
             {`${getTimeString(reservation.startTime)} - ${getTimeString(
               reservation.endTime
             )}`}
+          </p>
+          <p className={styles.infoItem}>
+            <SlPeople />
+            {reservation.batch}
           </p>
         </div>
       </div>
@@ -67,14 +71,16 @@ const ReservationInfo = ({ reservation, onClick }) => {
         <p className={styles.infoText}>Reserved By</p>
         <p className={styles.person}>{reservation.fullName}</p>
         <p className={styles.infoText + " " + styles.resPerson}>
-          Responsible Person
+          Responsible
         </p>
-        <p className={styles.person}>{reservation.responsiblePerson}</p>
+        <p className={styles.person}>{reservation.responsibleRole}</p>
         <div className={styles.waitingList}>
-          <button className={styles.waitingListBtn} onClick={onClick}>
+          {
+            isUserLoggedIn &&  <button className={styles.waitingListBtn} onClick={onClick}>
             <FaPlus className={styles.plusIcon} />
             Add to Waiting List
           </button>
+          }
           <p className={styles.NumberWaiting}>{waitingList.length} Waiting</p>
         </div>
       </div>

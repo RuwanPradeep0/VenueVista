@@ -1,4 +1,4 @@
-package com.VenueVista.VenueVista.controller.RequestResponse;
+package com.VenueVista.VenueVista.controller.RequestResponse_DTO;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class ReservationRequest {
+public class WaitingRequest {
 
     private String title;
 
@@ -21,16 +21,19 @@ public class ReservationRequest {
     private Integer spaceID;
 
     @JsonFormat(pattern = "yyyy-MM-dd")
-    private String reservationDate; // Represents the date in the format "yyyy-MM-dd"
+    private String waitingForDate; // Represents the date in the format "yyyy-MM-dd"
 
     @JsonFormat(pattern = "yyyy-MM-dd")
     private String date; // Represents the date in the format "yyyy-MM-dd"
 
-    private Integer reservedByID;
+    private Integer waitingByID;
 
     private String responsibleRole;
 
     private String batch;
 
     private Integer waitingId;
+
+    public void setEmail(String s) {
+    }
 }

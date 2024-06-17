@@ -91,6 +91,8 @@ const createWaiting = async (
   batch,
   waitingId
 ) => {
+
+  console.log('waitingfor date : ' , waitingForDate)
   try {
     const response = await axios.post(`${endPointWaiting}/createrwaitings`, {
       title,

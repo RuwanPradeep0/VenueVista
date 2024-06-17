@@ -1,9 +1,15 @@
-package com.VenueVista.VenueVista.controller.RequestResponse;
+package com.VenueVista.VenueVista.controller.RequestResponse_DTO;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
-public class ReservationResponse {
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class UserWaitingResponse {
 
     private Integer id;
 
@@ -19,7 +25,7 @@ public class ReservationResponse {
 
     private String date;
 
-    private Integer reservedByID;
+    private Integer waitingByID;
 
     private String responsibleRole;
 
@@ -27,6 +33,9 @@ public class ReservationResponse {
 
     private String fullName;
 
+    private String spaceName;
+
     private Integer waitingId;
 
+    private boolean available;
 }

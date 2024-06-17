@@ -1,8 +1,9 @@
 package com.VenueVista.VenueVista.service;
 
-import com.VenueVista.VenueVista.controller.RequestResponse.UserWaitingResponse;
-import com.VenueVista.VenueVista.controller.RequestResponse.WaitingRequest;
-import com.VenueVista.VenueVista.controller.RequestResponse.WaitingResponse;
+import com.VenueVista.VenueVista.controller.RequestResponse_DTO.UserWaitingResponse;
+import com.VenueVista.VenueVista.controller.RequestResponse_DTO.WaitingRequest;
+import com.VenueVista.VenueVista.controller.RequestResponse_DTO.WaitingResponse;
+import com.VenueVista.VenueVista.exception.InvalidDataException;
 import com.VenueVista.VenueVista.models.Space;
 import com.VenueVista.VenueVista.models.Waiting;
 import com.VenueVista.VenueVista.models.user.User;
@@ -13,9 +14,8 @@ import lombok.RequiredArgsConstructor;
 import org.apache.velocity.exception.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -29,13 +29,37 @@ public class WaitingService {
     private final EmailService emailService;  // Add EmailService
 
     // Create waiting Table
-    public WaitingResponse handleWaiting(WaitingRequest waitingRequest) {
+//    public WaitingResponse handleWaiting(WaitingRequest waitingRequest) {
+//        Waiting waiting = requestToWaiting(waitingRequest);
+//        Waiting savedWaiting = createWaiting(waiting);
+//
+//        // Send notification email
+//        emailService.sendWaitingListNotification(waiting);
+//        emailService.sendWaitingNotificationsWhoReserved(waiting);
+//
+//        return waitingToResponse(savedWaiting);
+//    }
+
+    public WaitingResponse handleWaiting(WaitingRequest waitingRequest) throws InvalidDataException {
         Waiting waiting = requestToWaiting(waitingRequest);
+
+        // Check if the slot is available
+        boolean isSlotAvailable = waitingRepository.findByWaitingForDateAndStartTimeAndEndTimeAndSpace(
+                waiting.getWaitingForDate().toLocalDate().atStartOfDay(), waiting.getStartTime(), waiting.getEndTime() ,waiting.getSpace()).isEmpty();
+
+        if (!isSlotAvailable) {
+            // Slot is not available, return an error response or throw an exception
+            return null;
+        }
+
         Waiting savedWaiting = createWaiting(waiting);
 
         // Send notification email
-        emailService.sendWaitingListNotification(waiting);
-        emailService.sendWaitingNotificationsWhoReserved(waiting);
+//        emailService.sendWaitingListNotification(waiting);
+//        emailService.sendWaitingNotificationsWhoReserved(waiting);
+
+        // Update other waiting entries with the same slot as unavailable
+        updateOtherWaitingEntries(waiting);
 
         return waitingToResponse(savedWaiting);
     }
@@ -64,32 +88,79 @@ public class WaitingService {
         waitingRepository.deleteById(waitingId);
     }
 
-    private Waiting requestToWaiting(WaitingRequest request) {
-        int startTime = parseTime(request.getStartTime());
-        int endTime = parseTime(request.getEndTime());
-        LocalDate waitingForDate = LocalDate.parse(request.getWaitingForDate());
-        LocalDateTime startDateTime = LocalDateTime.of(waitingForDate, LocalTime.of(startTime / 100, startTime % 100));
-        LocalDateTime endDateTime = LocalDateTime.of(waitingForDate, LocalTime.of(endTime / 100, endTime % 100));
 
-        User waitingBy = userRepository.findById(request.getWaitingByID())
-                .orElseThrow(() -> new RuntimeException("User not found with ID: " + request.getWaitingByID()));
 
-        Space space = spaceRepository.findById(request.getSpaceID())
-                .orElseThrow(() -> new RuntimeException("Space not found with ID: " + request.getSpaceID()));
+/////////////////////
+    private void updateOtherWaitingEntries(Waiting waiting) {
+        List<Waiting> overlappingWaitings = waitingRepository.findByWaitingForDateAndStartTimeAndEndTimeAndSpace(
+                waiting.getWaitingForDate().toLocalDate().atStartOfDay(), waiting.getStartTime(), waiting.getEndTime() , waiting.getSpace());
 
-        return Waiting.builder()
-                .space(space)
-                .title(request.getTitle())
-                .waitingForDate(startDateTime)
-                .startTime(startDateTime)
-                .endTime(endDateTime)
-                .date(request.getDate())
-                .batch(request.getBatch())
-                .waitingBy(waitingBy)
-                .waitingId(request.getWaitingId())
-                .responsiblePersonRole(request.getResponsibleRole())
-                .available(false)
-                .build();
+        for (Waiting otherWaiting : overlappingWaitings) {
+            if (!otherWaiting.getId().equals(waiting.getId())) {
+                otherWaiting.setAvailable(false);
+                waitingRepository.save(otherWaiting);
+            }
+        }
+    }
+
+
+//    private Waiting requestToWaiting(WaitingRequest request) {
+//        int startTime = parseTime(request.getStartTime());
+//        int endTime = parseTime(request.getEndTime());
+//        LocalDate waitingForDate = LocalDate.parse(request.getWaitingForDate());
+//        LocalDateTime startDateTime = LocalDateTime.of(waitingForDate, LocalTime.of(startTime / 100, startTime % 100));
+//        LocalDateTime endDateTime = LocalDateTime.of(waitingForDate, LocalTime.of(endTime / 100, endTime % 100));
+//
+//        User waitingBy = userRepository.findById(request.getWaitingByID())
+//                .orElseThrow(() -> new RuntimeException("User not found with ID: " + request.getWaitingByID()));
+//
+//        Space space = spaceRepository.findById(request.getSpaceID())
+//                .orElseThrow(() -> new RuntimeException("Space not found with ID: " + request.getSpaceID()));
+//
+//        return Waiting.builder()
+//                .space(space)
+//                .title(request.getTitle())
+//                .waitingForDate(startDateTime)
+//                .startTime(startDateTime)
+//                .endTime(endDateTime)
+//                .date(request.getDate())
+//                .batch(request.getBatch())
+//                .waitingBy(waitingBy)
+//                .waitingId(request.getWaitingId())
+//                .responsiblePersonRole(request.getResponsibleRole())
+//                .available(false)
+//                .build();
+//    }
+
+    private Waiting requestToWaiting(WaitingRequest waitingRequest) throws InvalidDataException {
+       Waiting waiting = new Waiting();
+        User user = userRepository.findById(waitingRequest.getWaitingByID())
+                .orElseThrow(() -> new ResourceNotFoundException("User not found with ID: " + waitingRequest.getWaitingByID()));
+
+        waiting.setWaitingBy(user);
+
+        waiting.setTitle(waitingRequest.getTitle());
+        Space space = spaceRepository.findById(waitingRequest.getSpaceID())
+                .orElseThrow(() -> new ResourceNotFoundException("Space not found with ID: " + waitingRequest.getSpaceID()));
+        waiting.setSpace(space);
+
+        try {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+            LocalDateTime waitingForDate = LocalDateTime.parse(waitingRequest.getWaitingForDate() + " 00:00", formatter);
+
+            waiting.setWaitingForDate(waitingForDate);
+            waiting.setStartTime(waitingForDate.withHour(waitingRequest.getStartTime() / 100)
+                    .withMinute(waitingRequest.getStartTime() % 100));
+            waiting.setEndTime(waitingForDate.withHour(waitingRequest.getEndTime() / 100)
+                    .withMinute(waitingRequest.getEndTime() % 100));
+        } catch (Exception e) {
+            throw new InvalidDataException("Invalid date format. Expected format: yyyy-MM-dd");
+        }
+
+
+        waiting.setResponsiblePersonRole(waitingRequest.getResponsibleRole());
+        waiting.setBatch(waitingRequest.getBatch());
+        return waiting;
     }
 
     private WaitingResponse waitingToResponse(Waiting waiting) {
@@ -128,7 +199,8 @@ public class WaitingService {
                 .batch(waiting.getBatch())
                 .fullName(waiting.getWaitingBy().getFullName())
                 .spaceName(waiting.getSpace().getName())
-                .waitingId((int) waiting.getWaitingId())
+                .waitingId(waiting.getId())
+                .available(waiting.isAvailable())
                 .build();
     }
 

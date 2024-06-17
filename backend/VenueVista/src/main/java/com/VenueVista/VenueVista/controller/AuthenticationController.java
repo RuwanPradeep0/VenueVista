@@ -4,12 +4,10 @@ import com.VenueVista.VenueVista.auth.RequestResponse.AuthenticationRequest;
 import com.VenueVista.VenueVista.auth.RequestResponse.AuthenticationResponse;
 import com.VenueVista.VenueVista.auth.AuthenticationService;
 import com.VenueVista.VenueVista.auth.RequestResponse.RegisterRequest;
-//import com.VenueVista.VenueVista.service.EmailService;
 import com.VenueVista.VenueVista.service.EmailService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,12 +21,14 @@ public class AuthenticationController {
 
 
     private final AuthenticationService service;
+
     private final EmailService emailService;
 
     @PostMapping("/register")
     public ResponseEntity<AuthenticationResponse> register(@RequestBody RegisterRequest request) {
         ResponseEntity<AuthenticationResponse> response = ResponseEntity.ok(service.register(request));
         emailService.sendWelcomeEmail(request);
+
         return response;
     }
 
@@ -48,5 +48,8 @@ public class AuthenticationController {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             response.getWriter().write("Failed to refresh token: " + ex.getMessage());
         }
+
+
+
     }
 }

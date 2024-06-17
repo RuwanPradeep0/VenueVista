@@ -48,4 +48,6 @@ public class Reservation {
 
     @Column(nullable = false)
     private String batch;
+
+    private boolean isCancelled;
 }

@@ -65,6 +65,7 @@ const MyWaitings = () => {
         waitingList={true}
         updateReservation={getReservation}
         user={user}
+        onDeleteSuccess={handleDeleteSuccess}
         
       />
 

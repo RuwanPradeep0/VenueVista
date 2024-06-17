@@ -34,20 +34,23 @@ const MyReservations = () => {
 
       useEffect(() => {
         if (reservations.length > 0) {
-          setPastReservations(
-            reservations.filter((res) => {
-              const date = new Date(res.reservationDate);
-              const currentDate = new Date();
-              return date <= currentDate;
-            })
-          );
-          setCurrentReservations(
-            reservations.filter((res) => {
-              const date = new Date(res.reservationDate);
-              const currentDate = new Date();
-              return date > currentDate;
-            })
-          );
+          const currentDate = new Date();
+      
+          const pastReservations = reservations.filter((res) => {
+            const date = new Date(res.reservationDate);
+            return date <= currentDate;
+          });
+      
+          const currentReservations = reservations.filter((res) => {
+            const date = new Date(res.reservationDate);
+            return date > currentDate;
+          });
+      
+          setPastReservations(pastReservations);
+          setCurrentReservations(currentReservations);
+        } else {
+          setPastReservations([]);
+          setCurrentReservations([]);
         }
       }, [reservations]);
 
@@ -81,28 +84,26 @@ const MyReservations = () => {
       onDeleteSuccess={removeReservation}
     />
 
-    {pastReservations.length !== 0 && (
-      <h2 className={styles.pastReservations}>Past Reservations</h2>
-    )}
+{pastReservations.length !== 0 && (
+        <h2 className={styles.pastReservations}>Past Reservations</h2>
 
-    <ReservationsTable
-      reservations={pastReservations}
-      user={pastReservations.fullName}
-      waitingList={false}
-    />
 
-    {/* {user.role === Role.RESPONSIBLE &&
-      responsibleReservations.length !== 0 && (
-        <>
-          <h2 className={styles.pastReservations}>Responsible</h2>
-          <ReservationTable
-            reservations={responsibleCurrentReservations}
-            user={user}
-            waitingList={false}
-            isActionable={true}
-          />
-        </>
-      )} */}
+      
+      )}
+
+      {pastReservations.length !==0 &&(
+          <ReservationsTable
+          reservations={pastReservations}
+          user={pastReservations.fullName}
+          waitingList={false}
+          isActionable={true}
+          onDeleteSuccess={removeReservation}
+        />
+      )}
+
+
+
+  
   </div>
   )
 }

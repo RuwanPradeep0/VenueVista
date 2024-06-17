@@ -3,6 +3,9 @@ import axios from 'axios';
 const endPointReservation = "http://localhost:8080/api/v1/reservations";
 
 const createReservation = async(title, startTime, endTime, spaceID, reservationDate, date , reservedByID, responsibleRole, batch, waitingId) =>{
+    
+    console.log(reservationDate)
+    
     try {
 
         console.log(endTime)
@@ -49,7 +52,7 @@ const getAllReservations = async () => {
 const deleteUserReservation = async (reservationId) => {
    
     try {
-        const response = await axios.delete(`${endPointReservation}/deleteuserereservations`, {
+        const response = await axios.delete(`${endPointReservation}/canceluserreservations`, {
             params: { reservationId: reservationId }
         });
         // Check if the request was successful (status code 200-299)

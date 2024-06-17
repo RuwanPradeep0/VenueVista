@@ -1,9 +1,10 @@
 package com.VenueVista.VenueVista.controller;
 
 
-import com.VenueVista.VenueVista.controller.RequestResponse.UserWaitingResponse;
-import com.VenueVista.VenueVista.controller.RequestResponse.WaitingRequest;
-import com.VenueVista.VenueVista.controller.RequestResponse.WaitingResponse;
+import com.VenueVista.VenueVista.controller.RequestResponse_DTO.UserWaitingResponse;
+import com.VenueVista.VenueVista.controller.RequestResponse_DTO.WaitingRequest;
+import com.VenueVista.VenueVista.controller.RequestResponse_DTO.WaitingResponse;
+import com.VenueVista.VenueVista.exception.InvalidDataException;
 import com.VenueVista.VenueVista.service.WaitingService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +20,7 @@ public class WaitingController {
     private final WaitingService waitingService;
 
     @PostMapping("/createrwaitings")
-    public ResponseEntity<WaitingResponse> createWaiting(@RequestBody WaitingRequest waitingRequest) {
+    public ResponseEntity<WaitingResponse> createWaiting(@RequestBody WaitingRequest waitingRequest) throws InvalidDataException {
 
             WaitingResponse waitingResponse = waitingService.handleWaiting(waitingRequest);
             return ResponseEntity.ok(waitingResponse);
