@@ -94,35 +94,6 @@ public class ReservationService {
         reservationRepository.deleteById(reservationId);
     }
 
-    // Cancel Reservation
-//    public void cancelReservation(Integer reservationId) {
-//        Reservation reservation = reservationRepository.findById(reservationId)
-//                .orElseThrow(() -> new ResourceNotFoundException("Reservation not found with ID: " + reservationId));
-//
-//        System.out.println(" reservation start Time : " +  reservation.getStartTime());
-//        System.out.println("reservation end Time : " +  reservation.getEndTime());
-//        System.out.println("reservation date : " +  reservation.getReservationDate());
-//        System.out.println("reservation space : " +  reservation.getSpace().getId());
-//        // Check the waiting list for overlapping time slots
-//        Space spaceId = reservation.getSpace();
-//        LocalDateTime reservationStart = reservation.getStartTime();
-//        LocalDateTime reservationEnd = reservation.getEndTime();
-//        LocalDateTime reservationDate = reservation.getReservationDate().with(LocalTime.MIN);
-//
-//        List<Waiting> overlappingWaitings = waitingRepository.findByWaitingForDateAndStartTimeAndEndTimeAndSpace(
-//                reservationDate, reservationStart, reservationEnd , spaceId);
-//
-//        System.out.println("Overlapping waitings: " + overlappingWaitings.size());
-//
-//        // Move these waiting entries to an available status
-//        for (Waiting waiting : overlappingWaitings) {
-//            waiting.setAvailable(true);
-//            waitingRepository.save(waiting);
-//        }
-//
-//        // Delete the reservation from the database
-//        reservationRepository.delete(reservation);
-//    }
 
 
     @Transactional
