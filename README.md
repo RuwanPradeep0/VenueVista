@@ -1,8 +1,8 @@
 # VenueVista
 
-![VenueVista](https://github.com/RuwanPradeep0/VenueVista/blob/main/docs/HomePage.png)
-![VenueVista](https://github.com/RuwanPradeep0/VenueVista/blob/main/docs/ManageSpace.png)
-![VenueVista](https://github.com/RuwanPradeep0/VenueVista/blob/main/docs/SingIn%20.png)
+![VenueVista](https://github.com/RuwanPradeep0/VenueVista/blob/main/docs/Images/HomePage.png)
+![VenueVista](https://github.com/RuwanPradeep0/VenueVista/blob/main/docs/Images/ManageReservations.png)
+![VenueVista](https://github.com/RuwanPradeep0/VenueVista/blob/main/docs/Images/ManageWaitings.png)
 
 ## Lecture Hall Booking Sysem
 
