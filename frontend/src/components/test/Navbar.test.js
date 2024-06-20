@@ -1,94 +1,69 @@
-import React ,{useEffect , useState} from 'react'
-import { NavLink, useLocation } from "react-router-dom";
+import React from 'react';
+import { render, screen, fireEvent } from '@testing-library/react';
+import '@testing-library/jest-dom/extend-expect';
+import { BrowserRouter as Router } from 'react-router-dom';
+import Navbar from './Navbar';
 
-import logo from '../../images/logo.png'
-import styles from './Navbar.module.scss';
+// Mock the logo image import
+jest.mock('../../images/logo.png', () => 'logo.png');
 
+describe('Navbar Component', () => {
+  const setup = (user = null) => {
+    const utils = render(
+      <Router>
+        <Navbar user={user} />
+      </Router>
+    );
+    return { ...utils };
+  };
 
-const Navbar = ({user}) => {
+  beforeEach(() => {
+    localStorage.clear();
+  });
 
-  const [userName, setUserName] = useState('');
-   const location = useLocation();
+  it('should render without crashing', () => {
+    setup();
+    expect(screen.getByAltText('logo')).toBeInTheDocument();
+    expect(screen.getByText('Faculty Of Engineering')).toBeInTheDocument();
+    expect(screen.getByText('University Of jaffna')).toBeInTheDocument();
+    expect(screen.getByText('Home')).toBeInTheDocument();
+    expect(screen.getByText('Manage Spaces')).toBeInTheDocument();
+  });
 
-  useEffect(() => {
-    const storedUser = localStorage.getItem('user');
-    if (storedUser) {
-      const { username } = JSON.parse(storedUser);
-      setUserName(username);
-    }
+  it('display Sign In link when user is not logged in', () => {
+    setup();
+    expect(screen.getByText('Sign In')).toBeInTheDocument();
+  });
 
-  }, [location]);
+  it('display Log Out link and username when user is logged in', () => {
+    const user = { username: 'testuser' };
+    localStorage.setItem('user', JSON.stringify(user));
+    setup();
 
-  return (
-    <>
-    <div className={styles.Navbar}>
-        <div className={styles.NavLogoContainer}>
-            <img className={styles.NavLogo} src={logo} alt='logo' />
+    expect(screen.getByText('testuser')).toBeInTheDocument();
+    expect(screen.getByText('Log Out')).toBeInTheDocument();
+    expect(screen.queryByText('Sign In')).not.toBeInTheDocument();
+  });
 
-            <div>
-            <p>Faculty Of Engineering</p>
-            <p>University Of jaffna</p>
-        </div>
+  it('display Manage Reservations link when user is logged in', () => {
+    const user = { username: 'testuser' };
+    localStorage.setItem('user', JSON.stringify(user));
+    setup();
 
-           
-           
-            <ul className={styles.NavLinks}>
-                <li className={styles.NavLink} title="Home">
+    expect(screen.getByText('Manage Reservations')).toBeInTheDocument();
+  });
 
-              <NavLink exact={true} to="/" className={({ isActive }) => isActive && styles.active}>
-                Home
-              </NavLink>
-            </li>
+  it('should not display Manage Reservations link when user is not logged in', () => {
+    setup();
+    expect(screen.queryByText('Manage Reservations')).not.toBeInTheDocument();
+  });
 
+  it('handle empty localStorage gracefully', () => {
+    localStorage.removeItem('user');
+    setup();
 
-               {/* Manage Reservations Should Only be Visible if the user is logged in */}
-          {userName && (
-            <li className={styles.NavLink} title="Manage Reservations">
-              <NavLink to="/ManageReservations" className={({ isActive }) => isActive && styles.active}>
-                Manage Reservations
-              </NavLink>
-            </li>
-          )}
-
-            <li className={styles.NavLink} title="Home">
-
-            <NavLink exact={true} to="/spaces" className={({ isActive }) => isActive && styles.active}>
-              Manage Spaces
-            </NavLink>
-            </li>
-
-          
-            </ul>
-
-            
-
-        </div>
-        <div>
-                <ul className={styles.NavLinks}>
-                {userName && <li className={styles.GeneralText}>{userName}</li>}
-                    {
-                        userName ? (
-                            <li className={styles.NavLink}>
-                                Log Out
-                            </li>
-                        ) : (
-                            <li className={styles.NavLink}>
-                                <NavLink to="/signin" className={({ isActive }) => isActive && styles.active}>
-                                    Sign In
-                                </NavLink>
-                            </li>
-                        )
-                    }
-                </ul>
-                
-            </div>
-
-
-    </div>
-    
-    
-    </>
-  )
-}
-
-export default Navbar
+    expect(screen.getByText('Sign In')).toBeInTheDocument();
+    expect(screen.queryByText('Log Out')).not.toBeInTheDocument();
+    expect(screen.queryByText('testuser')).not.toBeInTheDocument();
+  });
+});
