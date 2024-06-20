@@ -166,8 +166,6 @@ useEffect(() => {
   
     return (
 
-      
-
     <div className={styles.container}>
        <div className={styles.month}>
       {firstDate.toLocaleString('default', { month: 'long' })} {currentYear} 
