@@ -139,7 +139,3 @@ This project is licensed under the MIT License. See the [LICENSE](./LICENSE) fil
 ## Wiki
 
 For detailed documentation, including architecture diagrams, use cases, and more, visit our [Wiki](https://github.com/your-repo/lecture-hall-booking-system/wiki).
-
----
-
-Feel free to modify this template as needed to fit your project specifics and team preferences. The links to detailed documentation, contributing guidelines, and the wiki will help maintain a well-documented and organized repository.
