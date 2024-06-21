@@ -1,76 +1,65 @@
 package com.VenueVista.VenueVista.controller;
 
-import com.VenueVista.VenueVista.controller.RequestResponse.SpaceRequest;
+import com.VenueVista.VenueVista.controller.RequestResponse_DTO.SpaceRequest;
+import com.VenueVista.VenueVista.controller.RequestResponse_DTO.SpaceResponse;
 import com.VenueVista.VenueVista.models.Space;
 import com.VenueVista.VenueVista.service.SpaceService;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
-import org.springframework.http.MediaType;
+import org.mockito.MockitoAnnotations;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
 
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.*;
 
-@WebMvcTest(SpaceController.class)
-public class SpaceControllerTest {
-
-    @Autowired
-    private MockMvc mockMvc;
-
-    @MockBean
-    private SpaceService spaceService;
+class SpaceControllerTest {
 
     @InjectMocks
     private SpaceController spaceController;
 
-    @Test
-    public void testCreateSpace() throws Exception {
-        SpaceRequest request = new SpaceRequest();
-        request.setName("Test Space");
-        request.setDescription("This is a test space");
+    @Mock
+    private SpaceService spaceService;
 
-        Space savedSpace = new Space();
-        savedSpace.setId(1); // Using int instead of long
-
-        when(spaceService.saveSpace(any(SpaceRequest.class))).thenReturn(savedSpace);
-
-        mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/spaces/createspaces")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"name\":\"Test Space\",\"description\":\"This is a test space\"}"))
-                .andExpect(status().isCreated())
-                .andExpect(content().json("{\"id\":1,\"name\":\"Test Space\",\"description\":\"This is a test space\"}"));
+    @BeforeEach
+    void setUp() {
+        MockitoAnnotations.openMocks(this);
     }
 
     @Test
-    public void testGetAllSpaces() throws Exception {
-        Space space1 = new Space();
-        space1.setId(1);
-        space1.setName("Space 1");
-        space1.setDescription("Description of Space 1");
+    void testCreateSpace() {
+        SpaceRequest spaceRequest = new SpaceRequest();
+        Space savedSpace = new Space();
+        when(spaceService.saveSpace(spaceRequest)).thenReturn(savedSpace);
 
-        Space space2 = new Space();
-        space2.setId(2);
-        space2.setName("Space 2");
-        space2.setDescription("Description of Space 2");
+        ResponseEntity<SpaceResponse> response = spaceController.createSpace(spaceRequest);
 
-        List<Space> spaces = Arrays.asList(space1, space2);
+        assertEquals(HttpStatus.CREATED, response.getStatusCode());
+        assertEquals(new SpaceResponse(savedSpace), response.getBody());
+        verify(spaceService, times(1)).saveSpace(spaceRequest);
+    }
 
+    @Test
+    void testGetAllSpaces() {
+        List<Space> spaces = new ArrayList<>();
+        spaces.add(new Space());
+        spaces.add(new Space());
         when(spaceService.getAllSpaces()).thenReturn(spaces);
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/spaces/getallspaces"))
-                .andExpect(status().isOk())
-                .andExpect(content().json("[{\"id\":1,\"name\":\"Space 1\",\"description\":\"Description of Space 1\"}," +
-                        "{\"id\":2,\"name\":\"Space 2\",\"description\":\"Description of Space 2\"}]"));
+        ResponseEntity<List<SpaceResponse>> response = spaceController.getAllSpaces();
+
+        List<SpaceResponse> expectedResponses = new ArrayList<>();
+        for (Space space : spaces) {
+            expectedResponses.add(new SpaceResponse(space));
+        }
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(expectedResponses, response.getBody());
+        verify(spaceService, times(1)).getAllSpaces();
     }
 }
