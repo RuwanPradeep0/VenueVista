@@ -49,11 +49,17 @@ const createWaiting = async (
   }
 };
 
-const getWaitingList = async (spaceID, date, startTime, endTime) => {
+const getWaitingList = async (setWaitingList,spaceID, date, startTime, endTime) => {
+
+  console.log("space : ",spaceID )
+  console.log("date : ",date )
+  console.log("startTime : ",startTime )
+  console.log("endTime : ",endTime )
   try {
     const response = await axios.get(`${endPointWaiting}/waitinglist`, {
       params: { spaceID, date, startTime, endTime },
     });
+    console.log("waitings",response.data)
     return response.data;
   } catch (error) {
     console.error("Error fetching waiting list:", error.message);
