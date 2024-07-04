@@ -52,7 +52,7 @@ public class ReservationController {
 
     @DeleteMapping("/deleteuserereservations")
     public ResponseEntity<String> deleteUserReservation(@RequestParam(name = "reservationId") Integer reservationId) {
-        reservationService.deleteReservationById(reservationId);
+        reservationService.cancelReservation(reservationId);
         return ResponseEntity.ok("Reservation deleted successfully");
     }
 
