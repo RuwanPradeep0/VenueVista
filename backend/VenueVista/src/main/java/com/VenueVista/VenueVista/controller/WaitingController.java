@@ -2,6 +2,7 @@ package com.VenueVista.VenueVista.controller;
 
 
 import com.VenueVista.VenueVista.controller.RequestResponse_DTO.UserWaitingResponse;
+import com.VenueVista.VenueVista.controller.RequestResponse_DTO.WaitingListResponse;
 import com.VenueVista.VenueVista.controller.RequestResponse_DTO.WaitingRequest;
 import com.VenueVista.VenueVista.controller.RequestResponse_DTO.WaitingResponse;
 import com.VenueVista.VenueVista.exception.InvalidDataException;
@@ -38,6 +39,17 @@ public class WaitingController {
     public ResponseEntity<String> deleteUserWaiting(@RequestParam Integer waitingId){
         waitingService.deleteUserWaitng(waitingId);
         return ResponseEntity.ok("Waiting deleted successfully");
+    }
+
+
+    @GetMapping("/waitinglist")
+    public ResponseEntity<List<WaitingListResponse>> getWaitingList(
+            @RequestParam Integer spaceID,
+            @RequestParam String date,
+            @RequestParam Integer startTime,
+            @RequestParam Integer endTime) {
+        List<WaitingListResponse> waitingList = waitingService.getWaitingList(spaceID, date, startTime, endTime);
+        return ResponseEntity.ok(waitingList);
     }
 
 

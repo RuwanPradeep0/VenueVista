@@ -1,6 +1,7 @@
 package com.VenueVista.VenueVista.service;
 
 import com.VenueVista.VenueVista.controller.RequestResponse_DTO.UserWaitingResponse;
+import com.VenueVista.VenueVista.controller.RequestResponse_DTO.WaitingListResponse;
 import com.VenueVista.VenueVista.controller.RequestResponse_DTO.WaitingRequest;
 import com.VenueVista.VenueVista.controller.RequestResponse_DTO.WaitingResponse;
 import com.VenueVista.VenueVista.exception.InvalidDataException;
@@ -14,6 +15,7 @@ import lombok.RequiredArgsConstructor;
 import org.apache.velocity.exception.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -77,6 +79,22 @@ public class WaitingService {
 
         return userWaitings.stream()
                 .map(this::mapToUserWaitingResponse)
+                .collect(Collectors.toList());
+    }
+
+    public List<WaitingListResponse> getWaitingList(Integer spaceID, String date, Integer startTime, Integer endTime) {
+        Space space = spaceRepository.findById(spaceID)
+                .orElseThrow(() -> new ResourceNotFoundException("Space not found with ID: " + spaceID));
+
+        LocalDateTime waitingForDate = LocalDate.parse(date).atStartOfDay();
+        LocalDateTime reservationStart = waitingForDate.withHour(startTime / 100).withMinute(startTime % 100);
+        LocalDateTime reservationEnd = waitingForDate.withHour(endTime / 100).withMinute(endTime % 100);
+
+        List<Waiting> waitings = waitingRepository.findByWaitingForDateAndStartTimeAndEndTimeAndSpace(
+                waitingForDate, reservationStart, reservationEnd, space);
+
+        return waitings.stream()
+                .map(this::mapToWaitingListResponse)
                 .collect(Collectors.toList());
     }
 
@@ -176,11 +194,25 @@ public class WaitingService {
                 .build();
     }
 
+    private WaitingListResponse mapToWaitingListResponse(Waiting waiting) {
+        return WaitingListResponse.builder()
+                .id(waiting.getId())
+                .title(waiting.getTitle())
+                .fullName(waiting.getWaitingBy().getFullName())
+                .batch(waiting.getBatch())
+                .responsiblePersonRole(waiting.getResponsiblePersonRole())
+                .available(waiting.isAvailable())
+                // Add any other fields you want to include in the response
+                .build();
+    }
+
     private int parseTime(Integer time) {
         if (time == null) {
             return 0;
         }
         return time;
     }
+
+
 }
 

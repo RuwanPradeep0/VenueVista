@@ -19,10 +19,11 @@ const ReservationInfo = ({ reservation, onClick,isUserLoggedIn }) => {
   const [waitingList, setWaitingList] = useState([]);
 
   useEffect(() => {
+    console.log("reservation :" , reservation)
     if (reservation !== null)
       getWaitingList(
         setWaitingList,
-        reservation.spaceId,
+        reservation.spaceID,
         reservation.reservationDate,
         reservation.startTime,
         reservation.endTime
