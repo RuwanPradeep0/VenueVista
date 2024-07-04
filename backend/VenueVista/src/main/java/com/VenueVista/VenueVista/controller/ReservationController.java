@@ -41,7 +41,7 @@ public class ReservationController {
 
 
     @GetMapping("/user")
-    public ResponseEntity<List<UserReservationResponse>> getUserReservations(@RequestParam String email) {
+    public ResponseEntity<List<UserReservationResponse>> getUserReservations(@RequestParam(name = "email") String email) {
         try {
             List<UserReservationResponse> userReservations = reservationService.getUserReservations(email);
             return ResponseEntity.ok(userReservations);
@@ -51,11 +51,11 @@ public class ReservationController {
     }
 
     @DeleteMapping("/deleteuserereservations")
-    public ResponseEntity<String> deleteUserReservation(@RequestParam Integer reservationId) {
-        reservationService.deleteReservationById(reservationId);
+    public ResponseEntity<String> deleteUserReservation(@RequestParam(name = "reservationId") Integer reservationId) {
+        reservationService.cancelReservation(reservationId);
         return ResponseEntity.ok("Reservation deleted successfully");
-
     }
+
 }
 
 

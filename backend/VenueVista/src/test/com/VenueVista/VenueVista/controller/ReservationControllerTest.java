@@ -1,8 +1,8 @@
 package com.VenueVista.VenueVista.controller;
 
-import com.VenueVista.VenueVista.controller.RequestResponse.ReservationRequest;
-import com.VenueVista.VenueVista.controller.RequestResponse.ReservationResponse;
-import com.VenueVista.VenueVista.controller.RequestResponse.UserReservationResponse;
+import com.VenueVista.VenueVista.controller.RequestResponse_DTO.ReservationRequest;
+import com.VenueVista.VenueVista.controller.RequestResponse_DTO.ReservationResponse;
+import com.VenueVista.VenueVista.controller.RequestResponse_DTO.UserReservationResponse;
 import com.VenueVista.VenueVista.exception.AllReadyReservedException;
 import com.VenueVista.VenueVista.exception.InvalidDataException;
 import com.VenueVista.VenueVista.service.ReservationService;
@@ -13,7 +13,6 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -84,6 +83,7 @@ class ReservationControllerTest {
     @Test
     void testDeleteUserReservation() {
         Integer reservationId = 1;
+        doNothing().when(reservationService).deleteReservationById(reservationId);
 
         ResponseEntity<String> response = reservationController.deleteUserReservation(reservationId);
 
