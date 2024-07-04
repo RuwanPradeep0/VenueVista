@@ -35,6 +35,7 @@ const ReservationsTable = ({
     const handleDelete = async (reservation) => {
       if (waitingList === false) {
         try {
+          console.log('id :' , reservation.id)
           const res = await deleteUserReservation(reservation.id);
           if (res.status === 200) {
             onDeleteSuccess(reservation.id);
