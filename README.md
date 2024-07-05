@@ -125,7 +125,7 @@ Featuring a user-friendly interface and robust administrative tools, our system 
 
 ## API Documentation
 
-Detailed API documentation can be found [here](https://github.com/RuwanPradeep0/VenueVista/wiki/API-Documentation).
+Detailed API documentation can be found [here](https://github.com/RuwanPradeep0/VenueVista/wiki/Technical-Documentation#api-documentation).
 
 ## Security Measures
 
