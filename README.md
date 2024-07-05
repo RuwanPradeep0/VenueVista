@@ -4,6 +4,21 @@
 ![Build Status](https://img.shields.io/badge/build-passing-brightgreen.svg)
 ![Coverage](https://img.shields.io/badge/coverage-100%25-brightgreen.svg)
 
+## Table of Contents
+
+- [Introduction](#introduction)
+- [Features](#features)
+- [Architecture & Design Principles](#architecture--design-principles)
+- [Diagrammatic Representation](#diagrammatic-representation)
+- [User Roles and Stories](#user-roles-and-stories)
+- [System Requirements](#system-requirements)
+- [Installation](#installation)
+- [Usage](#usage)
+- [API Documentation](#api-documentation)
+- [Security Measures](#security-measures)
+- - [Wiki](#wiki)
+
+
 ## Introduction
 
 Introducing our Lecture Hall Management System for the Faculty of Engineering at the University of Jaffna. This innovative platform revolutionizes the management of lecture halls, providing a seamless experience for lecturers, course coordinators, and administrators. Our system aims to optimize resource allocation, reduce scheduling conflicts, and enhance overall efficiency within the academic environment.
@@ -19,20 +34,6 @@ Featuring a user-friendly interface and robust administrative tools, our system 
 
 
 ![VenueVista](https://github.com/RuwanPradeep0/VenueVista/blob/main/docs/Images/ManageWaitings.png)
-
-## Table of Contents
-
-- [Introduction](#introduction)
-- [Features](#features)
-- [Architecture & Design Principles](#architecture--design-principles)
-- [Diagrammatic Representation](#diagrammatic-representation)
-- [User Roles and Stories](#user-roles-and-stories)
-- [System Requirements](#system-requirements)
-- [Installation](#installation)
-- [Usage](#usage)
-- [API Documentation](#api-documentation)
-- [Security Measures](#security-measures)
-- - [Wiki](#wiki)
 
 ## Features
 
