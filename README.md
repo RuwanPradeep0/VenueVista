@@ -125,7 +125,7 @@ Featuring a user-friendly interface and robust administrative tools, our system 
 
 ## API Documentation
 
-Detailed API documentation can be found [here](./API_DOCUMENTATION.md).
+Detailed API documentation can be found [here](https://github.com/RuwanPradeep0/VenueVista/wiki/API-Documentation).
 
 ## Security Measures
 
@@ -135,4 +135,4 @@ Detailed API documentation can be found [here](./API_DOCUMENTATION.md).
 
 ## Wiki
 
-For detailed documentation, including architecture diagrams, use cases, and more, visit our [Wiki](https://github.com/your-repo/lecture-hall-booking-system/wiki).
+For detailed documentation, including architecture diagrams, use cases, and more, visit our [Wiki](https://github.com/RuwanPradeep0/VenueVista/wiki).
