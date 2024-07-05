@@ -136,3 +136,6 @@ Detailed API documentation can be found [here](https://github.com/RuwanPradeep0/
 ## Wiki
 
 For detailed documentation, including architecture diagrams, use cases, and more, visit our [Wiki](https://github.com/RuwanPradeep0/VenueVista/wiki).
+[Download the project documentation PDF](https://github.com/RuwanPradeep0/VenueVista/blob/documentation/docs/PROJECT_DOCUMENTATION%20-%20Lecture%20Hall%20Booking%20System.pdf)
+[Download the technical documentation PDF](https://github.com/RuwanPradeep0/VenueVista/blob/documentation/docs/TECHNICAL%20DOCUMENTATION-Lecture%20hall%20booking%20system.pdf)
+[Download the user manual  PDF](https://github.com/RuwanPradeep0/VenueVista/blob/documentation/docs/VENUEVISTA%20user%20Guide.pdf)
