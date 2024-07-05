@@ -16,7 +16,7 @@
 - [Usage](#usage)
 - [API Documentation](#api-documentation)
 - [Security Measures](#security-measures)
-- - [Wiki](#wiki)
+- [Wiki](#wiki)
 
 
 ## Introduction
