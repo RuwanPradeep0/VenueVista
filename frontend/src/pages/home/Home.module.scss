@@ -90,7 +90,8 @@
   .optionContent {
     &.checkboxes {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(8em, 1fr));
+      // grid-template-columns: repeat(auto-fit, minmax(8em, 1fr));
+      grid-template-columns: 1fr 1fr; // Ensures two columns
       row-gap: 0.6em;
       font-size: 0.95em;
       .checkboxWrapper {
