@@ -1,0 +1,6 @@
+projectKey=Lab2Task1
+serverUrl=http://localhost:9000
+serverVersion=10.6.0.92116
+dashboardUrl=http://localhost:9000/dashboard?id=Lab2Task1
+ceTaskId=6536aebb-521a-4996-af14-e4059ba1493e
+ceTaskUrl=http://localhost:9000/api/ce/task?id=6536aebb-521a-4996-af14-e4059ba1493e
