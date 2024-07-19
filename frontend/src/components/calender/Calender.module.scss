@@ -1,0 +1,190 @@
+@use '../../styles/variables' as *;
+
+$border-color: rgb(215, 215, 215);
+$reservationDefaultColor: hsl(0, 77%, 76%);
+$numeric-font: "Quicksand", sans-serif;
+$border-hover-color: rgb(141, 141, 141);
+$today-color: $accentColor;
+.container {
+  position: relative;
+
+  
+}
+
+.month {
+  text-align: start;
+  margin-bottom: 0.5em; /* Adjust spacing */
+  font-size: 1.1em;
+  font-family: $numeric-font;
+  font-weight: 550;
+  padding: 0.6em 0.8em;
+  background-color: hsl(193, 15%, 75%);
+  color:#64748b;
+  border-radius: 1em;
+  width: 25%;
+}
+
+.controller {
+  position: absolute;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  //outline: 1px solid red;
+  padding: 2em 2em 2em 1em;
+  z-index: 10;
+
+  .icon {
+    cursor: pointer;
+    transform: scale(1.2);
+    color: #777777;
+    transition: transform ease-in-out 50ms;
+
+    &:hover {
+      color: $accentColor;
+      transform: scale(1.3);
+    }
+  }
+}
+.calendar {
+  display: grid;
+  background-color: $bgcolor;
+  //outline: 2px solid rgba(158, 1, 1, 0.5);
+  height: auto;
+  grid-template-columns: repeat(5, 1fr) minmax(2em, 4em);
+
+  .day {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    z-index: 1;
+    .date {
+      padding: 1em;
+      h4 {
+        font-size: 1.4em;
+        font-family: $numeric-font;
+        font-weight: 400;
+      }
+      p {
+        font-weight: 550;
+      }
+    }
+    .today {
+      position: relative;
+      color: $today-color;
+    }
+    .today::after {
+      content: " ";
+      position: absolute;
+      bottom: 10%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      display: block;
+      background-color: $today-color;
+      height: 0.15em;
+      width: 3em;
+
+      border-radius: 0.2em;
+      z-index: -1;
+    }
+    .slot {
+      position: relative;
+      cursor: pointer;
+      min-height: 3.8em;
+      //background-color: red;
+      outline: 1px solid $border-color;
+
+      // &:hover {
+      //   outline: 2px solid $border-hover-color;
+      // }
+      // &:nth-child(2) {
+      //   outline-top: 2px solid $border-color;
+      // }
+      // &:last-child {
+      //   outline-bottom: 2px solid $border-color;
+      // }
+    }
+
+    // &:first-child {
+    //   .slot {
+    //     border-left: 2px solid $border-color;
+    //   }
+    // }
+
+    // &:nth-last-child(2) {
+    //   .slot {
+    //     border-right: 2px solid $border-color;
+    //   }
+    // }
+  }
+
+  .timeCol {
+    display: flex;
+    flex-direction: column;
+    margin-top: 3.2em;
+
+    .controller {
+      min-height: 3.2em;
+    }
+
+    .hour {
+      font-family: $numeric-font;
+      color: rgb(62, 62, 62);
+      font-size: 0.8em;
+      padding: 1.75em 0 1.75em 0.4em;
+    }
+  }
+
+  //reservations
+  .reservation {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column; 
+    gap: 0.2em;
+    height: 100%;
+    width: 100%;
+    background-color: $reservationDefaultColor; 
+    font-weight: 600;
+    color: #fff;
+    z-index: 1;
+    cursor: pointer;
+    animation: fadeIn 200ms ease-in;
+    transition: all 150ms ease-in-out;
+    outline: 1px solid rgba(255, 255, 255, 0.8);
+    &:hover,
+    &:focus {
+      box-shadow: 0px 10px 15px -3px rgba(0, 0, 0, 0.1);
+      
+    }
+    .batch {
+      font-size: 0.75em; /* Smaller font size */
+      font-weight: 400; /* Lighter weight for distinction */
+    }
+  }
+
+  .disabledSlot {
+    // cursor: not-allowed;
+    opacity: 0.6;
+    pointer-events: none;
+    outline: 1px solid  rgb(199, 199, 199) !important; 
+   
+  }
+  
+  .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #e2e8f0; // Transparent black overlay
+    z-index: 1;
+    
+  }
+
+ 
+
+}
+
+

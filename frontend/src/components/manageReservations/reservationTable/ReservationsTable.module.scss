@@ -1,0 +1,108 @@
+@use "../../../styles/variables" as *;
+
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2em 1em;
+  animation: fadeIn 300ms ease-in;
+  &.hide {
+    display: none;
+  }
+  .resTable {
+    border-radius: 0.8em;
+    border-collapse: collapse;
+    overflow: hidden;
+    width: 90%;
+    font-size: 0.9em;
+    box-shadow: 0px 6px 23px -6px rgba(0, 0, 0, 0.1);
+
+    thead tr {
+      color: hsl(0, 0%, 95%);
+      background-color: darken($color: $accentColor, $amount: 2);
+      text-align: left;
+    }
+
+    th,
+    td {
+      padding: 1.2em 1em;
+      text-align: left;
+      vertical-align: middle;
+    }
+
+    tr {
+      th:first-child {
+        padding-left: 2em;
+      }
+      td:first-child {
+        padding-left: 2em;
+      }
+
+      th:last-child {
+        padding-right: 2em;
+      }
+      td:last-child {
+        padding-right: 2em;
+      }
+    }
+
+    tbody {
+      tr:nth-child(even) {
+        background-color: #f9f9f9;
+      }
+      tr {
+        background-color: white;
+      }
+      tr:hover {
+        background-color: #f2f2f2;
+      }
+    }
+
+    // .actionCol {
+    //   text-align: center;
+    //   transform: translateX(-10%);
+    // }
+
+    .actionColCell {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 0.5em;
+    }
+  }
+
+  .btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.2em;
+    padding: 0.4em 1em 0.4em 0.8em;
+    color: white;
+    border-radius: 1em;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.9em;
+    transform: translateX(-12%);
+    transition: background-color 200ms ease-in-out, color 200ms ease-in-out;
+  }
+
+  .cancelBtn {
+    border: 1px solid rgb(227, 104, 104);
+    border-radius: 1em;
+    background-color: inherit;
+    color: rgb(227, 104, 104);
+
+    &:hover {
+      background-color: rgb(227, 104, 104);
+      color: white;
+    }
+  }
+
+  .acceptBtn {
+    background-color: $confirmedColor;
+
+    &:hover {
+      background-color: darken($confirmedColor, $amount: 15);
+    }
+  }
+}
