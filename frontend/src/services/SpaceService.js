@@ -32,6 +32,7 @@ const createSpaces = async (requestBody) => {
 
      const response = await axios.get(endPointSpace + '/getallspaces');
      setSpaces(response?.data);
+     return response.data;
     
 
 
@@ -52,6 +53,10 @@ const createSpaces = async (requestBody) => {
 
   }
 
+   const deleteSpace = async() =>{
+
+  }
 
 
-export{createSpaces , getAllSpaces} 
+
+export{createSpaces , getAllSpaces ,deleteSpace} 
