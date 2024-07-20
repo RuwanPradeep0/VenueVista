@@ -1,0 +1,258 @@
+// src/AboutPage.scss
+
+@use "../../styles/variables" as *;
+
+.about-page {
+  font-family: $font-stack;
+  color: $bodyTextColor;
+  background-color: $bgcolor;
+  padding: 30px 10px;
+
+  .hero-section {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    color: $NavbarTextColor;
+    padding: 40px 70px;
+    justify-content: space-between;
+    margin-bottom: 40px;
+
+    .hero-text {
+      text-align: justify-content;
+
+      h1 {
+        margin: 0;
+        font-size: 2.5em;
+        color: rgb(39, 39, 39);
+      }
+
+      p {
+        margin: 20px 0;
+        font-size: 1.2em;
+        color: hsl(0, 0, 0, 0.7);
+      }
+    }
+
+    .hero-video {
+      flex: 1;
+      max-width: 800px;
+      border-radius: 10px;
+      padding: 45px 20px;
+
+      video {
+        width: 100%;
+        max-width: 800px;
+        border-radius: 60px;
+      }
+    }
+  }
+
+
+  .topic{
+    padding: 50px 70px;
+
+    .topic-text {
+        padding-right: 10;
+        
+  
+        h1 {
+          font-size: 2em;
+        }
+    } 
+  }
+
+  .key-features {
+    
+    margin: 40px 0;
+    background-color: $primaryContainerColor;
+    padding: 40px 70px;
+
+    h2 {
+      font-size: 2em;
+      margin-bottom: 20px;
+      color: #f2efef;
+      padding-right: 10px;
+    }
+
+    p,
+    ul,
+    ol,
+    blockquote {
+      font-size: 1.1em;
+      line-height: 1.5;
+      color: #f2efef;
+    }
+
+    ul,
+    ol {
+      padding-left: 20px;
+
+      li {
+        margin-bottom: 10px;
+      }
+    }
+
+    blockquote {
+      border-left: 5px solid $accentColor;
+      padding-left: 15px;
+      font-style: italic;
+
+      footer {
+        margin-top: 10px;
+        font-size: 0.9em;
+        color: $disabledTextColor;
+      }
+    }
+
+    .cta-button {
+      display: block;
+      margin: 0 auto;
+      background-color: $primary-yellow;
+      color: $textColor;
+      padding: 10px 20px;
+      border: none;
+      cursor: pointer;
+      font-size: 1em;
+
+      &:hover {
+        background-color: darken($primary-yellow, 10%);
+      }
+    }
+  }
+
+  .user-guide {
+    padding: 40px 70px;
+
+    h2 {
+      font-size: 2rem;
+      color: $accentColor;
+      margin-bottom: 20px;
+    }
+  
+    .guide-step {
+      display: flex;
+      align-items: center;
+      margin-bottom: 20px;
+  
+      img {
+        width: 150px;
+        height: auto;
+        margin-left: 20px;
+        border-radius: 10px;
+      }
+
+      img:hover {
+        transform: scale(5); /* Enlarge the image */
+        align-items: center;
+      }
+  
+      .guide-text {
+        h3 {
+          font-size: 1.5rem;
+          color: $primaryContainerColor;
+        }
+  
+        p {
+          font-size: 1.1rem;
+          line-height: 1.6;
+        }
+      }
+  
+      &.reverse {
+        flex-direction: row-reverse;
+  
+        img {
+          margin-left: 0;
+          margin-right: 70px;
+        }
+      }
+    }
+  }
+  
+  .how-it-works,
+  .testimonials,
+  .cta-section {
+    margin: 40px 0;
+
+    h2 {
+      font-size: 2em;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    p,
+    ul,
+    ol,
+    blockquote {
+      font-size: 1.1em;
+      line-height: 1.5;
+    }
+
+    ul,
+    ol {
+      padding-left: 20px;
+
+      li {
+        margin-bottom: 10px;
+      }
+    }
+
+    blockquote {
+      border-left: 5px solid $accentColor;
+      padding-left: 15px;
+      font-style: italic;
+
+      footer {
+        margin-top: 10px;
+        font-size: 0.9em;
+        color: $disabledTextColor;
+      }
+    }
+
+    .cta-button {
+      display: block;
+      margin: 0 auto;
+      background-color: $primary-yellow;
+      color: $textColor;
+      padding: 10px 20px;
+      border: none;
+      cursor: pointer;
+      font-size: 1em;
+
+      &:hover {
+        background-color: darken($primary-yellow, 10%);
+      }
+    }
+  }
+
+  .footer {
+    text-align: center;
+    margin-top: 90px;
+    font-size: 0.9em;
+    color: $disabledTextColor;
+    background-color: $primaryContainerColor;
+    padding: 20px;
+
+    a {
+      color: $accentColor;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+}
+
+
+@media (max-width: 800px) {
+    .hero-section {
+      flex-direction: column;
+      align-items: center;
+      
+  
+      .hero-video {
+        max-width: 100%;
+        margin-top: 20px;
+      }
+    }
+  }
