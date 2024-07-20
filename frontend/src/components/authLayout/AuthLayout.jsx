@@ -14,7 +14,6 @@ const AuthLayout = () => {
         title="System"
         description="log in as an admin , register as a Lecturer or a Instructer"
         
-        
         />
 
 
@@ -25,7 +24,7 @@ const AuthLayout = () => {
           <span>Admin Login</span>
         </Link>
         <Link to="/lecturer-registration" className={styles.authOption}>
-          <Users size={64} color="#334155" />
+          <Users size={75} color="#334155" />
           <span>Lecturer Registration</span>
         </Link>
       </div>

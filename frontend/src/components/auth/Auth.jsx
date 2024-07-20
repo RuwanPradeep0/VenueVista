@@ -54,114 +54,113 @@ const Auth = () => {
   };
  
   return (
-
     <div>
-      {isRegister? <Hero
-
-            spanText="Register or "
-            title="Login"
-            description="Register or login as a lecturer or instructor"
-      
-      
-      /> : <Hero
-      spanText="Admin "
+      {isRegister ? (
+        <Hero
+          spanText="Register or "
+          title="Login"
+          description="Register or login as a lecturer or instructor"
+        />
+      ) : (
+        <Hero
+          spanText="Admin "
           title="Login"
           description="Login as an admin and manage the system"
-      />}
+        />
+      )}
 
-  
-    <div className={styles.container}>
-      <div className={styles.formContainer}>
-        <form onSubmit={handleSubmit}>
-          {isRegister && !isAdminLogin && (
-            <>
-              <div className={styles.inputGroup}>
-                <label htmlFor="firstName">First Name:</label>
-                <input
-                  type="text"
-                  id="firstName"
-                  name="firstName"
-                  placeholder='First Name'
-                  value={formData.firstName}
-                  onChange={handleInputChange}
-                  required
-                />
-              </div>
-              <div className={styles.inputGroup}>
-                <label htmlFor="lastName">Last Name:</label>
-                <input
-                  type="text"
-                  id="lastName"
-                  name="lastName"
-                  value={formData.lastName}
-                  placeholder='Last Name'
-                  onChange={handleInputChange}
-                  required
-                />
-              </div>
-            </>
-          )}
+      <div className={`${styles.container} ${isRegister ? styles.registerMode : styles.loginMode}`}>
+        <div className={styles.formContainer}>
+          <form onSubmit={handleSubmit}>
+            {isRegister && !isAdminLogin && (
+              <>
+                <div className={styles.inputGroup}>
+                  <label htmlFor="firstName">First Name:</label>
+                  <input
+                    type="text"
+                    id="firstName"
+                    name="firstName"
+                    placeholder="First Name"
+                    value={formData.firstName}
+                    onChange={handleInputChange}
+                    required
+                  />
+                </div>
+                <div className={styles.inputGroup}>
+                  <label htmlFor="lastName">Last Name:</label>
+                  <input
+                    type="text"
+                    id="lastName"
+                    name="lastName"
+                    value={formData.lastName}
+                    placeholder="Last Name"
+                    onChange={handleInputChange}
+                    required
+                  />
+                </div>
+              </>
+            )}
 
-          <div className={styles.inputGroup}>
-            <label htmlFor="email">Email:</label>
-            <input
-              type="email"
-              id="email"
-              name="email"
-              placeholder={isAdminLogin ? 'Admin Email' : 'Name@eng.jfn.ac.lk'}
-              value={formData.email}
-              onChange={handleInputChange}
-              required
-            />
-          </div>
-          <div className={styles.inputGroup}>
-            <label htmlFor="password">Password:</label>
-            <input
-              type="password"
-              id="password"
-              name="password"
-              placeholder='Password'
-              value={formData.password}
-              onChange={handleInputChange}
-              required
-            />
-          </div>
-          {isRegister && !isAdminLogin && (
             <div className={styles.inputGroup}>
-              <label htmlFor="userRole">User Type:</label>
-              <select
-                id="userRole"
-                name="userRole"
-                value={formData.userRole}
+              <label htmlFor="email">Email:</label>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                placeholder={isAdminLogin ? 'Admin Email' : 'Name@eng.jfn.ac.lk'}
+                value={formData.email}
                 onChange={handleInputChange}
                 required
-              >
-                <option value="lecturer">Lecturer</option>
-                <option value="instructor">Instructor</option>
-              </select>
+              />
+            </div>
+            <div className={styles.inputGroup}>
+              <label htmlFor="password">Password:</label>
+              <input
+                type="password"
+                id="password"
+                name="password"
+                placeholder="Password"
+                value={formData.password}
+                onChange={handleInputChange}
+                required
+              />
+            </div>
+            {isRegister && !isAdminLogin && (
+              <div className={styles.inputGroup}>
+                <label htmlFor="userRole">User Type:</label>
+                <select
+                  id="userRole"
+                  name="userRole"
+                  value={formData.userRole}
+                  onChange={handleInputChange}
+                  required
+                >
+                  <option value="lecturer">Lecturer</option>
+                  <option value="instructor">Instructor</option>
+                </select>
+              </div>
+            )}
+            <button type="submit" className={styles.submitButton}>
+              {isAdminLogin ? 'Login' : (isRegister ? 'Register' : 'Login')}
+            </button>
+          </form>
+          {!isAdminLogin && (
+            <div className={styles.toggleLink}>
+              {isRegister
+                ? 'Already have an account? '
+                : "Don't have an account? "}
+              <span onClick={() => setIsRegister(!isRegister)}>
+                {isRegister ? 'Login' : 'Register'}
+              </span>
             </div>
           )}
-          <button type="submit" className={styles.submitButton}>
-            {isAdminLogin ? 'Login' : (isRegister ? 'Register' : 'Login')}
-          </button>
-        </form>
-        {!isAdminLogin && (
-          <div className={styles.toggleLink}>
-            {isRegister
-              ? 'Already have an account? '
-              : "Don't have an account? "}
-            <span onClick={() => setIsRegister(!isRegister)}>
-              {isRegister ? 'Login' : 'Register'}
-            </span>
-          </div>
-        )}
-        <FeedbackMessage
-          message={feedback.message}
-          type={feedback.type}
-          duration={5000}
-        />
+          <FeedbackMessage
+            message={feedback.message}
+            type={feedback.type}
+            duration={5000}
+          />
+        </div>
       </div>
-    </div>
     </div>
   );
 };

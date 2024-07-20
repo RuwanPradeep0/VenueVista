@@ -14,6 +14,7 @@ export const setUser = (data)=>{
   localStorage.setItem('user', JSON.stringify(user));
   console.log(user)
   console.log('userid' + user.id)
+
 }
 
 
