@@ -71,4 +71,9 @@ const login = async (email, password) => {
 //     });
 // };
 
-export { registerLecturer, login };
+
+const registerStudent = () =>{
+
+}
+
+export { registerLecturer, login ,registerStudent };

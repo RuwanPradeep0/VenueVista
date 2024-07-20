@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import{createSpaces} from '../../services/SpaceService'
 
 import styles from './AddSpace.module.scss';
+import Hero from '../Hero'
 
 const AddSpace = () => {
     const [formData, setFormData] = useState({
@@ -65,8 +66,17 @@ const AddSpace = () => {
 
     
       return (
+
+        <div>
+          <Hero
+            spanText="Create"
+            title="Spaces"
+            description="Create spaces and make upto date the system"
+
+          />
+
+
         <div className={styles.container}>
-          <h2 className={styles.heading}>Add Hall Details</h2>
           <form onSubmit={handleSubmit} className={styles.form}>
             <div className={styles.inputGroup}>
               <label htmlFor="name" className={styles.label}>
@@ -191,6 +201,7 @@ const AddSpace = () => {
               Submit
             </button>
           </form>
+        </div>
         </div>
       );
 }
