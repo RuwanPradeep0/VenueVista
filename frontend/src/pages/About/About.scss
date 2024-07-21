@@ -9,12 +9,12 @@
   margin: 20px;
 
   .topic{
-    padding: 90px 116.320px;
+    padding: 60px 116.320px;
+    margin: auto;
 
     .topic-text {
         padding-right: 10;
         
-  
         h1 {
           font-size: 2em;
         }
@@ -66,160 +66,103 @@
   }
 
 
-
-
-  .key-features {
-    
-    margin: 40px 0;
-    //background-color: $primaryContainerColor;
-    padding: 40px 70px;
-
-    h2 {
-      font-size: 2em;
-      margin-bottom: 20px;
-      //color: #f2efef;
-      padding-right: 10px;
-      color: $accentColor;
-    }
-
-    p,
-    ul,
-    ol,
-    blockquote {
-      font-size: 1.1em;
-      line-height: 1.5;
-      //color: #f2efef;
-    }
-
-    ul,
-    ol {
-      padding-left: 20px;
-
-      li {
-        margin-bottom: 10px;
-      }
-    }
-
-    blockquote {
-      border-left: 5px solid $accentColor;
-      padding-left: 15px;
-      font-style: italic;
-
-      footer {
-        margin-top: 10px;
-        font-size: 0.9em;
-        color: $disabledTextColor;
-      }
-    }
-
-    .cta-button {
-      display: block;
-      margin: 0 auto;
-      background-color: $primary-yellow;
-      color: $textColor;
-      padding: 10px 20px;
-      border: none;
-      cursor: pointer;
-      font-size: 1em;
-
-      &:hover {
-        background-color: darken($primary-yellow, 10%);
-      }
-    }
-  }
-
   .user-guide {
-  //background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  background-color: $bgcolor;
-
-  h2 {
-    font-size: 2rem;
-    //color: $accentColor;
-    margin-top: 20px;
-    margin-bottom: 40px;
-    text-align:justify;
-    
-  }
-
-  .guide-step {
-    //background: #ffffff;
-    background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
-    padding: 20px 80px;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     display: flex;
+    flex-direction: column;
     align-items: center;
-    margin-bottom: 30px;
-    max-width: 800px;
-    width: 100%;
-    transition: transform 0.3s ease;
-    //background: $bgcolor;
-    background: $primaryContainerColor;
-    
-    &:hover {
-      transform: scale(1.05);
+    background-color: #ebedee; /* Replace with $bgcolor if using SCSS */
+  
+    h2 {
+      font-size: 2rem;
+      color: #334155; /* Replace with $accentColor if using SCSS */
+      text-align: center;
+      margin: auto;
+      margin-top: 20px;
+      margin-bottom: 20px;
     }
-
-    img {
-      width: 150px;
-      height: 100px;
-      margin-right: 20px;
+  
+    .guide-step {
+      background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+      padding: 20px 80px;
       border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      display: flex;
+      align-items: center;
+      margin-bottom: 30px;
+      max-width: 800px;
+      width: 100%;
       transition: transform 0.3s ease;
-      outline: 2px solid $accentColor;
-
-      
-      
-    }
-
-    img:hover {
-      transform: scale(2.5);
-    }
-
-    .guide-text {
-      h3 {
-        font-size: 1.5rem;
-        //color: $accentColor;
-        cursor: pointer;
-        margin-bottom: 10px;
-        color: #f2efef;
+  
+      &:hover {
+        transform: scale(1.05);
       }
-
-      p {
-        font-size: 1rem;
-        line-height: 1.5;
-        color: #333;
-        margin-top: 10px;
-        background-color: #f9f9f9;
-        border: 1px solid #ddd;
-        padding: 10px;
-        border-radius: 5px;
-      }
-    }
-
-    &.reverse {
-      flex-direction: row-reverse;
-
+  
       img {
-        margin-right: 0;
-        margin-left: 20px;
+        width: 150px;
+        height: 100px;
+        margin-right: 20px;
+        border-radius: 10px;
+        transition: transform 0.3s ease;
+        outline: 2px solid #334155; /* Replace with $accentColor if using SCSS */
+      }
+  
+      img:hover {
+        transform: scale(2.5);
+      }
+  
+      .guide-text {
+        h3 {
+          font-size: 1.5rem;
+          color: #f2efef;
+          cursor: pointer;
+          margin-bottom: 10px;
+        }
+  
+        .arrow {
+          margin-left: 10px;
+          transition: transform 0.3s;
+        }
+  
+        .step-content {
+          display: flex;
+          flex-direction: column;
+          gap: 10px;
+        }
+  
+        .description-box {
+          font-size: 1rem;
+          line-height: 1.5;
+          color: #333;
+          margin-top: 10px;
+          background-color: #f9f9f9;
+          border: 1px solid #ddd;
+          padding: 10px;
+          border-radius: 5px;
+        }
+      }
+  
+      &.reverse {
+        flex-direction: row-reverse;
+  
+        img {
+          margin-right: 0;
+          margin-left: 20px;
+        }
       }
     }
   }
-}
+   
   
-  .how-it-works,
-  .testimonials,
+  
   .cta-section {
     margin: 40px 0;
 
     h2 {
       font-size: 2em;
-      margin-bottom: 20px;
+      margin-bottom: 60px;
       text-align: center;
+      margin: auto;
+      
     }
 
     p,
@@ -253,13 +196,14 @@
 
     .cta-button {
       display: block;
-      margin: 0 auto;
+      margin: auto;
       background-color: $primary-yellow;
       color: $textColor;
       padding: 10px 20px;
       border: none;
       cursor: pointer;
       font-size: 1em;
+      margin-top: 30px;
 
       &:hover {
         background-color: darken($primary-yellow, 10%);

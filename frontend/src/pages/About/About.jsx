@@ -10,6 +10,7 @@ import image04 from '../../images/waitingreservation.png'
 import image05 from '../../images/addwaiting.png'
 import image07 from '../../images/addhall.png'
 
+
 const AboutPage = () => {
 
   const [visibleStep, setVisibleStep] = useState(null);
@@ -79,28 +80,24 @@ const AboutPage = () => {
         <video className="hero-video" src={heroVideo} autoPlay loop muted />
       </section>
 
-      {/* <section className="key-features">
-        <h2>Key Features</h2>
-        <ul>
-          <li>Reservation Calendar</li>
-          <li>Time Slot Booking</li>
-          <li>Reservation Management</li>
-          <li>Waiting List System</li>
-          <li>Facility Filtering </li>
-          <li>Notification System</li>
-        </ul>
-      </section> */}
-
       <section className="user-guide">
       <h2>User Guide</h2>
       {steps.map((step, index) => (
-        <div key={index} className={`guide-step `}>
-          {/* //${index % 2 === 1 ? 'reverse' : ''} */}
+        <div key={index} className={`guide-step`}>
           <img src={step.image} alt={step.alt} />
           <div className="guide-text">
-            <h3 onClick={() => toggleVisibility(index)}>{step.title}</h3>
+            <h3 onClick={() => toggleVisibility(index)}>
+              {step.title}
+              <span className={`arrow ${visibleStep === index ? 'up' : 'down'}`}>
+                {visibleStep === index ? '▲' : '▼'}
+              </span>
+            </h3>
             {visibleStep === index && (
-              <p dangerouslySetInnerHTML={{ __html: step.content }}></p>
+              <div className="step-content">
+                {step.content.split('\n').map((content, contentIndex) => (
+                  <p key={contentIndex} className="description-box" dangerouslySetInnerHTML={{ __html: content }}></p>
+                ))}
+              </div>
             )}
           </div>
         </div>
