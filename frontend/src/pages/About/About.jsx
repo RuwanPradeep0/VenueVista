@@ -1,6 +1,6 @@
 // src/AboutPage.js
 
-import React from 'react';
+import React, { useState } from 'react';
 import './About.scss';
 import heroVideo from '../../video/VenueVista.mp4';
 import image01 from '../../images/signin.png'
@@ -11,6 +11,59 @@ import image05 from '../../images/addwaiting.png'
 import image07 from '../../images/addhall.png'
 
 const AboutPage = () => {
+
+  const [visibleStep, setVisibleStep] = useState(null);
+
+  const toggleVisibility = (step) => {
+    setVisibleStep(visibleStep === step ? null : step);
+  };
+
+  const steps = [
+    {
+      title: 'User Registration or Login',
+      content: 'Only Lecturers and instructors are permitted to register; students are not allowed.<br />Access to functionalities is granted only after successful login.<br />Authentication mechanisms such as username/password or two-factor authentication may be employed.',
+      image: image01,
+      alt: 'User Registration'
+    },
+    {
+      title: 'View Reservation Calendar',
+      content: 'Lecturers and possibly Students shall be able to view a calendar displaying booked and available time slots for lecture halls.<br />The calendar should provide an overview of reservations for efficient scheduling.',
+      image: image02,
+      alt: 'View Reservation Calendar'
+    },
+    {
+      title: 'Book Time Slots',
+      content: 'Lecturers should be able to book available time slots for lecture halls.<br />The booking process should allow selection of date, time slot, and any necessary infrastructure requirements (e.g., projectors, whiteboards).',
+      image: image03,
+      alt: 'Book Time Slots'
+    },
+    {
+      title: 'Manage Reservation',
+      content: 'Users who booked a time slot should be able to cancel reservations.<br />Upon cancellation, the system should notify users on the waiting list, if any, about the newly available time slot.',
+      image: image04,
+      alt: 'Manage Reservation'
+    },
+    {
+      title: 'Waiting List',
+      content: 'Lecturers and possibly administrative staff should be able to view reservations on the waiting list.<br />The system should automatically notify users on the waiting list when a previously booked time slot becomes available.',
+      image: image05,
+      alt: 'Waiting List'
+    },
+    {
+      title: 'Filtering Facilities',
+      content: 'Lecturers should be able to filter available time slots based on specific facilities and infrastructures required for their lecture (e.g., projector availability, seating capacity).',
+      image: image02,
+      alt: 'Filtering Facilities'
+    },
+    {
+      title: 'Adding/Updating Lecture Halls',
+      content: 'Only authorized administrative staff (e.g., MA) should be able to add or update lecture halls within the system.<br />This functionality includes adding new lecture halls, updating existing ones, and ensuring their availability for reservation.',
+      image: image07,
+      alt: 'Adding/Updating Lecture Halls'
+    }
+  ];
+
+
   return (
     <div className="about-page">
       <section className='topic'>
@@ -26,98 +79,32 @@ const AboutPage = () => {
         <video className="hero-video" src={heroVideo} autoPlay loop muted />
       </section>
 
-      <section className="key-features">
+      {/* <section className="key-features">
         <h2>Key Features</h2>
         <ul>
-          <li>Real-time availability checking</li>
-          <li>User-friendly booking interface</li>
-          <li>Secure payment processing</li>
+          <li>Reservation Calendar</li>
+          <li>Time Slot Booking</li>
+          <li>Reservation Management</li>
+          <li>Waiting List System</li>
+          <li>Facility Filtering </li>
+          <li>Notification System</li>
         </ul>
-      </section>
+      </section> */}
 
       <section className="user-guide">
-        <h2>User Guide</h2>
-
-        <div className="guide-step">
+      <h2>User Guide</h2>
+      {steps.map((step, index) => (
+        <div key={index} className={`guide-step ${index % 2 === 1 ? 'reverse' : ''}`}>
+          <img src={step.image} alt={step.alt} />
           <div className="guide-text">
-            <h3>1. User Registration or Login</h3>
-            <p>
-              Only Lecturers and instructor are permitted to register; students are not allowed.<br />
-              Access to functionalities is granted only after successful login.<br />
-              Authentication mechanisms such as username/password or two-factor authentication may be employed.
-              
-            </p>
-          </div>
-          <img src={image01} alt="User Registration" />
-        </div>
-
-        <div className="guide-step reverse">
-          <div className="guide-text">
-            <h3>2. View Reservation Calendar</h3>
-            <p>
-              Lecturers and possibly Students shall be able to view a calendar displaying booked and available time slots for lecture halls.<br />
-              The calendar should provide an overview of reservations for efficient scheduling.
-            </p>
-          </div>
-          <img src={image02} alt="View Reservation Calendar" />
-        </div>
-
-        <div className="guide-step reverse">
-          <img src={image03} alt="Book Time Slots" />
-          <div className="guide-text">
-            <h3>3. Book Time Slots</h3>
-            <p>
-              Lecturers should be able to book available time slots for lecture halls.<br />
-              The booking process should allow selection of date, time slot, and any necessary infrastructure requirements (e.g., projectors, whiteboards).
-            </p>
+            <h3 onClick={() => toggleVisibility(index)}>{step.title}</h3>
+            {visibleStep === index && (
+              <p dangerouslySetInnerHTML={{ __html: step.content }}></p>
+            )}
           </div>
         </div>
-
-        <div className="guide-step reverse">
-          <div className="guide-text">
-            <h3>4. Manage Reservation</h3>
-            <p>
-              Users who booked a time slot should be able to cancel reservations.<br />
-              Upon cancellation, the system should notify users on the waiting list, if any, about the newly available time slot.
-            </p>
-          </div>
-          <img src={image04} alt="Manage Reservation" />
-        </div>
-
-        <div className="guide-step reverse">
-          <img src={image05} alt="Waiting List" />
-          <div className="guide-text">
-            <h3>5. Waiting List</h3>
-            <p>
-              Lecturers and possibly administrative staff should be able to view reservations on the waiting list.<br />
-              The system should automatically notify users on the waiting list when a previously booked time slot becomes available.
-            </p>
-          </div>
-        </div>
-
-        <div className="guide-step reverse">
-
-          <div className="guide-text">
-            <h3>6. Filtering Facilities</h3>
-            <p>
-              Lecturers should be able to filter available time slots based on specific facilities and infrastructures required for their lecture (e.g., projector availability, seating capacity).
-            </p>
-          </div>
-          <img src={image02} alt="Filtering Facilities" />
-        </div>
-
-        <div className="guide-step reverse">
-          <img src={image07} alt="Adding/Updating Lecture Halls" />
-          <div className="guide-text">
-            <h3>7. Adding/Updating Lecture Halls</h3>
-            <p>
-              Only authorized administrative staff (e.g., MA) should be able to add or update lecture halls within the system.<br />
-              This functionality includes adding new lecture halls, updating existing ones, and ensuring their availability for reservation.
-            </p>
-          </div>
-        </div>
-
-      </section>
+      ))}
+    </section>
 
       <section className="cta-section">
         <h2>Ready to simplify your venue bookings?</h2>

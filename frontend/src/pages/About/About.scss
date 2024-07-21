@@ -6,50 +6,10 @@
   font-family: $font-stack;
   color: $bodyTextColor;
   background-color: $bgcolor;
-  padding: 30px 10px;
-
-  .hero-section {
-    display: flex;
-    flex-direction: row;
-    align-items: flex-start;
-    color: $NavbarTextColor;
-    padding: 40px 70px;
-    justify-content: space-between;
-    margin-bottom: 40px;
-
-    .hero-text {
-      text-align: justify-content;
-
-      h1 {
-        margin: 0;
-        font-size: 2.5em;
-        color: rgb(39, 39, 39);
-      }
-
-      p {
-        margin: 20px 0;
-        font-size: 1.2em;
-        color: hsl(0, 0, 0, 0.7);
-      }
-    }
-
-    .hero-video {
-      flex: 1;
-      max-width: 800px;
-      border-radius: 10px;
-      padding: 45px 20px;
-
-      video {
-        width: 100%;
-        max-width: 800px;
-        border-radius: 60px;
-      }
-    }
-  }
-
+  margin: auto;
 
   .topic{
-    padding: 50px 70px;
+    padding: 90px 116.320px;
 
     .topic-text {
         padding-right: 10;
@@ -61,17 +21,64 @@
     } 
   }
 
+  .hero-section {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    color: $NavbarTextColor;
+    padding: 0px 116.320px;
+    justify-content: space-between;
+    //margin-bottom: 40px;
+    background-color: $primaryContainerColor;
+
+    .hero-text {
+      text-align: justify-content;
+      padding: 20px 0px;
+
+      h1 {
+        margin: 0;
+        font-size: .5em;
+        color: rgb(39, 39, 39);
+        color: #f2efef;
+      }
+
+      p {
+        margin: 20px 0;
+        font-size: 1.4em;
+        //color: hsl(0, 0, 0, 0.7);
+      }
+    }
+
+    .hero-video {
+      flex: 1;
+      max-width: 700px;
+      border-radius: 10px;
+      padding: 30px 20px;
+      padding-right: 0px;
+
+      video {
+        width: 100%;
+        max-width: 800px;
+        border-radius: 60px;
+      }
+    }
+  }
+
+
+
+
   .key-features {
     
     margin: 40px 0;
-    background-color: $primaryContainerColor;
+    //background-color: $primaryContainerColor;
     padding: 40px 70px;
 
     h2 {
       font-size: 2em;
       margin-bottom: 20px;
-      color: #f2efef;
+      //color: #f2efef;
       padding-right: 10px;
+      color: $accentColor;
     }
 
     p,
@@ -80,7 +87,7 @@
     blockquote {
       font-size: 1.1em;
       line-height: 1.5;
-      color: #f2efef;
+      //color: #f2efef;
     }
 
     ul,
@@ -121,53 +128,83 @@
   }
 
   .user-guide {
-    padding: 40px 70px;
+  //background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: $bgcolor;
 
-    h2 {
-      font-size: 2rem;
-      color: $accentColor;
-      margin-bottom: 20px;
+  h2 {
+    font-size: 2rem;
+    //color: $accentColor;
+    margin-top: 20px;
+    margin-bottom: 40px;
+    text-align:justify;
+    
+  }
+
+  .guide-step {
+    //background: #ffffff;
+    background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+    padding: 20px 80px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    margin-bottom: 30px;
+    max-width: 800px;
+    width: 100%;
+    transition: transform 0.3s ease;
+    //background: $bgcolor;
+    background: $primaryContainerColor;
+    
+    &:hover {
+      transform: scale(1.05);
     }
-  
-    .guide-step {
-      display: flex;
-      align-items: center;
-      margin-bottom: 20px;
-  
-      img {
-        width: 150px;
-        height: auto;
-        margin-left: 20px;
-        border-radius: 10px;
+
+    img {
+      width: 150px;
+      height: auto;
+      margin-right: 20px;
+      border-radius: 10px;
+      transition: transform 0.3s ease;
+    }
+
+    img:hover {
+      transform: scale(3);
+    }
+
+    .guide-text {
+      h3 {
+        font-size: 1.5rem;
+        //color: $accentColor;
+        cursor: pointer;
+        margin-bottom: 10px;
+        color: #f2efef;
       }
 
-      img:hover {
-        transform: scale(5); /* Enlarge the image */
-        align-items: center;
+      p {
+        font-size: 1rem;
+        line-height: 1.5;
+        color: #333;
+        margin-top: 10px;
+        background-color: #f9f9f9;
+        border: 1px solid #ddd;
+        padding: 10px;
+        border-radius: 5px;
       }
-  
-      .guide-text {
-        h3 {
-          font-size: 1.5rem;
-          color: $primaryContainerColor;
-        }
-  
-        p {
-          font-size: 1.1rem;
-          line-height: 1.6;
-        }
-      }
-  
-      &.reverse {
-        flex-direction: row-reverse;
-  
-        img {
-          margin-left: 0;
-          margin-right: 70px;
-        }
+    }
+
+    &.reverse {
+      flex-direction: row-reverse;
+
+      img {
+        margin-right: 0;
+        margin-left: 20px;
       }
     }
   }
+}
   
   .how-it-works,
   .testimonials,
@@ -241,18 +278,28 @@
       }
     }
   }
-}
 
-
-@media (max-width: 800px) {
+  @media (max-width: 1000px) {
     .hero-section {
       flex-direction: column;
       align-items: center;
-      
+  
+      .hero-text {
+        text-align: justify;
+        padding-right: 0px;
+         // Ensure text is centered
+      }
   
       .hero-video {
         max-width: 100%;
         margin-top: 20px;
+        padding-right: 0px;
+        padding-left: 0;
+        // align-items: center;
       }
     }
   }
+  
+}
+
+
