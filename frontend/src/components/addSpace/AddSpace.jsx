@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { createSpaces } from '../../services/SpaceService';
 import styles from './AddSpace.module.scss';
 import Hero from '../Hero';
+import FeedbackMessage from '../feedbackMessage/FeedbackMessage';
 
 const AddSpace = () => {
     const initialFormData = {
@@ -14,6 +15,7 @@ const AddSpace = () => {
     };
 
     const [formData, setFormData] = useState(initialFormData);
+    const [feedback, setFeedback] = useState({ message: '', type: '' });
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -41,25 +43,23 @@ const AddSpace = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        // Create the request body object
         const requestBody = {
             name: formData.name,
             location: formData.location,
-            capacity: parseInt(formData.capacity), // Convert capacity to integer
+            capacity: parseInt(formData.capacity),
             description: formData.description,
-            image: '', // Add a placeholder for the image field
+            image: '',
             facilities: Array.isArray(formData.facilities)
                 ? formData.facilities
-                : formData.facilities.split(','), // Split the facilities string into an array
+                : formData.facilities.split(','),
         };
-
-        console.log('Request body:', requestBody);
 
         try {
             await createSpaces(requestBody);
-            setFormData(initialFormData); // Reset the form to its initial state
+            setFormData(initialFormData);
+            setFeedback({ message: 'Space created successfully!', type: 'success' });
         } catch (error) {
-            throw new Error(error);
+            setFeedback({ message: error.message || 'An error occurred while creating the space.', type: 'error' });
         }
     };
 
@@ -158,7 +158,6 @@ const AddSpace = () => {
                                 />
                                 AC
                             </label>
-
                             <label className={styles.facilityLabel}>
                                 <input
                                     type="checkbox"
@@ -189,13 +188,18 @@ const AddSpace = () => {
                                 />
                                 Electronic Equipment
                             </label>
-
                         </div>
                     </div>
                     <button type="submit" className={styles.submitButton}>
                         Submit
                     </button>
                 </form>
+                
+                <FeedbackMessage
+                    message={feedback.message}
+                    type={feedback.type}
+                    duration={5000}
+                />
             </div>
         </div>
     );
