@@ -6,7 +6,7 @@
   font-family: $font-stack;
   color: $bodyTextColor;
   background-color: $bgcolor;
-  margin: auto;
+  margin: 20px;
 
   .topic{
     padding: 90px 116.320px;
@@ -30,6 +30,7 @@
     justify-content: space-between;
     //margin-bottom: 40px;
     background-color: $primaryContainerColor;
+    border-radius: 10px;
 
     .hero-text {
       text-align: justify-content;
@@ -52,7 +53,7 @@
     .hero-video {
       flex: 1;
       max-width: 700px;
-      border-radius: 10px;
+      border-radius: 30px;
       padding: 30px 20px;
       padding-right: 0px;
 
@@ -164,14 +165,18 @@
 
     img {
       width: 150px;
-      height: auto;
+      height: 100px;
       margin-right: 20px;
       border-radius: 10px;
       transition: transform 0.3s ease;
+      outline: 2px solid $accentColor;
+
+      
+      
     }
 
     img:hover {
-      transform: scale(3);
+      transform: scale(2.5);
     }
 
     .guide-text {

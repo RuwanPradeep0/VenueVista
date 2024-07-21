@@ -94,7 +94,8 @@ const AboutPage = () => {
       <section className="user-guide">
       <h2>User Guide</h2>
       {steps.map((step, index) => (
-        <div key={index} className={`guide-step ${index % 2 === 1 ? 'reverse' : ''}`}>
+        <div key={index} className={`guide-step `}>
+          {/* //${index % 2 === 1 ? 'reverse' : ''} */}
           <img src={step.image} alt={step.alt} />
           <div className="guide-text">
             <h3 onClick={() => toggleVisibility(index)}>{step.title}</h3>
