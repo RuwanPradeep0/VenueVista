@@ -1,5 +1,3 @@
-// src/AboutPage.js
-
 import React, { useState } from 'react';
 import './About.scss';
 import heroVideo from '../../video/VenueVista.mp4';
@@ -12,7 +10,7 @@ import image07 from '../../images/addhall.png'
 import { IoIosArrowDown } from "react-icons/io";
 
 
-const AboutPage = () => {
+const About = () => {
 
   const [visibleStep, setVisibleStep] = useState(null);
 
@@ -116,4 +114,4 @@ const AboutPage = () => {
   );
 };
 
-export default AboutPage;
+export default About;
