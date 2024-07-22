@@ -69,6 +69,7 @@ const MyWaitings = () => {
         
       />
 
+     
       {unavailableWaiting.length !== 0 && (
         <h2 className={styles.pastReservations}>Currently Unavailable</h2>
       )}
