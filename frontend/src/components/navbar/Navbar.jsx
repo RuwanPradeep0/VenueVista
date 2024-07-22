@@ -4,6 +4,7 @@ import { NavLink, useLocation } from 'react-router-dom';
 import logo from '../../images/logo.png';
 import styles from './Navbar.module.scss';
 
+
 const Navbar = ({ user }) => {
   const [userName, setUserName] = useState('');
   const [userRole, setUserRole] = useState('');
@@ -35,6 +36,12 @@ const Navbar = ({ user }) => {
                 Home
               </NavLink>
             </li>
+
+            <li className={styles.NavLink} title="About">
+            <NavLink to="/about" className={({ isActive }) => isActive ? styles.active : ''}>
+              About
+            </NavLink>
+          </li>
 
             {/* Manage Reservations Should Only be Visible if the user is logged in */}
             {userName && (
