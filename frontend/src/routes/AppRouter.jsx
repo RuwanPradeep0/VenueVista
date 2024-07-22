@@ -5,7 +5,7 @@ import Auth from '../components/auth/Auth'
 import AddSpace from '../components/addSpace/AddSpace'
 import ManageReservation from '../pages/manageReservations/ManageReservation'
 import AuthLayout from '../components/authLayout/AuthLayout'
-import About from '../pages/About/About'
+import About from '../pages/about/About'
 
 const AppRouter = () => {
   return (
