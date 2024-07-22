@@ -6,7 +6,7 @@
   font-family: $font-stack;
   color: $bodyTextColor;
   background-color: $bgcolor;
-  margin: 20px;
+  margin: 60px;
 
   .topic{
     padding: 60px 116.320px;
@@ -26,9 +26,8 @@
     flex-direction: row;
     align-items: flex-start;
     color: $NavbarTextColor;
-    padding: 0px 116.320px;
+    padding: 0px 20px;
     justify-content: space-between;
-    //margin-bottom: 40px;
     background-color: $primaryContainerColor;
     border-radius: 10px;
 
@@ -46,7 +45,6 @@
       p {
         margin: 20px 0;
         font-size: 1.4em;
-        //color: hsl(0, 0, 0, 0.7);
       }
     }
 
@@ -64,7 +62,6 @@
       }
     }
   }
-
 
   .user-guide {
     display: flex;
@@ -107,7 +104,7 @@
       }
   
       img:hover {
-        transform: scale(2.5);
+        transform: scale(2.8);
       }
   
       .guide-text {
@@ -116,11 +113,23 @@
           color: #f2efef;
           cursor: pointer;
           margin-bottom: 10px;
+          display: flex;
+          align-items: center;
         }
   
         .arrow {
           margin-left: 10px;
-          transition: transform 0.3s;
+          transition: transform 0.3s ease;
+          display: inline-flex;
+          align-items: center;
+  
+          &.rotate-up {
+            transform: rotate(180deg);
+          }
+  
+          &.rotate-down {
+            transform: rotate(0deg);
+          }
         }
   
         .step-content {
@@ -151,7 +160,7 @@
       }
     }
   }
-   
+  
   
   
   .cta-section {
@@ -218,6 +227,7 @@
     color: $disabledTextColor;
     background-color: $primaryContainerColor;
     padding: 20px;
+    border-radius: 10px;
 
     a {
       color: $accentColor;

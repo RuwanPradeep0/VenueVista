@@ -9,6 +9,7 @@ import image03 from '../../images/bookhall.png'
 import image04 from '../../images/waitingreservation.png'
 import image05 from '../../images/addwaiting.png'
 import image07 from '../../images/addhall.png'
+import { IoIosArrowDown } from "react-icons/io";
 
 
 const AboutPage = () => {
@@ -83,13 +84,13 @@ const AboutPage = () => {
       <section className="user-guide">
       <h2>User Guide</h2>
       {steps.map((step, index) => (
-        <div key={index} className={`guide-step`}>
+        <div key={index} className="guide-step">
           <img src={step.image} alt={step.alt} />
           <div className="guide-text">
             <h3 onClick={() => toggleVisibility(index)}>
               {step.title}
               <span className={`arrow ${visibleStep === index ? 'up' : 'down'}`}>
-                {visibleStep === index ? '▲' : '▼'}
+                <IoIosArrowDown className={visibleStep === index ? 'rotate-up' : 'rotate-down'} />
               </span>
             </h3>
             {visibleStep === index && (
@@ -104,17 +105,13 @@ const AboutPage = () => {
       ))}
     </section>
 
-      <section className="cta-section">
-        <h2>Ready to simplify your venue bookings?</h2>
-        <button className="cta-button">Sign Up</button>
-      </section>
+   
 
-      <footer className="footer">
-        <p>Have questions? Reach out to us at support@venuevista.com.</p>
-        <p>
-          <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a>
-        </p>
-      </footer>
+    <footer className="footer">
+    <p>&copy; 2024 VenueVista. All rights reserved.</p>
+    <p>Contact us at:venuevista@eng.jfn.ac.lk</p>
+    <p>Phone: (+94) 36456-7890</p>
+</footer>
     </div>
   );
 };
