@@ -3,16 +3,24 @@
 .container {
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
   height: 100vh;
   background-color: $bgcolor;
-  margin-top: 50px;
+  padding-top: 0.5rem; 
+
+  &.registerMode {
+    align-items: flex-start;
+  }
+
+  &.loginMode {
+    align-items: flex-start;
+  }
 }
 
 .formContainer {
   width: 400px;
   padding: 2rem;
-  background-color: #fff;
+  background-color: #e5e5e5;
   border-radius: 20px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 
