@@ -5,6 +5,7 @@ import Auth from '../components/auth/Auth'
 import AddSpace from '../components/addSpace/AddSpace'
 import ManageReservation from '../pages/manageReservations/ManageReservation'
 import AuthLayout from '../components/authLayout/AuthLayout'
+import About from '../pages/About/About'
 
 const AppRouter = () => {
   return (
@@ -15,6 +16,7 @@ const AppRouter = () => {
         <Route path ='/managereservations' element={<ManageReservation/>}/>
         <Route path="/admin-login" element={<Auth />} />
         <Route path="/lecturer-registration" element={<Auth />} />
+        <Route path='/about' element={<About/>}/>
     </Routes>
   )       
 }
