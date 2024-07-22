@@ -6,30 +6,19 @@
   font-family: $font-stack;
   color: $bodyTextColor;
   background-color: $bgcolor;
-  margin: 60px;
-
-  .topic{
-    padding: 60px 116.320px;
-    margin: auto;
-
-    .topic-text {
-        padding-right: 10;
-        
-        h1 {
-          font-size: 2em;
-        }
-    } 
-  }
 
   .hero-section {
     display: flex;
     flex-direction: row;
-    align-items: flex-start;
+    align-items: center;
     color: $NavbarTextColor;
     padding: 0px 20px;
     justify-content: space-between;
     background-color: $primaryContainerColor;
     border-radius: 10px;
+    margin-right: 150px;
+    margin-left: 150px;
+    margin-bottom: 60px;
 
     .hero-text {
       text-align: justify-content;
@@ -63,24 +52,45 @@
     }
   }
 
+  @media (max-width: 1600px) {
+    .hero-section {
+      flex-direction: column;
+      align-items: center;
+      margin-right: 80px;
+      margin-left: 80px;
+
+  
+      .hero-text {
+        text-align: justify;
+        padding-right: 0px;
+         
+      }
+  
+      .hero-video {
+        max-width: 100%;
+        margin-top: 10px;
+    
+      }
+    }
+  }
+
   .user-guide {
     display: flex;
     flex-direction: column;
     align-items: center;
-    background-color: #ebedee; /* Replace with $bgcolor if using SCSS */
+    background-color: $bgcolor; 
   
     h2 {
       font-size: 2rem;
-      color: #334155; /* Replace with $accentColor if using SCSS */
+      color: $accentColor; 
       text-align: center;
       margin: auto;
-      margin-top: 20px;
-      margin-bottom: 20px;
+      margin-bottom: 60px;
     }
   
     .guide-step {
       background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
-      padding: 20px 80px;
+      padding: 20px 40px;
       border-radius: 10px;
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
       display: flex;
@@ -95,12 +105,12 @@
       }
   
       img {
-        width: 150px;
+        width: 180px;
         height: 100px;
-        margin-right: 20px;
+        margin-right: 40px;
         border-radius: 10px;
         transition: transform 0.3s ease;
-        outline: 2px solid #334155; /* Replace with $accentColor if using SCSS */
+        outline: 2px solid $accentColor; 
       }
   
       img:hover {
@@ -108,6 +118,8 @@
       }
   
       .guide-text {
+        flex: 1;
+
         h3 {
           font-size: 1.5rem;
           color: #f2efef;
@@ -136,6 +148,8 @@
           display: flex;
           flex-direction: column;
           gap: 10px;
+          width: 100%;
+          
         }
   
         .description-box {
@@ -143,10 +157,13 @@
           line-height: 1.5;
           color: #333;
           margin-top: 10px;
-          background-color: #f9f9f9;
+          background-color: $bgcolor;
           border: 1px solid #ddd;
           padding: 10px;
           border-radius: 5px;
+          padding: 10px;
+          border-radius: 5px;
+          width: 100%;
         }
       }
   
@@ -154,15 +171,17 @@
         flex-direction: row-reverse;
   
         img {
-          margin-right: 0;
+          margin-right: 0px;
           margin-left: 20px;
+          height: inherit;
         }
       }
     }
   }
-  
-  
-  
+
+
+
+
   .cta-section {
     margin: 40px 0;
 
@@ -238,26 +257,7 @@
     }
   }
 
-  @media (max-width: 1000px) {
-    .hero-section {
-      flex-direction: column;
-      align-items: center;
   
-      .hero-text {
-        text-align: justify;
-        padding-right: 0px;
-         // Ensure text is centered
-      }
-  
-      .hero-video {
-        max-width: 100%;
-        margin-top: 20px;
-        padding-right: 0px;
-        padding-left: 0;
-        // align-items: center;
-      }
-    }
-  }
   
 }
 
