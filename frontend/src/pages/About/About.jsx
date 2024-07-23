@@ -30,7 +30,7 @@ const toggleVisibility = (index) => {
         'Authentication mechanisms such as username/password or two-factor authentication may be employed.',
       ],
       image: image01,
-      alt: 'User Registration'
+      alt: 'User Registration',
     },
     {
       title: 'View Reservation Calendar',
@@ -38,44 +38,47 @@ const toggleVisibility = (index) => {
              'The calendar should provide an overview of reservations for efficient scheduling.',
       ],
       image: image02,
-      alt: 'View Reservation Calendar'
+      alt: 'View Reservation Calendar',
     },
     {
       title: 'Book Time Slots',
       steps: ['Lecturers should be able to book available time slots for lecture halls.',
         'The booking process should allow selection of date, time slot, and any necessary infrastructure requirements.',],
       image: image03,
-      alt: 'Book Time Slots'
+      alt: 'Book Time Slots',
     },
     {
       title: 'Manage Reservation',
       steps: ['Users who booked a time slot should be able to cancel reservations.',
         'Upon cancellation, the system should notify users on the waiting list, if any, about the newly available time slot.',],
       image: image04,
-      alt: 'Manage Reservation'
+      alt: 'Manage Reservation',
     },
     {
       title: 'Waiting List',
       steps: ['Lecturers and possibly administrative staff should be able to view reservations on the waiting list.',
         'The system should automatically notify users on the waiting list when a previously booked time slot becomes available.',],
       image: image05,
-      alt: 'Waiting List'
+      alt: 'Waiting List',
     },
     {
       title: 'Filtering Facilities',
       steps: 'Lecturers should be able to filter available time slots based on specific facilities and infrastructures required for their lecture (e.g., projector availability, seating capacity).',
       image: image02,
-      alt: 'Filtering Facilities'
+      alt: 'Filtering Facilities',
     },
     {
       title: 'Adding/Updating Lecture Halls',
       steps: ['Only authorized administrative staff (e.g., MA) should be able to add or update lecture halls within the system.',
         'This functionality includes adding new lecture halls, updating existing ones, and ensuring their availability for reservation.',],
       image: image07,
-      alt: 'Adding/Updating Lecture Halls'
-    }
+      alt: 'Adding/Updating Lecture Halls',
+    },
   ];
+  
+  return (
 
+    <div>
         <Hero
                 spanText="About"
                 title="VenueVista"
